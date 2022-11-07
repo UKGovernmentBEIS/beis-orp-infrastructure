@@ -14,3 +14,17 @@ module "aws_lambda" {
     "${path.module}/files/lambda/lambda1.py"
   ]
 }
+
+# This deploys a Lambda from an existing GitHub Release ZIP object
+
+module "lambda_function_existing_package_from_remote_url" {
+  source = "terraform-aws-modules/lambda/aws"
+
+  function_name = "my-lambda-existing-package-local"
+  description   = "My awesome lambda function"
+  handler       = "index.lambda_handler"
+  runtime       = "python3.8"
+
+  create_package         = false
+  local_existing_package = data.null_data_source.downloaded_package.outputs["filename"]
+}
