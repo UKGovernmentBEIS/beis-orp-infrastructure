@@ -20,14 +20,14 @@ resource "aws_security_group_rule" "alb_ingress_http" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "alb_ingress_https" {
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.alb.id
-  to_port           = 443
-  type              = "ingress"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
+#resource "aws_security_group_rule" "alb_ingress_https" {
+#  from_port         = 443
+#  protocol          = "tcp"
+#  security_group_id = aws_security_group.alb.id
+#  to_port           = 443
+#  type              = "ingress"
+#  cidr_blocks       = ["0.0.0.0/0"]
+#}
 
 resource "aws_security_group_rule" "alb_egress_all" {
   from_port         = 0
