@@ -1,6 +1,54 @@
 locals {
   package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
   downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
+
+  environment = "dev"
+  region = "eu-west-2"
+
+  ecs_policies = {
+    AmazonEC2ContainerServiceforEC2Role = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+    AmazonSSMManagedInstanceCore        = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    CloudWatchLogsFullAccess            = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+    AmazonECS_FullAccess                = "arn:aws:iam::aws:policy/AmazonECS_FullAccess"
+    NeptuneAccess                       = "arn:aws:iam::aws:policy/NeptuneFullAccess"
+  }
+
+  ecs_config = {
+    ecs_service_count     = "1"
+    db_address            = "db.beis.com"
+    route_53_public_zone  = "dev.beis.com"
+    enable_monitoring     = false
+    delete_on_termination = true
+    encrypted_volume      = false
+    volume_size           = "30"
+    template_file         = "app.json"
+    # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html using lowest values for dev
+    task_definition_cpu    = "256"
+    task_definition_memory = "512"
+    autoscale = {
+      autoscale_max_capacity = 5
+      metric_name            = "CPUUtilization"
+      datapoints_to_alarm    = 1
+      evaluation_periods     = 1
+      period                 = 60
+      cooldown               = 60
+      adjustment_type        = "ChangeInCapacity"
+
+      #Cloudwatch Alarm Scale up and Scale down
+      scale_up_threshold   = 70
+      scale_down_threshold = 40
+
+      #AutoScale Policy Scale up
+      scale_up_comparison_operator  = "GreaterThanOrEqualToThreshold"
+      scale_up_interval_lower_bound = 1
+      scale_up_adjustment           = 1
+
+      #AutoScale Policy Scale down ###
+      scale_down_comparison_operator  = "LessThanThreshold"
+      scale_down_interval_lower_bound = 0
+      scale_down_adjustment           = -1
+    }
+  }
 }
 
 resource "null_resource" "download_package" {
