@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "beis_ecs_assume_role" {
     }
     principals {
       identifiers = [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecs_beis"
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
       ]
       type = "AWS"
     }

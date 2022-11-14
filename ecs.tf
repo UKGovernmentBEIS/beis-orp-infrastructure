@@ -31,8 +31,8 @@ resource "aws_ecs_service" "webserver" {
 
   load_balancer {
     target_group_arn = module.alb.target_group_arns[0]
-    container_name   = "django"
-    container_port   = 80
+    container_name   = "beis-orp"
+    container_port   = 3000
   }
 
   lifecycle {
