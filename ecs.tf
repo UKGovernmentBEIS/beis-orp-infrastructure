@@ -15,16 +15,16 @@ resource "aws_ecs_service" "webserver" {
   task_definition = aws_ecs_task_definition.webserver.arn
   network_configuration {
     subnets = [
-      aws_subnet.subneta.id,
-      aws_subnet.subnetb.id,
-      aws_subnet.subnetc.id,
+      module.vpc.private_subnets[0],
+      module.vpc.private_subnets[1],
+      module.vpc.private_subnets[2]
     ]
     security_groups = [
       aws_security_group.ecs.id,
 #      aws_security_group.cloudfront.id,
 #      data.aws_security_group.s3_pl.id,
-#      #      data.aws_security_group.ecr_sg.id,
-#      #      data.aws_security_group.secrets_manager_sg.id
+      #      data.aws_security_group.ecr_sg.id,
+      #      data.aws_security_group.secrets_manager_sg.id
     ]
   }
   desired_count = local.ecs_config.ecs_service_count
