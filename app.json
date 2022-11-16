@@ -1,0 +1,31 @@
+[
+  {
+    "name": "${container_name}",
+    "image": "${docker_image_url}:latest",
+    "family": "beis-orp",
+    "essential": true,
+    "cpu": 128,
+    "memory": 256,
+    "links": [],
+    "portMappings": [
+      {
+        "containerPort": 3000,
+        "protocol": "tcp"
+      }
+    ],
+    "environment": [
+      {
+        "name": "ENVIRONMENT",
+        "value": "${environment}"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "${stream_prefix}"
+      }
+    }
+  }
+]
