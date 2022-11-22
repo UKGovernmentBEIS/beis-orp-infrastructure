@@ -21,8 +21,8 @@ resource "aws_ecs_service" "webserver" {
     ]
     security_groups = [
       aws_security_group.ecs.id,
-#      aws_security_group.cloudfront.id,
-#      data.aws_security_group.s3_pl.id,
+      #      aws_security_group.cloudfront.id,
+      #      data.aws_security_group.s3_pl.id,
       #      data.aws_security_group.ecr_sg.id,
       #      data.aws_security_group.secrets_manager_sg.id
     ]
@@ -39,7 +39,7 @@ resource "aws_ecs_service" "webserver" {
     ignore_changes = [desired_count]
   }
   depends_on = [
-#    module.alb.https_listeners,
+    #    module.alb.https_listeners,
     module.alb.http_tcp_listeners,
     aws_iam_role_policy.ecs_svc_policy
   ]
@@ -56,18 +56,18 @@ resource "aws_ecs_task_definition" "webserver" {
   container_definitions = templatefile(
     "${path.module}/app.json",
     {
-      docker_image_url     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/beis"
-      region               = local.region
-#      data_bucket          = "westbury-music-data-${local.environment}"
-#      rds_username         = "root"
-#      rds_password         = data.aws_secretsmanager_secret_version.db_pass.secret_string #data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_master_password
-#      rds_db_name          = "westbury"                                                   #data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_endpoint
-#      rds_hostname         = data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_endpoint
-      container_name       = "beis-orp"
-      aws_log_group        = aws_cloudwatch_log_group.beis_orp.name
-      stream_prefix        = "beis-orp"
-      environment          = local.environment
-#      distributions_bucket = data.aws_s3_bucket.distributions_bucket.bucket
+      docker_image_url = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/beis"
+      region           = local.region
+      #      data_bucket          = "westbury-music-data-${local.environment}"
+      #      rds_username         = "root"
+      #      rds_password         = data.aws_secretsmanager_secret_version.db_pass.secret_string #data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_master_password
+      #      rds_db_name          = "westbury"                                                   #data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_endpoint
+      #      rds_hostname         = data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_endpoint
+      container_name = "beis-orp"
+      aws_log_group  = aws_cloudwatch_log_group.beis_orp.name
+      stream_prefix  = "beis-orp"
+      environment    = local.environment
+      #      distributions_bucket = data.aws_s3_bucket.distributions_bucket.bucket
     }
   )
 }
