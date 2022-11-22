@@ -1,6 +1,6 @@
 module "db_postgresql" {
   source                         = "terraform-aws-modules/rds-aurora/aws"
-  version                        = "~> 7"
+  version                        = "7.1.0"
   name                           = "beis-orp-db"
   database_name                  = "beisorp"
   deletion_protection            = local.db_postgresql_config.deletion_protection

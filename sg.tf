@@ -10,6 +10,12 @@ resource "aws_security_group" "alb" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "typedb_instance" {
+  name        = "beis-orp-typedb-instance"
+  description = "Security Group for BEIS ORP TypeDB EC2 Instance"
+  vpc_id      = module.vpc.vpc_id
+}
+
 #http inbound redirects to https, this just allows the traffic.
 resource "aws_security_group_rule" "alb_ingress_http" {
   from_port         = 80
