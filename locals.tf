@@ -3,7 +3,17 @@ locals {
   downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
 
   environment = "dev"
-  region = "eu-west-2"
+  region      = "eu-west-2"
+
+  db_postgresql_config = {
+    engine_version       = "13.7"
+    engine               = "aurora-postgresql"
+    scaling_min_capacity = "0.5"
+    scaling_max_capacity = "1.0"
+    monitoring_interval  = "0"
+    enable_http_endpoint = true
+    deletion_protection  = false
+  }
 
   ecs_policies = {
     AmazonEC2ContainerServiceforEC2Role = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
@@ -54,16 +64,16 @@ locals {
 resource "null_resource" "download_package" {
   triggers = {
     downloaded = local.downloaded
-}
+  }
 
-provisioner "local-exec" {
-  command = "curl -L -o ${local.downloaded} ${local.package_url}"
+  provisioner "local-exec" {
+    command = "curl -L -o ${local.downloaded} ${local.package_url}"
   }
 }
 
 data "null_data_source" "downloaded_package" {
   inputs = {
-  id       = null_resource.download_package.id
-  filename = local.downloaded
+    id       = null_resource.download_package.id
+    filename = local.downloaded
   }
 }

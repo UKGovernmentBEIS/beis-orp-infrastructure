@@ -41,8 +41,8 @@ resource "aws_iam_instance_profile" "ec2_resource_ssm_profile" {
   role = aws_iam_role.ec2_resource_ssm_profile.name
 }
 resource "aws_iam_role" "ec2_resource_ssm_profile" {
-  name        = "dev-ssm-role"
-  description = "The role for the developer resources EC2"
+  name               = "dev-ssm-role"
+  description        = "The role for the developer resources EC2"
   assume_role_policy = <<EOF
 {
 "Version": "2012-10-17",

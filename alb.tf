@@ -7,27 +7,27 @@ module "alb" {
   load_balancer_type               = "application"
   enable_cross_zone_load_balancing = true
 
-  vpc_id  = module.vpc.vpc_id
+  vpc_id = module.vpc.vpc_id
   subnets = [
     module.vpc.public_subnets[0],
     module.vpc.public_subnets[1],
     module.vpc.public_subnets[2]
   ]
   security_groups = [aws_security_group.alb.id]
-#  target_groups = [
-#    {
-#      name             = "beis-alb-tg"
-#      backend_protocol = "HTTP"
-#      backend_port     = 3000
-#      target_type      = "ip"
-#      matcher          = "200-499"
-#      port             = 80
-#      timeout          = 60
-#      interval         = 90
-#      path             = "/"
-#      protocol         = "HTTP"
-#    }
-#  ]
+  #  target_groups = [
+  #    {
+  #      name             = "beis-alb-tg"
+  #      backend_protocol = "HTTP"
+  #      backend_port     = 3000
+  #      target_type      = "ip"
+  #      matcher          = "200-499"
+  #      port             = 80
+  #      timeout          = 60
+  #      interval         = 90
+  #      path             = "/"
+  #      protocol         = "HTTP"
+  #    }
+  #  ]
   target_groups = [
     {
       name             = "beis-alb-tg"
@@ -37,26 +37,26 @@ module "alb" {
     }
   ]
 
-#  https_listeners = [
-#    {
-#      port               = 443
-#      protocol           = "HTTPS"
-#      certificate_arn    = aws_acm_certificate.webserver.arn
-#      action_type        = "forward"
-#      target_group_index = 0
-#    }
-#  ]
+  #  https_listeners = [
+  #    {
+  #      port               = 443
+  #      protocol           = "HTTPS"
+  #      certificate_arn    = aws_acm_certificate.webserver.arn
+  #      action_type        = "forward"
+  #      target_group_index = 0
+  #    }
+  #  ]
 
   http_tcp_listeners = [
     {
       port        = 80
       protocol    = "HTTP"
       action_type = "forward"
-#      redirect = {
-#        port        = "3000"
-#        protocol    = "HTTP"
-#        status_code = "HTTP_301"
-#      }
+      #      redirect = {
+      #        port        = "3000"
+      #        protocol    = "HTTP"
+      #        status_code = "HTTP_301"
+      #      }
       target_group_index = 0
 
     }
