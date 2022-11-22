@@ -35,3 +35,29 @@ resource "aws_iam_role_policy_attachment" "multiple_policy" {
   policy_arn = each.value
   role       = aws_iam_role.ecs_host.name
 }
+
+resource "aws_iam_instance_profile" "ec2_resource_ssm_profile" {
+  name = "ec2_resource_ssm_profile"
+  role = aws_iam_role.ec2_resource_ssm_profile.name
+}
+resource "aws_iam_role" "ec2_resource_ssm_profile" {
+  name        = "dev-ssm-role"
+  description = "The role for the developer resources EC2"
+  assume_role_policy = <<EOF
+{
+"Version": "2012-10-17",
+"Statement": {
+"Effect": "Allow",
+"Principal": {"Service": "ec2.amazonaws.com"},
+"Action": "sts:AssumeRole"
+}
+}
+EOF
+  tags = {
+    stack = "test"
+  }
+}
+resource "aws_iam_role_policy_attachment" "ec2_resource_ssm_profile" {
+  role       = aws_iam_role.ec2_resource_ssm_profile.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
