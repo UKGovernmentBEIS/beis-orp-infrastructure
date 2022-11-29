@@ -89,7 +89,8 @@ module "endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
   vpc_id             = module.vpc.vpc_id
-  security_group_ids = [module.vpc.default_security_group_id]
+  security_group_ids = [ module.vpc.default_security_group_id ]
+
 
   endpoints = {
     ssm = {
@@ -100,7 +101,6 @@ module "endpoints" {
         module.vpc.public_subnets[1],
         module.vpc.public_subnets[2]
       ]
-      security_group_ids = [module.vpc.default_security_group_id]
     }
     ssmmessages = {
       service             = "ssmmessages"

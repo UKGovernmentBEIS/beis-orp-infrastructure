@@ -11,7 +11,7 @@ locals {
     scaling_min_capacity = "0.5"
     scaling_max_capacity = "1.0"
     monitoring_interval  = "0"
-    enable_http_endpoint = true
+    enable_http_endpoint = false
     deletion_protection  = false
   }
 
