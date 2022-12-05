@@ -16,6 +16,12 @@ resource "aws_security_group" "typedb_instance" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "documentdb_cluster" {
+  name        = "beis-orp-documentdb-cluster"
+  description = "Security Group for BEIS ORP DocumentDB Cluster"
+  vpc_id      = module.vpc.vpc_id
+}
+
 #http inbound redirects to https, this just allows the traffic.
 resource "aws_security_group_rule" "alb_ingress_http" {
   from_port         = 80
