@@ -37,15 +37,15 @@ module "alb" {
     }
   ]
 
-  #  https_listeners = [
-  #    {
-  #      port               = 443
-  #      protocol           = "HTTPS"
-  #      certificate_arn    = aws_acm_certificate.webserver.arn
-  #      action_type        = "forward"
-  #      target_group_index = 0
-  #    }
-  #  ]
+    https_listeners = [
+      {
+        port               = 443
+        protocol           = "HTTPS"
+        certificate_arn    = aws_acm_certificate_validation.app_validation.certificate_arn
+        action_type        = "forward"
+        target_group_index = 0
+      }
+    ]
 
   http_tcp_listeners = [
     {
