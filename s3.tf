@@ -24,3 +24,12 @@ resource "aws_s3_bucket_acl" "beis-orp-upload" {
   bucket = aws_s3_bucket.beis-orp-upload.id
   acl    = "private"
 }
+
+resource "aws_s3_bucket" "beis-orp-clustering-models" {
+  bucket = "beis-orp-${local.environment}-clustering-models"
+}
+
+resource "aws_s3_bucket_acl" "beis-orp-clustering-models" {
+  bucket = "beis-orp-${local.environment}-clustering-models"
+  acl    = "private"
+}
