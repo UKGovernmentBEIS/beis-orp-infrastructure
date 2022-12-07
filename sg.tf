@@ -22,24 +22,23 @@ resource "aws_security_group" "documentdb_cluster" {
   vpc_id      = module.vpc.vpc_id
 }
 
-#http inbound redirects to https, this just allows the traffic.
-resource "aws_security_group_rule" "alb_ingress_http" {
-  from_port         = 80
-  protocol          = "tcp"
-  security_group_id = aws_security_group.alb.id
-  to_port           = 80
-  type              = "ingress"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
-#resource "aws_security_group_rule" "alb_ingress_https" {
-#  from_port         = 443
+#resource "aws_security_group_rule" "alb_ingress_http" {
+#  from_port         = 80
 #  protocol          = "tcp"
 #  security_group_id = aws_security_group.alb.id
-#  to_port           = 443
+#  to_port           = 80
 #  type              = "ingress"
 #  cidr_blocks       = ["0.0.0.0/0"]
 #}
+
+resource "aws_security_group_rule" "alb_ingress_https" {
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.alb.id
+  to_port           = 443
+  type              = "ingress"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
 
 resource "aws_security_group_rule" "alb_egress_all" {
   from_port         = 0

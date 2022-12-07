@@ -1,7 +1,7 @@
 module "beis_orp_documentdb_cluster" {
   source = "cloudposse/documentdb-cluster/aws"
 
-  version = "0.15.0"
+  version = "0.14.1"
   namespace               = "beis-orp"
   stage                   = local.environment
   name                    = "beis-orp"
@@ -20,8 +20,7 @@ module "beis_orp_documentdb_cluster" {
   allowed_security_groups = [
     aws_security_group.documentdb_cluster.id
   ]
-  # We will provide this once we have a domain name to use
-#  zone_id                 = "Zxxxxxxxx"
+  zone_id                 = data.aws_route53_zone.cannonbandcom.zone_id
 }
 #
 ##resource "aws_docdb_cluster_parameter_group" "default_docdb4_0" {
