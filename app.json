@@ -17,6 +17,26 @@
       {
         "name": "ENVIRONMENT",
         "value": "${environment}"
+      },
+      {
+        "name": "DOMAIN",
+        "value": "${domain}"
+      },
+      {
+        "name": "S3_UPLOAD_BUCKET",
+        "value": "${s3_upload_bucket}"
+      },
+      {
+        "name": "MC_SERVER",
+        "value": "${mc_server}"
+      },
+      {
+        "name": "MC_LIST",
+        "value": "${mc_list}"
+      },
+      {
+        "name": "MC_API_KEY",
+        "value": "${mc_api_key}"
       }
     ],
     "logConfiguration": {
