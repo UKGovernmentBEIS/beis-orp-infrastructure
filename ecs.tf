@@ -58,16 +58,15 @@ resource "aws_ecs_task_definition" "webserver" {
     {
       docker_image_url = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/beis"
       region           = local.region
-      #      data_bucket          = "westbury-music-data-${local.environment}"
-      #      rds_username         = "root"
-      #      rds_password         = data.aws_secretsmanager_secret_version.db_pass.secret_string #data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_master_password
-      #      rds_db_name          = "westbury"                                                   #data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_endpoint
-      #      rds_hostname         = data.terraform_remote_state.db.outputs.aurora_postgresql_serverlessv2_cluster_endpoint
-      container_name = "beis-orp"
-      aws_log_group  = aws_cloudwatch_log_group.beis_orp.name
-      stream_prefix  = "beis-orp"
-      environment    = local.environment
-      #      distributions_bucket = data.aws_s3_bucket.distributions_bucket.bucket
+      container_name   = "beis-orp"
+      aws_log_group    = aws_cloudwatch_log_group.beis_orp.name
+      stream_prefix    = "beis-orp"
+      environment      = local.environment
+      domain           = local.webserver_config[local.environment].domain
+      s3_upload_bucket = local.webserver_config[local.environment].s3_upload_bucket
+      mc_server        = "us13"
+      mc_list          = "d8234fcc62"
+      mc_api_key       = data.aws_secretsmanager_secret_version.mc_api_key.secret_string
     }
   )
 }

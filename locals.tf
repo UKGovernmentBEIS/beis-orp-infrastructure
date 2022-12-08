@@ -2,8 +2,17 @@ locals {
   package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
   downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
 
-  environment = "dev"
+  environment = terraform.workspace == "default" ? "dev" : terraform.workspace
   region      = "eu-west-2"
+
+  webserver_config = {
+    dev = {
+      domain           = "https://app.dev.cannonband.com/"
+      s3_upload_bucket = "beis-orp-dev-upload"
+      mc_server        = "us13"
+      mc_list          = "d8234fcc62"
+    }
+  }
 
   db_postgresql_config = {
     engine_version       = "13.7"

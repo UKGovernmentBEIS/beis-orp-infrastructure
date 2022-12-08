@@ -83,3 +83,11 @@ data "aws_iam_policy_document" "ecs_svc" {
     ]
   }
 }
+
+data "aws_secretsmanager_secret" "mc_api_key" {
+  name = "mc_api_key_${local.environment}"
+}
+
+data "aws_secretsmanager_secret_version" "mc_api_key" {
+  secret_id = data.aws_secretsmanager_secret.mc_api_key.id
+}
