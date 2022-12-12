@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "webserver" {
       mc_server              = "us13"
       mc_list                = "d8234fcc62"
       mc_api_key             = data.aws_secretsmanager_secret_version.mc_api_key.secret_string
-      cloudwatch_group_name  = "/app/beis/cleint"
+      cloudwatch_group_name  = "/app/beis/client"
       cloudwatch_stream_name = local.environment
     }
   )
