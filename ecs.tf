@@ -15,9 +15,9 @@ resource "aws_ecs_service" "webserver" {
   task_definition = aws_ecs_task_definition.webserver.arn
   network_configuration {
     subnets = [
-      module.vpc.private_subnets[0],
-      module.vpc.private_subnets[1],
-      module.vpc.private_subnets[2]
+      module.vpc.public_subnets[0],
+      module.vpc.public_subnets[1],
+      module.vpc.public_subnets[2]
     ]
     security_groups = [
       aws_security_group.ecs.id,
@@ -26,6 +26,7 @@ resource "aws_ecs_service" "webserver" {
       #      data.aws_security_group.ecr_sg.id,
       #      data.aws_security_group.secrets_manager_sg.id
     ]
+    assign_public_ip = true
   }
   desired_count = local.ecs_config.ecs_service_count
 
