@@ -45,6 +45,10 @@
       {
         "name": "CLOUDWATCH_STREAM_NAME",
         "value": "${cloudwatch_stream_name}"
+      },
+      {
+        "name": "API_UPLOAD_KEY",
+        "value": "${api_upload_key}"
       }
     ],
     "logConfiguration": {
