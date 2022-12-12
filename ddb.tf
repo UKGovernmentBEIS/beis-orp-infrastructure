@@ -13,9 +13,9 @@ module "beis_orp_documentdb_cluster" {
   engine_version  = "3.6.0"
   vpc_id          = module.vpc.vpc_id
   subnet_ids = [
-    module.vpc.public_subnets[0],
-    module.vpc.public_subnets[1],
-    module.vpc.public_subnets[2]
+    module.vpc.private_subnets[0],
+    module.vpc.private_subnets[1],
+    module.vpc.private_subnets[2]
   ]
   allowed_security_groups = [
     aws_security_group.documentdb_cluster.id
