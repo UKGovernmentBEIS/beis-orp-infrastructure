@@ -57,17 +57,19 @@ resource "aws_ecs_task_definition" "webserver" {
   container_definitions = templatefile(
     "${path.module}/app.json",
     {
-      docker_image_url = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/beis"
-      region           = local.region
-      container_name   = "beis-orp"
-      aws_log_group    = aws_cloudwatch_log_group.beis_orp.name
-      stream_prefix    = "beis-orp"
-      environment      = local.environment
-      domain           = local.webserver_config[local.environment].domain
-      s3_upload_bucket = local.webserver_config[local.environment].s3_upload_bucket
-      mc_server        = "us13"
-      mc_list          = "d8234fcc62"
-      mc_api_key       = data.aws_secretsmanager_secret_version.mc_api_key.secret_string
+      docker_image_url       = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/beis"
+      region                 = local.region
+      container_name         = "beis-orp"
+      aws_log_group          = aws_cloudwatch_log_group.beis_orp.name
+      stream_prefix          = "beis-orp"
+      environment            = local.environment
+      domain                 = local.webserver_config[local.environment].domain
+      s3_upload_bucket       = local.webserver_config[local.environment].s3_upload_bucket
+      mc_server              = "us13"
+      mc_list                = "d8234fcc62"
+      mc_api_key             = data.aws_secretsmanager_secret_version.mc_api_key.secret_string
+      cloudwatch_group_name  = "/app/beis/client"
+      cloudwatch_stream_name = local.environment
     }
   )
 }

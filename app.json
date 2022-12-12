@@ -37,6 +37,14 @@
       {
         "name": "MC_API_KEY",
         "value": "${mc_api_key}"
+      },
+      {
+        "name": "CLOUDWATCH_GROUP_NAME",
+        "value": "${cloudwatch_group_name}"
+      },
+      {
+        "name": "CLOUDWATCH_STREAM_NAME",
+        "value": "${cloudwatch_stream_name}"
       }
     ],
     "logConfiguration": {
