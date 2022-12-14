@@ -11,7 +11,7 @@ module "pdf_to_text_lambda" {
   handler = "pdf_to_text.handler"
   runtime = "python3.8"
   source_path = [
-    "${path.module}/files/lambda"
+    "${path.module}/files/lambda/pdf_to_text.py"
   ]
 }
 
