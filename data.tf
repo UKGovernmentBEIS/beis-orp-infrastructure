@@ -99,3 +99,12 @@ data "aws_secretsmanager_secret" "api_upload_key" {
 data "aws_secretsmanager_secret_version" "api_upload_key" {
   secret_id = data.aws_secretsmanager_secret.api_upload_key.id
 }
+
+resource "aws_vpc_endpoint" "private_s3" {
+  vpc_id       = module.vpc.vpc_id
+  service_name = "com.amazonaws.${local.region}.s3"
+}
+
+data "aws_prefix_list" "private_s3" {
+  prefix_list_id = aws_vpc_endpoint.private_s3.prefix_list_id
+}
