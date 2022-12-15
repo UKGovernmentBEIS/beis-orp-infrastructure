@@ -14,20 +14,7 @@ module "alb" {
     module.vpc.public_subnets[2]
   ]
   security_groups = [aws_security_group.alb.id]
-  #  target_groups = [
-  #    {
-  #      name             = "beis-alb-tg"
-  #      backend_protocol = "HTTP"
-  #      backend_port     = 3000
-  #      target_type      = "ip"
-  #      matcher          = "200-499"
-  #      port             = 80
-  #      timeout          = 60
-  #      interval         = 90
-  #      path             = "/"
-  #      protocol         = "HTTP"
-  #    }
-  #  ]
+
   target_groups = [
     {
       name             = "beis-alb-tg"

@@ -22,14 +22,3 @@ module "beis_orp_documentdb_cluster" {
   ]
   zone_id = data.aws_route53_zone.cannonbandcom.zone_id
 }
-#
-##resource "aws_docdb_cluster_parameter_group" "default_docdb4_0" {
-##  family      = "docdb4.0"
-##  name        = "defaultdocdb40"
-##  description = "docdb cluster parameter group 4.0"
-##
-##  parameter {
-##    name  = "tls"
-##    value = "enabled"
-##  }
-##}

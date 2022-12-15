@@ -20,11 +20,7 @@ resource "aws_ecs_service" "webserver" {
       module.vpc.public_subnets[2]
     ]
     security_groups = [
-      aws_security_group.ecs.id,
-      #      aws_security_group.cloudfront.id,
-      #      data.aws_security_group.s3_pl.id,
-      #      data.aws_security_group.ecr_sg.id,
-      #      data.aws_security_group.secrets_manager_sg.id
+      aws_security_group.ecs.id
     ]
     assign_public_ip = true
   }
