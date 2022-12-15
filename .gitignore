@@ -6,3 +6,5 @@
 terraform.tfstate*
 terraform.tfvars
 .DS_Store
+*.pyi
+__init__.py
