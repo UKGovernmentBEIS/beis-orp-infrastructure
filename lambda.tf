@@ -2,17 +2,17 @@ module "lmb" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4"
 
-  function_name         = "pdf_to_text"
-  handler               = "pdf_to_text.handler"
-  runtime               = "python3.8"
-  memory_size           = "512"
-  timeout               = 900
-  create_package        = false
-  image_uri             = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:0.5"
-  package_type          = "Image"
-  vpc_subnet_ids        = module.vpc.private_subnets
-
-  attach_network_policy = true
+  function_name          = "pdf_to_text"
+  handler                = "pdf_to_text.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:0.5"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
 
   create_current_version_allowed_triggers = false
 
@@ -55,13 +55,14 @@ module "lmb" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.pdf_to_text_lambda_s3_policy.arn
   ]
-  number_of_policies = 3
+  number_of_policies = 4
 
-#  allowed_triggers = {
-#    update_images = {
-#      principal  = "events.amazonaws.com"
-#      source_arn = module.eventbridge.eventbridge_rule_arns["update_images"]
-#    }
-#  }
+  #  allowed_triggers = {
+  #    update_images = {
+  #      principal  = "events.amazonaws.com"
+  #      source_arn = module.eventbridge.eventbridge_rule_arns["update_images"]
+  #    }
+  #  }
 }

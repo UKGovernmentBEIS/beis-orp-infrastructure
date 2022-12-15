@@ -17,12 +17,12 @@ resource "aws_security_group" "typedb_instance" {
 }
 
 resource "aws_security_group_rule" "typedb_instance_s3_pfl" {
-  from_port                = 443
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.typedb_instance.id
-  to_port                  = 443
-  type                     = "egress"
-  cidr_blocks = [ data.aws_prefix_list.private_s3.cidr_blocks[0] ]
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.typedb_instance.id
+  to_port           = 443
+  type              = "egress"
+  cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
 }
 
 resource "aws_security_group" "documentdb_cluster" {
@@ -44,21 +44,30 @@ resource "aws_security_group" "pdf_to_text_lambda" {
 }
 
 resource "aws_security_group_rule" "pdf_to_text_lambda_s3_pfl" {
-  from_port                = 443
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.pdf_to_text_lambda.id
-  to_port                  = 443
-  type                     = "egress"
-  cidr_blocks = [ data.aws_prefix_list.private_s3.cidr_blocks[0] ]
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.pdf_to_text_lambda.id
+  to_port           = 443
+  type              = "egress"
+  cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
 }
 
-resource "aws_security_group_rule" "ddb_default_allow_lambda_27017" {
+resource "aws_security_group_rule" "pdf_to_text_lambda_to_documentdb" {
+  from_port                = 27017
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.pdf_to_text_lambda.id
+  to_port                  = 27017
+  type                     = "egress"
+  source_security_group_id = module.beis_orp_documentdb_cluster.security_group_id
+}
+
+resource "aws_security_group_rule" "documentdb_from_pdf_to_text_lambda" {
   from_port                = 27017
   protocol                 = "tcp"
   security_group_id        = module.beis_orp_documentdb_cluster.security_group_id
   to_port                  = 27017
   type                     = "ingress"
-  source_security_group_id = "sg-0189b8c2468f3fd49"
+  source_security_group_id = aws_security_group.pdf_to_text_lambda.id
 }
 
 resource "aws_security_group_rule" "ddb_default_sg_allow_27017" {
