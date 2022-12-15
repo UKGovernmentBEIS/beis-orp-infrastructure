@@ -16,6 +16,15 @@ resource "aws_security_group" "typedb_instance" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group_rule" "typedb_instance_s3_pfl" {
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_instance.id
+  to_port                  = 443
+  type                     = "egress"
+  cidr_blocks = [ data.aws_prefix_list.private_s3.cidr_blocks[0] ]
+}
+
 resource "aws_security_group" "documentdb_cluster" {
   name        = "beis-orp-documentdb-cluster"
   description = "Security Group for BEIS ORP DocumentDB Cluster"
