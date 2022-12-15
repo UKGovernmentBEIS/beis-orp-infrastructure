@@ -6,7 +6,7 @@ resource "aws_instance" "typedb" {
   availability_zone      = "${local.region}a"
   subnet_id              = module.vpc.private_subnets[0]
   vpc_security_group_ids = [aws_security_group.typedb_instance.id, module.vpc.default_security_group_id]
-  iam_instance_profile   = aws_iam_instance_profile.ec2_resource_ssm_profile.name
+  iam_instance_profile   = aws_iam_instance_profile.typedb_iam_profile.name
 
   tags = {
     Name = "beis-orp-typedb"
