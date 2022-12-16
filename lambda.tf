@@ -86,6 +86,12 @@ module "typedb_search_query" {
 
   create_current_version_allowed_triggers = false
 
+  # Function URL Config
+  create_lambda_function_url = true
+  authorization_type = "NONE"
+  create_unqualified_alias_lambda_function_url = true
+
+
   vpc_security_group_ids = [
     aws_security_group.typedb_search_query_lambda.id
   ]
