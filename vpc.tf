@@ -63,14 +63,15 @@ module "endpoints" {
         module.vpc.public_subnets[2]
       ]
     }
+    s3 = {
+      # interface endpoint
+      service             = "s3"
+      tags                = { Name = "s3-vpc-endpoint" }
+    },
   }
 
-  #  endpoints = {
-  #    s3 = {
-  #      # interface endpoint
-  #      service             = "s3"
-  #      tags                = { Name = "s3-vpc-endpoint" }
-  #    },
+#    endpoints = {
+
   #    dynamodb = {
   #      # gateway endpoint
   #      service         = "dynamodb"
