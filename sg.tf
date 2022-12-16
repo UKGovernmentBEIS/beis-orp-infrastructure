@@ -43,6 +43,30 @@ resource "aws_security_group" "pdf_to_text_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "typedb_search_query_lambda" {
+  name        = "beis-orp-typedb-search-query-lambda"
+  description = "Security Group for BEIS ORP typedb-search-query Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "typedb_search_query_lambda_to_typedb" {
+  from_port         = 1729
+  protocol          = "tcp"
+  security_group_id = aws_security_group.typedb_search_query_lambda.id
+  to_port           = 1729
+  type              = "egress"
+  source_security_group_id = aws_security_group.typedb_instance.id
+}
+
+resource "aws_security_group_rule" "typedb_from_typedb_search_query_lambda" {
+  from_port         = 1729
+  protocol          = "tcp"
+  security_group_id = aws_security_group.typedb_instance.id
+  to_port           = 1729
+  type              = "ingress"
+  source_security_group_id = aws_security_group.typedb_search_query_lambda.id
+}
+
 resource "aws_security_group_rule" "pdf_to_text_lambda_s3_pfl" {
   from_port         = 443
   protocol          = "tcp"
