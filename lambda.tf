@@ -8,7 +8,7 @@ module "pdf_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:0.5"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:1.0.2"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -18,6 +18,7 @@ module "pdf_to_text" {
 
   vpc_security_group_ids = [
     aws_security_group.pdf_to_text_lambda.id,
+    module.vpc.default_security_group_id
   ]
 
   environment_variables = {
@@ -86,7 +87,7 @@ module "typedb_search_query" {
   create_current_version_allowed_triggers = false
 
   vpc_security_group_ids = [
-    aws_security_group.typedb_search_query_lambda.id,
+    aws_security_group.typedb_search_query_lambda.id
   ]
 
   environment_variables = {
