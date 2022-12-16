@@ -49,6 +49,10 @@
       {
         "name": "API_UPLOAD_KEY",
         "value": "${api_upload_key}"
+      },
+      {
+        "name": "ORP_SEARCH_LAMBDA",
+        "value": "${orp_search_lambda}"
       }
     ],
     "logConfiguration": {

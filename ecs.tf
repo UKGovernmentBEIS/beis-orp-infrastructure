@@ -67,6 +67,7 @@ resource "aws_ecs_task_definition" "webserver" {
       cloudwatch_group_name  = "/app/beis/client"
       cloudwatch_stream_name = local.environment
       api_upload_key         = data.aws_secretsmanager_secret_version.api_upload_key.secret_string
+      orp_search_lambda      = local.webserver_config[local.environment].orp_search_lambda
     }
   )
 }
