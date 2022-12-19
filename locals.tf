@@ -7,10 +7,11 @@ locals {
 
   webserver_config = {
     dev = {
-      domain           = "https://app.dev.cannonband.com/"
-      s3_upload_bucket = "beis-orp-dev-upload"
-      mc_server        = "us13"
-      mc_list          = "d8234fcc62"
+      domain            = "https://app.dev.cannonband.com/"
+      s3_upload_bucket  = "beis-orp-dev-upload"
+      mc_server         = "us13"
+      mc_list           = "d8234fcc62"
+      orp_search_lambda = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
     }
   }
 
