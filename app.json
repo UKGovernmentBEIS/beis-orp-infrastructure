@@ -51,8 +51,8 @@
         "value": "${api_upload_key}"
       },
       {
-        "name": "ORP_SEARCH_LAMBDA",
-        "value": "${orp_search_lambda}"
+        "name": "ORP_SEARCH_URL",
+        "value": "${orp_search_url}"
       }
     ],
     "logConfiguration": {
