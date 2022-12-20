@@ -134,7 +134,7 @@ module "typedb_search_query" {
 #    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
 #    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-#    aws_iam_policy.pdf_to_text_lambda_s3_policy.arn
+#    aws_iam_policy.update_typedb_sqs_queue.arn
   ]
   number_of_policies = 1
 

@@ -82,6 +82,11 @@ EOF
   }
 }
 
+resource "aws_iam_role_policy_attachment" "typedb_iam_role_sqs_access" {
+role       = aws_iam_role.typedb_iam_role.name
+policy_arn = aws_iam_policy.update_typedb_sqs_queue.arn
+}
+
 resource "aws_iam_role_policy_attachment" "typedb_iam_role_ssm_profile" {
   role       = aws_iam_role.typedb_iam_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
@@ -142,6 +147,28 @@ resource "aws_iam_policy" "pdf_to_text_lambda_s3_policy" {
           "arn:aws:s3:::*/*",
           aws_s3_bucket.beis-orp-datalake.arn,
           aws_s3_bucket.beis-orp-upload.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "update_typedb_sqs_queue" {
+  name        = "udpate-typedb-sqs-queue"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "*"
+        ],
+        "Resource" : [
+          aws_sqs_queue.update_typedb.arn,
+          aws_sqs_queue.update_typedb_deadletter.arn
         ]
       }
     ]
