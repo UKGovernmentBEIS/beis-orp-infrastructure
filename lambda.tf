@@ -152,12 +152,12 @@ module "keyword_extraction" {
   version = "~> 4"
 
   function_name          = "keyword_extraction"
-  handler                = "lambda_function.handler"
+  handler                = "keyword_extraction.handler"
   runtime                = "python3.8"
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:3.6"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:4.9.3"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -216,7 +216,7 @@ module "typedb_ingestion" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:0.2"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:0.4"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -272,10 +272,10 @@ module "bertopic_inference" {
   function_name          = "bertopic_inference"
   handler                = "bertopic_inference.handler"
   runtime                = "python3.8"
-  memory_size            = "512"
+  memory_size            = "3008"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/bertopic-inference:7.3"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/bertopic-inference:7.4"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
