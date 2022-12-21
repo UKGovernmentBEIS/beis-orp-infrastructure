@@ -146,11 +146,11 @@ module "typedb_search_query" {
   #  }
 }
 
-module "extraction_keyword" {
+module "keyword_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4"
 
-  function_name          = "extraction_keyword"
+  function_name          = "keyword_extraction"
   handler                = "lambda_function.handler"
   runtime                = "python3.8"
   memory_size            = "512"
@@ -165,7 +165,7 @@ module "extraction_keyword" {
   create_current_version_allowed_triggers = false
 
   vpc_security_group_ids = [
-    aws_security_group.extraction_keyword_lambda.id
+    aws_security_group.keyword_extraction_lambda.id
   ]
 
   assume_role_policy_statements = {
