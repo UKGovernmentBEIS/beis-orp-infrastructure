@@ -67,7 +67,18 @@ module "endpoints" {
       # interface endpoint
       service             = "s3"
       tags                = { Name = "s3-vpc-endpoint" }
-    },
+    }
+    sqs = {
+      service             = "sqs"
+      private_dns_enabled = true
+      security_group_ids  = [aws_security_group.sqs_vpc_endpoint.id]
+      subnet_ids          = [
+        module.vpc.public_subnets[0],
+        module.vpc.public_subnets[1],
+        module.vpc.public_subnets[2]
+      ]
+      tags                = { Name = "sqs-vpc-endpoint" }
+    }
   }
 
 #    endpoints = {
@@ -83,13 +94,7 @@ module "endpoints" {
   #      subnet_ids = ["subnet-12345678", "subnet-87654321"]
   #      tags       = { Name = "sns-vpc-endpoint" }
   #    },
-  #    sqs = {
-  #      service             = "sqs"
-  #      private_dns_enabled = true
-  #      security_group_ids  = ["sg-987654321"]
-  #      subnet_ids          = ["subnet-12345678", "subnet-87654321"]
-  #      tags                = { Name = "sqs-vpc-endpoint" }
-  #    },
+
 
   tags = {
     Owner       = "user"
