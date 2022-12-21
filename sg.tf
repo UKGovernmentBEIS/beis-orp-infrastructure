@@ -55,6 +55,54 @@ resource "aws_security_group" "keyword_extraction_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "typedb_ingestion_lambda" {
+  name        = "beis-orp-typedb-ingestion-lambda"
+  description = "Security Group for BEIS ORP typedb_ingestion Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group" "sqs_vpc_endpoint" {
+  name        = "beis-orp-sqs-vpc-endpoint"
+  description = "Security Group for BEIS ORP SQS VPC Endpoint"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "typedb_search_query_lambda_to_typedb_instance" {
+  from_port                = local.typedb_config[local.environment].typedb_server_port
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_search_query_lambda.id
+  to_port                  = local.typedb_config[local.environment].typedb_server_port
+  type                     = "egress"
+  source_security_group_id = aws_security_group.typedb_instance.id
+}
+
+resource "aws_security_group_rule" "typedb_instance_from_typedb_search_query_lambda" {
+  from_port                = local.typedb_config[local.environment].typedb_server_port
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_instance.id
+  to_port                  = local.typedb_config[local.environment].typedb_server_port
+  type                     = "ingress"
+  source_security_group_id = aws_security_group.typedb_search_query_lambda.id
+}
+
+resource "aws_security_group_rule" "typedb_ingestion_lambda_to_documentdb" {
+  from_port                = 27017
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_ingestion_lambda.id
+  to_port                  = 27017
+  type                     = "egress"
+  source_security_group_id = module.beis_orp_documentdb_cluster.security_group_id
+}
+
+resource "aws_security_group_rule" "documentdb_from_typedb_ingestion_lambda" {
+  from_port                = 27017
+  protocol                 = "tcp"
+  security_group_id        = module.beis_orp_documentdb_cluster.security_group_id
+  to_port                  = 27017
+  type                     = "ingress"
+  source_security_group_id = aws_security_group.typedb_ingestion_lambda.id
+}
+
 resource "aws_security_group_rule" "keyword_extraction_lambda_to_documentdb" {
   from_port                = 27017
   protocol                 = "tcp"
