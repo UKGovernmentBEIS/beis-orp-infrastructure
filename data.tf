@@ -120,3 +120,12 @@ data "aws_prefix_list" "private_s3" {
 #    typedb_docu_sqs_name = local.typedb_config[local.environment].typedb_docu_sqs_name
 #  }
 #}
+
+data "aws_iam_policy_document" "lambda_invoke_policy" {
+  statement {
+    effect = "Allow"
+    actions = []
+    resources = ["arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:*"]
+  }
+
+}

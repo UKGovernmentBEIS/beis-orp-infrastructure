@@ -61,10 +61,53 @@ resource "aws_security_group" "typedb_ingestion_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "bertopic_inference_lambda" {
+  name        = "beis-orp-bertopic-inference-lambda"
+  description = "Security Group for BEIS ORP bertopic_inference Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "sqs_vpc_endpoint" {
   name        = "beis-orp-sqs-vpc-endpoint"
   description = "Security Group for BEIS ORP SQS VPC Endpoint"
   vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "bertopic_inference_egress" {
+  from_port         = 0
+  protocol          = "tcp"
+  security_group_id = aws_security_group.bertopic_inference_lambda.id
+  to_port           = 65535
+  type              = "ingress"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "bertopic_inference_lambda_to_documentdb" {
+  from_port                = 27017
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.bertopic_inference_lambda.id
+  to_port                  = 27017
+  type                     = "egress"
+  source_security_group_id = module.beis_orp_documentdb_cluster.security_group_id
+}
+
+resource "aws_security_group_rule" "documentdb_from_bertopic_inference_lambda" {
+  from_port                = 27017
+  protocol                 = "tcp"
+  security_group_id        = module.beis_orp_documentdb_cluster.security_group_id
+  to_port                  = 27017
+  type                     = "ingress"
+  source_security_group_id = aws_security_group.bertopic_inference_lambda.id
+}
+
+# Because AWS is annoying sometimes
+resource "aws_security_group_rule" "sqs_vpc_endpoint_ingress_all" {
+  from_port         = 0
+  protocol          = "tcp"
+  security_group_id = aws_security_group.sqs_vpc_endpoint.id
+  to_port           = 65535
+  type              = "ingress"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "typedb_search_query_lambda_to_typedb_instance" {
@@ -83,6 +126,15 @@ resource "aws_security_group_rule" "typedb_instance_from_typedb_search_query_lam
   to_port                  = local.typedb_config[local.environment].typedb_server_port
   type                     = "ingress"
   source_security_group_id = aws_security_group.typedb_search_query_lambda.id
+}
+
+resource "aws_security_group_rule" "typedb_ingestion_lambda_to_sqs_endpoint" {
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_ingestion_lambda.id
+  to_port                  = 443
+  type                     = "egress"
+  source_security_group_id = aws_security_group.sqs_vpc_endpoint.id
 }
 
 resource "aws_security_group_rule" "typedb_ingestion_lambda_to_documentdb" {
