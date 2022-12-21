@@ -99,8 +99,8 @@ module "typedb_search_query" {
   environment_variables = {
     ENVIRONMENT = local.environment,
     TYPEDB_SERVER_IP = aws_instance.typedb.private_ip,
-    TYPEDB_SERVER_PORT = 1729,
-    TYPEDB_DATABASE_NAME = "orp-mvp-v0.1" # hardcoded here and in ec2 userdata...
+    TYPEDB_SERVER_PORT = local.typedb_config[local.environment].typedb_server_port
+    TYPEDB_DATABASE_NAME = local.typedb_config[local.environment].typedb_database_name
   }
 
   assume_role_policy_statements = {
@@ -144,4 +144,62 @@ module "typedb_search_query" {
   #      source_arn = module.eventbridge.eventbridge_rule_arns["update_images"]
   #    }
   #  }
+}
+
+module "extraction_keyword" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4"
+
+  function_name          = "extraction_keyword"
+  handler                = "lambda_function.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:1.3"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.extraction_keyword_lambda.id
+  ]
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    aws_iam_policy.text_extraction_to_document_db.arn,
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    #    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    #    aws_iam_policy.update_typedb_sqs_queue.arn
+  ]
+  number_of_policies = 2
 }

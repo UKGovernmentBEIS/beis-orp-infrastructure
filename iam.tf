@@ -174,3 +174,48 @@ resource "aws_iam_policy" "update_typedb_sqs_queue" {
     ]
   })
 }
+
+resource "aws_iam_policy" "text_extraction_to_document_db" {
+  name        = "text-extraction-to-document-db"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "docdb-elastic:*"
+        ],
+        "Resource" : [
+          module.beis_orp_documentdb_cluster.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
+  name        = "text_extraction-Lambda-to-S3"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:GetObject",
+          "s3:ListBucket",
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-ingest.arn
+        ]
+      }
+    ]
+  })
+}
