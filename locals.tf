@@ -5,6 +5,16 @@ locals {
   environment = terraform.workspace == "default" ? "dev" : terraform.workspace
   region      = "eu-west-2"
 
+  typedb_config = {
+    dev = {
+      database_workdir = "graph_database"
+      typedb_database_name = "orp-mvp-v0.1"
+      typedb_database_schema = "orp-gdb-schema.tql"
+      typedb_database_file = "orp-mvp-kgdb.typedb"
+      typedb_docu_sqs_name = "update-typedb"
+    }
+  }
+
   webserver_config = {
     dev = {
       domain            = "https://app.dev.cannonband.com/"

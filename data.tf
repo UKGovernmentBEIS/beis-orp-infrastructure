@@ -108,3 +108,15 @@ resource "aws_vpc_endpoint" "private_s3" {
 data "aws_prefix_list" "private_s3" {
   prefix_list_id = aws_vpc_endpoint.private_s3.prefix_list_id
 }
+
+#data "template_file" "typedb" {
+#  template = "${file("${path.module}/files/typedb-userdata.tpl")}"
+#  vars = {
+#    aws_region = local.region,
+#    database_workdir = local.typedb_config[local.environment].database_workdir,
+#    typedb_database_name = local.typedb_config[local.environment].typedb_database_name,
+#    typedb_database_schema = local.typedb_config[local.environment].typedb_database_schema,
+#    typedb_database_file = local.typedb_config[local.environment].typedb_database_file,
+#    typedb_docu_sqs_name = local.typedb_config[local.environment].typedb_docu_sqs_name
+#  }
+#}
