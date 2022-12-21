@@ -12,6 +12,7 @@ locals {
       typedb_database_schema = "orp-gdb-schema.tql"
       typedb_database_file = "orp-mvp-kgdb.typedb"
       typedb_docu_sqs_name = "update-typedb"
+      typedb_server_port = 1729
     }
   }
 
