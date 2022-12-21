@@ -49,34 +49,34 @@ resource "aws_security_group" "typedb_search_query_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group" "extraction_keyword_lambda" {
+resource "aws_security_group" "keyword_extraction_lambda" {
   name        = "beis-orp-extraction-keyword-lambda"
   description = "Security Group for BEIS ORP extraction-keyword Lambda"
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group_rule" "extraction_keyword_lambda_to_documentdb" {
+resource "aws_security_group_rule" "keyword_extraction_lambda_to_documentdb" {
   from_port                = 27017
   protocol                 = "tcp"
-  security_group_id        = aws_security_group.extraction_keyword_lambda.id
+  security_group_id        = aws_security_group.keyword_extraction_lambda.id
   to_port                  = 27017
   type                     = "egress"
   source_security_group_id = module.beis_orp_documentdb_cluster.security_group_id
 }
 
-resource "aws_security_group_rule" "documentdb_from_extraction_keyword_lambda" {
+resource "aws_security_group_rule" "documentdb_from_keyword_extraction_lambda" {
   from_port                = 27017
   protocol                 = "tcp"
   security_group_id        = module.beis_orp_documentdb_cluster.security_group_id
   to_port                  = 27017
   type                     = "ingress"
-  source_security_group_id = aws_security_group.extraction_keyword_lambda.id
+  source_security_group_id = aws_security_group.keyword_extraction_lambda.id
 }
 
-resource "aws_security_group_rule" "extraction_keyword_lambda_s3_pfl" {
+resource "aws_security_group_rule" "keyword_extraction_lambda_s3_pfl" {
   from_port         = 443
   protocol          = "tcp"
-  security_group_id = aws_security_group.extraction_keyword_lambda.id
+  security_group_id = aws_security_group.keyword_extraction_lambda.id
   to_port           = 443
   type              = "egress"
   cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
