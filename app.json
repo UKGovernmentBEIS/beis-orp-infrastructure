@@ -27,6 +27,10 @@
         "value": "${s3_upload_bucket}"
       },
       {
+        "name": "AWS_REGION",
+        "value": "${region}"
+      },
+      {
         "name": "MC_SERVER",
         "value": "${mc_server}"
       },
