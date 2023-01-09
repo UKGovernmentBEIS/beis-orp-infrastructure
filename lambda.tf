@@ -280,6 +280,7 @@ module "bertopic_inference" {
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
   attach_network_policy  = true
+  ephemeral_storage_size = 10240
 
   create_current_version_allowed_triggers = false
 
