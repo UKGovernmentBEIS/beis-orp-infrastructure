@@ -5,6 +5,20 @@ locals {
   environment = terraform.workspace == "default" ? "dev" : terraform.workspace
   region      = "eu-west-2"
 
+  lambda_config = {
+    dev = {
+      pdf_to_text_image_ver = "1.2.3"
+      typedb_search_query_image_ver = "v.0.1"
+      keyword_extraction_image_ver = "5.1"
+      typedb_ingestion_image_ver = "0.4"
+      bertopic_inference_image_ver = "7.6"
+
+    }
+    prod = {
+
+    }
+  }
+
   typedb_config = {
     dev = {
       database_workdir = "graph_database"
