@@ -18,6 +18,8 @@ module "db_postgresql" {
   enable_http_endpoint            = local.db_postgresql_config.enable_http_endpoint
   db_parameter_group_name         = aws_db_parameter_group.db_pg_postgresql13.name
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db_cpg_postgresql13.name
+  master_username                 = "orp_client"
+  create_random_password          = true
 
   serverlessv2_scaling_configuration = {
     min_capacity = local.db_postgresql_config.scaling_min_capacity
