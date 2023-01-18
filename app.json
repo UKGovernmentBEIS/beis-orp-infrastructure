@@ -59,8 +59,16 @@
         "value": "${orp_search_url}"
       },
       {
-        "name": "POSTGRES_URL",
-        "value": "${postgres_url}"
+        "name": "POSTGRES_DB",
+        "value": "${postgres_db}"
+      },
+      {
+        "name": "POSTGRES_USER",
+        "value": "${postgres_user}"
+      },
+      {
+        "name": "POSTGRES_PASSWORD",
+        "value": "${postgres_password}"
       }
     ],
     "logConfiguration": {
