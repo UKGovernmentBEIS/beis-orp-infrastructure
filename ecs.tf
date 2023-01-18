@@ -68,6 +68,7 @@ resource "aws_ecs_task_definition" "webserver" {
       cloudwatch_stream_name = local.environment
       api_upload_key         = data.aws_secretsmanager_secret_version.api_upload_key.secret_string
       orp_search_url         = local.webserver_config[local.environment].orp_search_url
+      postgres_url           = module.db_postgresql.cluster_endpoint
     }
   )
 }

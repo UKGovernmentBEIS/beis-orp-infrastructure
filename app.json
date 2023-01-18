@@ -57,6 +57,10 @@
       {
         "name": "ORP_SEARCH_URL",
         "value": "${orp_search_url}"
+      },
+      {
+        "name": "POSTGRES_URL",
+        "value": "${postgres_url}"
       }
     ],
     "logConfiguration": {
