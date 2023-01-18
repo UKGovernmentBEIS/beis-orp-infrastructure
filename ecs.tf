@@ -71,6 +71,7 @@ resource "aws_ecs_task_definition" "webserver" {
       postgres_db            = module.db_postgresql.cluster_endpoint
       postgres_user          = module.db_postgresql.cluster_master_username
       postgres_password      = module.db_postgresql.cluster_master_password
+      postgres_full          = "postgres://${module.db_postgresql.cluster_master_username}:${module.db_postgresql.cluster_master_password}@${module.db_postgresql.cluster_endpoint}:5432/beis"
     }
   )
 }

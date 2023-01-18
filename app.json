@@ -70,6 +70,11 @@
         "name": "POSTGRES_PASSWORD",
         "value": "${postgres_password}"
       }
+    ,
+      {
+        "name": "POSTGRES_FULL",
+        "value": "${postgres_full}"
+      }
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
