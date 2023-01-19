@@ -7,36 +7,51 @@ locals {
 
   lambda_config = {
     dev = {
-      pdf_to_text_image_ver = "1.2.3"
+<<<<<<< Updated upstream
+      pdf_to_text_image_ver         = "1.2.3"
       typedb_search_query_image_ver = "v.0.1"
-      keyword_extraction_image_ver = "5.1"
-      typedb_ingestion_image_ver = "0.4"
-      bertopic_inference_image_ver = "7.6"
-
+      keyword_extraction_image_ver  = "5.1"
+      typedb_ingestion_image_ver    = "0.4"
+      bertopic_inference_image_ver  = "7.6"
+      pdf_to_text_image_uri         = "1.2.2"
     }
     prod = {
-
     }
   }
 
   typedb_config = {
     dev = {
-      database_workdir = "graph_database"
-      typedb_database_name = "orp-mvp-v0.1"
+      database_workdir       = "graph_database"
+      typedb_database_name   = "orp-mvp-v0.1"
       typedb_database_schema = "orp-gdb-schema.tql"
-      typedb_database_file = "orp-mvp-kgdb.typedb"
-      typedb_docu_sqs_name = "update-typedb"
-      typedb_server_port = 1729
+      typedb_database_file   = "orp-mvp-kgdb.typedb"
+      typedb_docu_sqs_name   = "update-typedb"
+      typedb_server_port     = 1729
+    }
+    prod = {
+      database_workdir       = "graph_database"
+      typedb_database_name   = "orp-mvp-v0.1"
+      typedb_database_schema = "orp-gdb-schema.tql"
+      typedb_database_file   = "orp-mvp-kgdb.typedb"
+      typedb_docu_sqs_name   = "update-typedb"
+      typedb_server_port     = 1729
     }
   }
 
   webserver_config = {
     dev = {
-      domain            = "https://app.dev.cannonband.com/"
-      s3_upload_bucket  = "beis-orp-dev-upload"
-      mc_server         = "us13"
-      mc_list           = "d8234fcc62"
-      orp_search_url    = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
+      domain           = "https://app.dev.cannonband.com/"
+      s3_upload_bucket = "beis-orp-dev-upload"
+      mc_server        = "us13"
+      mc_list          = "d8234fcc62"
+      orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
+    }
+    prod = {
+      domain           = "https://app.cannonband.com/"
+      s3_upload_bucket = "beis-orp-prod-upload"
+      mc_server        = "us13"
+      mc_list          = "d8234fcc62"
+      orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
     }
   }
 

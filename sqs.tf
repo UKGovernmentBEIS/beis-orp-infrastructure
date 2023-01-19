@@ -14,6 +14,6 @@ resource "aws_sqs_queue" "update_typedb" {
 }
 
 resource "aws_sqs_queue" "update_typedb_deadletter" {
-  name = "update-typedb-dlq"
+  name                    = "update-typedb-dlq"
   sqs_managed_sse_enabled = false
 }

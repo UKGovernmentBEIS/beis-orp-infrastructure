@@ -83,8 +83,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "typedb_iam_role_sqs_access" {
-role       = aws_iam_role.typedb_iam_role.name
-policy_arn = aws_iam_policy.update_typedb_sqs_queue.arn
+  role       = aws_iam_role.typedb_iam_role.name
+  policy_arn = aws_iam_policy.update_typedb_sqs_queue.arn
 }
 
 resource "aws_iam_role_policy_attachment" "typedb_iam_role_ssm_profile" {

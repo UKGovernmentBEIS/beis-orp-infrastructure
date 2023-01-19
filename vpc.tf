@@ -1,6 +1,6 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.0"
+  version = "3.19.0"
 
   name = "beis_orp"
   cidr = "10.0.0.0/16"
@@ -30,6 +30,7 @@ module "vpc" {
 
 module "endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+  version = "3.19.0"
 
   vpc_id             = module.vpc.vpc_id
   security_group_ids = [module.vpc.default_security_group_id]
@@ -65,23 +66,23 @@ module "endpoints" {
     }
     s3 = {
       # interface endpoint
-      service             = "s3"
-      tags                = { Name = "s3-vpc-endpoint" }
+      service = "s3"
+      tags    = { Name = "s3-vpc-endpoint" }
     }
     sqs = {
       service             = "sqs"
       private_dns_enabled = true
       security_group_ids  = [aws_security_group.sqs_vpc_endpoint.id]
-      subnet_ids          = [
+      subnet_ids = [
         module.vpc.public_subnets[0],
         module.vpc.public_subnets[1],
         module.vpc.public_subnets[2]
       ]
-      tags                = { Name = "sqs-vpc-endpoint" }
+      tags = { Name = "sqs-vpc-endpoint" }
     }
   }
 
-#    endpoints = {
+  #    endpoints = {
 
   #    dynamodb = {
   #      # gateway endpoint
