@@ -7,7 +7,6 @@ locals {
 
   lambda_config = {
     dev = {
-<<<<<<< Updated upstream
       pdf_to_text_image_ver         = "1.2.3"
       typedb_search_query_image_ver = "v.0.1"
       keyword_extraction_image_ver  = "5.1"
