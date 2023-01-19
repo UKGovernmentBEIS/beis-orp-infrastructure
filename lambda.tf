@@ -87,8 +87,8 @@ module "typedb_search_query" {
   create_current_version_allowed_triggers = false
 
   # Function URL Config
-  create_lambda_function_url = true
-  authorization_type = "NONE"
+  create_lambda_function_url                   = true
+  authorization_type                           = "NONE"
   create_unqualified_alias_lambda_function_url = true
 
 
@@ -97,9 +97,9 @@ module "typedb_search_query" {
   ]
 
   environment_variables = {
-    ENVIRONMENT = local.environment,
-    TYPEDB_SERVER_IP = aws_instance.typedb.private_ip,
-    TYPEDB_SERVER_PORT = local.typedb_config[local.environment].typedb_server_port
+    ENVIRONMENT          = local.environment,
+    TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
+    TYPEDB_SERVER_PORT   = local.typedb_config[local.environment].typedb_server_port
     TYPEDB_DATABASE_NAME = local.typedb_config[local.environment].typedb_database_name
   }
 
@@ -131,11 +131,11 @@ module "typedb_search_query" {
   #Attaching AWS policies
   attach_policies = true
   policies = [
-#    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    #    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
-#    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-#    aws_iam_policy.update_typedb_sqs_queue.arn
-#    aws_iam_policy.typedb_search_query_to_document_db.arn
+    #    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    #    aws_iam_policy.update_typedb_sqs_queue.arn
+    #    aws_iam_policy.typedb_search_query_to_document_db.arn
   ]
   number_of_policies = 1
 
@@ -317,10 +317,10 @@ module "bertopic_inference" {
   #Attaching AWS policies
   attach_policies = true
   policies = [
-#    aws_iam_policy.text_extraction_to_document_db.arn,
-#    aws_iam_policy.typedb_ingestion_sqs.arn,
-#    aws_iam_policy.typedb_ingestion_to_document_db.arn,
-#    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+    #    aws_iam_policy.text_extraction_to_document_db.arn,
+    #    aws_iam_policy.typedb_ingestion_sqs.arn,
+    #    aws_iam_policy.typedb_ingestion_to_document_db.arn,
+    #    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
     "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess",
     aws_iam_policy.bertopic_inference_to_s3.arn,
     aws_iam_policy.lambda_invoke_keyword_extraction.arn

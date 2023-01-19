@@ -27,12 +27,12 @@ resource "aws_instance" "typedb" {
 
   user_data = templatefile("${path.module}/files/typedb-userdata.tpl",
     {
-    aws_region = local.region,
-    database_workdir = local.typedb_config[local.environment].database_workdir,
-    typedb_database_name = local.typedb_config[local.environment].typedb_database_name,
-    typedb_database_schema = local.typedb_config[local.environment].typedb_database_schema,
-    typedb_database_file = local.typedb_config[local.environment].typedb_database_file,
-    typedb_docu_sqs_name = local.typedb_config[local.environment].typedb_docu_sqs_name
+      aws_region             = local.region,
+      database_workdir       = local.typedb_config[local.environment].database_workdir,
+      typedb_database_name   = local.typedb_config[local.environment].typedb_database_name,
+      typedb_database_schema = local.typedb_config[local.environment].typedb_database_schema,
+      typedb_database_file   = local.typedb_config[local.environment].typedb_database_file,
+      typedb_docu_sqs_name   = local.typedb_config[local.environment].typedb_docu_sqs_name
     }
   )
 }
@@ -71,6 +71,8 @@ apt install -y software-properties-common apt-transport-https
 apt-key adv --keyserver keyserver.ubuntu.com --recv 8F3DA4B5E9AEF44C
 add-apt-repository 'deb [ arch=all ] https://repo.vaticle.com/repository/apt/ trusty main' -y
 apt update
+
+apt-get install -y postgresql-client
 
 EOF
 }
