@@ -31,7 +31,10 @@ resource "aws_iam_policy" "policy_write_sqs" {
             "Action": [
               "sqs:SendMessage"
             ],
-            "Resource": "*"
+            "Resource": [
+                  "${aws_sqs_queue.update_typedb.arn}",
+                  "${aws_sqs_queue.update_typedb_deadletter.arn}"
+            ]
         }
     ]
 }
