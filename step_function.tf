@@ -93,7 +93,6 @@ resource "aws_iam_policy" "policy_access_s3" {
               "s3:*"
             ],
             "Resource": [
-                "${aws_s3_bucket.beis-orp-ingest.arn}",
                 "${aws_s3_bucket.beis-orp-datalake.arn}",
                 "${aws_s3_bucket.beis-orp-upload.arn}",
                 "${aws_s3_bucket.beis-orp-clustering-models.arn}",
