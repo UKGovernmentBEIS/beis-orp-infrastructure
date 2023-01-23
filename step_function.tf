@@ -139,66 +139,27 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           "BackoffRate": 2
         }
       ],
-      "Next": "Parallel"
+      "Next": "Keyword Extraction"
     },
-    "Parallel": {
-      "Type": "Parallel",
-      "Branches": [
+    "Keyword Extraction": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:keyword_extraction:$LATEST"
+      },
+      "Retry": [
         {
-          "StartAt": "Keyword Extraction",
-          "States": {
-            "Keyword Extraction": {
-              "Type": "Task",
-              "Resource": "arn:aws:states:::lambda:invoke",
-              "OutputPath": "$.Payload",
-              "Parameters": {
-                "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:keyword_extraction:$LATEST"
-              },
-              "Retry": [
-                {
-                  "ErrorEquals": [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException",
-                    "Lambda.TooManyRequestsException"
-                  ],
-                  "IntervalSeconds": 2,
-                  "MaxAttempts": 0,
-                  "BackoffRate": 2
-                }
-              ],
-              "End": true
-            }
-          }
-        },
-        {
-          "StartAt": "Topic Modelling",
-          "States": {
-            "Topic Modelling": {
-              "Type": "Task",
-              "Resource": "arn:aws:states:::lambda:invoke",
-              "OutputPath": "$.Payload",
-              "Parameters": {
-                "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:bertopic_inference:$LATEST"
-              },
-              "Retry": [
-                {
-                  "ErrorEquals": [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException",
-                    "Lambda.TooManyRequestsException"
-                  ],
-                  "IntervalSeconds": 2,
-                  "MaxAttempts": 0,
-                  "BackoffRate": 2
-                }
-              ],
-              "End": true
-            }
-          }
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 0,
+          "BackoffRate": 2
         }
       ],
       "Next": "TypeDB Ingestion"
