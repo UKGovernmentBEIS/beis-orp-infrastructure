@@ -65,8 +65,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
                 "${module.pdf_to_text.lambda_function_arn}",
                 "${module.typedb_search_query.lambda_function_arn}",
                 "${module.keyword_extraction.lambda_function_arn}",
-                "${module.typedb_ingestion.lambda_function_arn}",
-                "${module.bertopic_inference.lambda_function_arn}"
+                "${module.typedb_ingestion.lambda_function_arn}"
             ]
         }
     ]
@@ -197,4 +196,21 @@ EOF
 
   depends_on = []
 
+}
+
+resource "aws_iam_policy" "policy_invoke_stepFunction" {
+  name        = "stepFunctionInvokeStepFunction"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+             "Action": [ "states:StartExecution" ],
+            "Resource": [ "arn:aws:states:*:*:stateMachine:*" ]
+        }
+     ]
+}
+EOF
 }

@@ -11,6 +11,7 @@ locals {
       typedb_search_query_image_ver = "v.0.1"
       keyword_extraction_image_ver  = "5.1"
       typedb_ingestion_image_ver    = "0.4"
+      bertopic_inference_image_ver  = "7.6"
       pdf_to_text_image_uri         = "1.2.2"
     }
     prod = {
