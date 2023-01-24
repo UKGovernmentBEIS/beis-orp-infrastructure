@@ -73,6 +73,14 @@
       {
         "name": "POSTGRES_FULL",
         "value": "${postgres_full}"
+      },
+      {
+        "name": "COGNITO_USER_POOL",
+        "value": "${cognito_user_pool}"
+      },
+      {
+        "name": "COGNITO_CLIENT_ID",
+        "value": "${cognito_client_id}"
       }
     ],
     "logConfiguration": {
