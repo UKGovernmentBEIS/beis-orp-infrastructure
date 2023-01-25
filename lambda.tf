@@ -8,7 +8,7 @@ module "pdf_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.lambda_config[local.environment].pdf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.lambda_config.pdf_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -78,7 +78,7 @@ module "typedb_search_query" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_search_query:${local.lambda_config[local.environment].typedb_search_query_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_search_query:${local.lambda_config.typedb_search_query_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -99,8 +99,8 @@ module "typedb_search_query" {
   environment_variables = {
     ENVIRONMENT          = local.environment,
     TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
-    TYPEDB_SERVER_PORT   = local.typedb_config[local.environment].typedb_server_port
-    TYPEDB_DATABASE_NAME = local.typedb_config[local.environment].typedb_database_name
+    TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
+    TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
   }
 
   assume_role_policy_statements = {
@@ -157,7 +157,7 @@ module "keyword_extraction" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.lambda_config[local.environment].keyword_extraction_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.lambda_config.keyword_extraction_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -216,7 +216,7 @@ module "typedb_ingestion" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.lambda_config[local.environment].typedb_ingestion_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.lambda_config.typedb_ingestion_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0

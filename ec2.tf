@@ -28,11 +28,11 @@ resource "aws_instance" "typedb" {
   user_data = templatefile("${path.module}/files/typedb-userdata.tpl",
     {
       aws_region             = local.region,
-      database_workdir       = local.typedb_config[local.environment].database_workdir,
-      typedb_database_name   = local.typedb_config[local.environment].typedb_database_name,
-      typedb_database_schema = local.typedb_config[local.environment].typedb_database_schema,
-      typedb_database_file   = local.typedb_config[local.environment].typedb_database_file,
-      typedb_docu_sqs_name   = local.typedb_config[local.environment].typedb_docu_sqs_name
+      database_workdir       = local.typedb_config.database_workdir,
+      typedb_database_name   = local.typedb_config.typedb_database_name,
+      typedb_database_schema = local.typedb_config.typedb_database_schema,
+      typedb_database_file   = local.typedb_config.typedb_database_file,
+      typedb_docu_sqs_name   = local.typedb_config.typedb_docu_sqs_name
     }
   )
 }
