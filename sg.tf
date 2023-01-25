@@ -111,19 +111,19 @@ resource "aws_security_group_rule" "sqs_vpc_endpoint_ingress_all" {
 }
 
 resource "aws_security_group_rule" "typedb_search_query_lambda_to_typedb_instance" {
-  from_port                = local.typedb_config[local.environment].typedb_server_port
+  from_port                = local.typedb_config.typedb_server_port
   protocol                 = "tcp"
   security_group_id        = aws_security_group.typedb_search_query_lambda.id
-  to_port                  = local.typedb_config[local.environment].typedb_server_port
+  to_port                  = local.typedb_config.typedb_server_port
   type                     = "egress"
   source_security_group_id = aws_security_group.typedb_instance.id
 }
 
 resource "aws_security_group_rule" "typedb_instance_from_typedb_search_query_lambda" {
-  from_port                = local.typedb_config[local.environment].typedb_server_port
+  from_port                = local.typedb_config.typedb_server_port
   protocol                 = "tcp"
   security_group_id        = aws_security_group.typedb_instance.id
-  to_port                  = local.typedb_config[local.environment].typedb_server_port
+  to_port                  = local.typedb_config.typedb_server_port
   type                     = "ingress"
   source_security_group_id = aws_security_group.typedb_search_query_lambda.id
 }
