@@ -2,7 +2,7 @@ locals {
   package_url = var.package_url
   downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
 
-  environment = terraform.workspace == "default" ? "dev" : terraform.workspace
+  environment = var.environment
   region      = "eu-west-2"
 
   lambda_config = {
