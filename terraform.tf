@@ -33,5 +33,5 @@ terraform {
 
 provider "aws" {
   region = var.region
-  profile = var.tf_profile
+#  profile = var.tf_profile
 }
