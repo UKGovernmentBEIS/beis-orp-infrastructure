@@ -58,14 +58,14 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                "lambda:InvokeFunction",
-                "lambda:InvokeAsync"
+                "lambda:*"
             ],
             "Resource": [
                 "${module.pdf_to_text.lambda_function_arn}",
                 "${module.typedb_search_query.lambda_function_arn}",
                 "${module.keyword_extraction.lambda_function_arn}",
-                "${module.typedb_ingestion.lambda_function_arn}"
+                "${module.typedb_ingestion.lambda_function_arn}",
+                "arn:aws:lambda:eu-west-2:*:*"
             ]
         }
     ]
