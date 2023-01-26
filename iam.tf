@@ -289,50 +289,6 @@ resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
   })
 }
 
-resource "aws_iam_policy" "bertopic_inference_to_s3" {
-  name        = "bertopic-inference-Lambda-to-S3"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:GetObject",
-          "s3:ListBucket"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "bertopic_inference_to_document_db" {
-  name        = "bertopic-inference-to-document-db"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "docdb-elastic:*"
-        ],
-        "Resource" : [
-          module.beis_orp_documentdb_cluster.arn
-        ]
-      }
-    ]
-  })
-}
-
 resource "aws_iam_policy" "lambda_invoke_keyword_extraction" {
   name        = "lambda_invoke_keyword_extraction"
   path        = "/"
