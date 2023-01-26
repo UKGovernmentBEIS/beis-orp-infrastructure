@@ -44,7 +44,7 @@ resource "aws_security_group" "pdf_to_text_lambda" {
 }
 
 resource "aws_security_group" "typedb_search_query_lambda" {
-  name        = "beis-orp-typedb-search--lambda"
+  name        = "beis-orp-typedb-search-query-lambda"
   description = "Security Group for BEIS ORP typedb-search-query Lambda"
   vpc_id      = module.vpc.vpc_id
 }
