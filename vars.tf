@@ -34,10 +34,6 @@ variable "typedb_ingestion_image_ver" {
   type = string
 }
 
-variable "bertopic_inference_image_ver" {
-  type = string
-}
-
 variable "pdf_to_text_image_uri" {
   type = string
 }
