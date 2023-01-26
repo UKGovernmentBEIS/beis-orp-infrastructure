@@ -19,3 +19,8 @@ resource "aws_cognito_user_pool_client" "beis_client" {
 
   user_pool_id = aws_cognito_user_pool.beis.id
 }
+
+resource "aws_cognito_user_pool_domain" "main" {
+  domain       = "beis-orp"
+  user_pool_id = aws_cognito_user_pool.beis.id
+}
