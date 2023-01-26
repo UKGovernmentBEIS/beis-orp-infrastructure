@@ -1,6 +1,7 @@
 locals {
   package_url = var.package_url
   downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
+  route53_domain = var.route53_domain
 
   environment = var.environment
   region      = "eu-west-2"
