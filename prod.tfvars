@@ -1,5 +1,9 @@
+route53_zone_dev = false
+route53_zone_prod = true
+route53_domain = "bre-orp-alpha.io"
+
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
-tf_profile = "terraform"
+tf_profile = "personal"
 environment = "prod"
 region      = "eu-west-2"
 
@@ -18,7 +22,7 @@ typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
 
-domain           = "https://app.dev.cannonband.com/"
+domain           = "https://app.dev.bre-orp-alpha.io/"
 s3_upload_bucket = "beis-orp-dev-upload"
 mc_server        = "us13"
 mc_list          = "d8234fcc62"
