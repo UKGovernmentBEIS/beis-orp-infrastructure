@@ -78,7 +78,7 @@ module "doc_to_pdf" {
   memory_size            = "1024"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/doc-to-pdf:${local.lambda_config.pdf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/doc-to-pdf:latest"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -126,7 +126,7 @@ module "doc_to_pdf" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.pdf_to_text_lambda_s3_policy.arn
+    aws_iam_policy.doc_to_pdf_lambda_s3_policy.arn
   ]
   number_of_policies = 4
 
