@@ -42,16 +42,8 @@ resource "aws_cognito_user_pool_domain" "main" {
 resource "aws_cognito_user_pool" "beis_api" {
   name = "beis-api"
 
-  username_attributes = ["email"]
-
-  auto_verified_attributes = [
-    "email",
-  ]
-
-  user_attribute_update_settings {
-    attributes_require_verification_before_update = [
-      "email",
-    ]
+  username_configuration {
+    case_sensitive = false
   }
 
   verification_message_template {
