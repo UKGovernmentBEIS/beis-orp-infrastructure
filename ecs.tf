@@ -37,7 +37,7 @@ resource "aws_ecs_service" "webserver" {
   }
   depends_on = [
     #    module.alb.https_listeners,
-    module.alb.http_tcp_listeners,
+#    module.alb.http_tcp_listeners,
     aws_iam_role_policy.ecs_svc_policy
   ]
 }
@@ -74,6 +74,8 @@ resource "aws_ecs_task_definition" "webserver" {
       postgres_full          = "postgres://${module.db_postgresql.cluster_master_username}:${module.db_postgresql.cluster_master_password}@${module.db_postgresql.cluster_endpoint}:5432/beis"
       cognito_user_pool      = aws_cognito_user_pool.beis.id
       cognito_client_id      = aws_cognito_user_pool_client.beis_client.id
+      cognito_api_user_pool  = aws_cognito_user_pool.beis_api.id
+      cognito_api_client_id  = aws_cognito_user_pool_client.beis_api_client.id
     }
   )
 }
