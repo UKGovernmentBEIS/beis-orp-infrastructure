@@ -62,7 +62,7 @@ resource "aws_cognito_user_pool" "beis_api" {
     attribute_data_type      = "String"
     developer_only_attribute = false
     mutable                  = true
-    name                     = "custom:regulator"
+    name                     = "regulator"
     required                 = false
     string_attribute_constraints {
       max_length = "2048"
