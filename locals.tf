@@ -8,6 +8,9 @@ locals {
 
   lambda_config = {
     typedb_search_query_image_ver = var.typedb_search_query_image_ver
+    ddb_user                      = var.ddb_user
+    ddb_password                  = var.ddb_password
+    ddb_domain                    = var.ddb_domain
   }
 
   pdf_to_text_config = {

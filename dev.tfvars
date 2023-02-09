@@ -7,6 +7,10 @@ tf_profile = "terraform-dev"
 environment = "dev"
 region      = "eu-west-2"
 
+ddb_user        = "ddbadmin"
+ddb_password    = "Test123456789"
+ddb_domain      = "beis-orp-dev-beis-orp.cluster-cau6o2mf7iuc.eu-west-2.docdb.amazonaws.com"
+
 pdf_to_text_image_ver         = "latest"
 typedb_search_query_image_ver = "v.0.1"
 keyword_extraction_image_ver  = "latest"

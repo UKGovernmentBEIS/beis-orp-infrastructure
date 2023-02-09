@@ -7,6 +7,10 @@ tf_profile = "personal"
 environment = "prod"
 region      = "eu-west-2"
 
+ddb_user        = ""
+ddb_password    = ""
+ddb_domain      = ""
+
 pdf_to_text_image_ver         = "latest"
 typedb_search_query_image_ver = "latest"
 keyword_extraction_image_ver  = "latest"

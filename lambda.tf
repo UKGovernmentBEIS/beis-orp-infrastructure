@@ -22,7 +22,10 @@ module "pdf_to_text" {
   ]
 
   environment_variables = {
-    ENVIRONMENT = local.environment
+    ENVIRONMENT   = local.environment
+    DDB_USER      = local.lambda_config.ddb_user
+    DDB_PASSWORD  = local.lambda_config.ddb_password
+    DDB_DOMAIN    = local.lambda_config.ddb_domain
   }
 
   assume_role_policy_statements = {
@@ -240,6 +243,13 @@ module "keyword_extraction" {
     module.vpc.default_security_group_id
   ]
 
+  environment_variables = {
+    ENVIRONMENT   = local.environment
+    DDB_USER      = local.lambda_config.ddb_user
+    DDB_PASSWORD  = local.lambda_config.ddb_password
+    DDB_DOMAIN    = local.lambda_config.ddb_domain
+  }
+
   assume_role_policy_statements = {
     account_root = {
       effect  = "Allow",
@@ -298,6 +308,13 @@ module "typedb_ingestion" {
     aws_security_group.typedb_ingestion_lambda.id,
     aws_security_group.sqs_vpc_endpoint.id
   ]
+
+  environment_variables = {
+    ENVIRONMENT   = local.environment
+    DDB_USER      = local.lambda_config.ddb_user
+    DDB_PASSWORD  = local.lambda_config.ddb_password
+    DDB_DOMAIN    = local.lambda_config.ddb_domain
+  }
 
   assume_role_policy_statements = {
     account_root = {
