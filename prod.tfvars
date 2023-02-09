@@ -11,7 +11,6 @@ pdf_to_text_image_ver         = "latest"
 typedb_search_query_image_ver = "latest"
 keyword_extraction_image_ver  = "latest"
 typedb_ingestion_image_ver    = "latest"
-pdf_to_text_image_uri         = "latest"
 
 database_workdir       = "graph_database"
 typedb_database_name   = "orp-mvp-v0.1"
