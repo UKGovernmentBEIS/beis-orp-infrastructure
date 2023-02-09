@@ -23,6 +23,7 @@ typedb_database_file   = "orp-mvp-kgdb.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
+destination_sqs_url     = "https://sqs.eu-west-2.amazonaws.com/455762151948/update-typedb"
 
 domain           = "https://app.dev.cannonband.com/"
 s3_upload_bucket = "beis-orp-dev-upload"

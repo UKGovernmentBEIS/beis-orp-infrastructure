@@ -46,6 +46,10 @@ variable "typedb_ingestion_image_ver" {
   type = string
 }
 
+variable "destination_sqs_url" {
+  type = string
+}
+
 variable "database_workdir" {
   type = string
 }

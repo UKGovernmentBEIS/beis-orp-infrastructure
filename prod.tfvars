@@ -23,6 +23,7 @@ typedb_database_file   = "orp-mvp-kgdb.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
+destination_sqs_url     = ""
 
 domain           = "https://app.dev.bre-orp-alpha.io/"
 s3_upload_bucket = "beis-orp-dev-upload"

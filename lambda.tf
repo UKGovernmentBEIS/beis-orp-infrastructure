@@ -311,10 +311,11 @@ module "typedb_ingestion" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    DDB_USER      = local.lambda_config.ddb_user
-    DDB_PASSWORD  = local.lambda_config.ddb_password
-    DDB_DOMAIN    = local.lambda_config.ddb_domain
+    ENVIRONMENT           = local.environment
+    DDB_USER              = local.lambda_config.ddb_user
+    DDB_PASSWORD          = local.lambda_config.ddb_password
+    DDB_DOMAIN            = local.lambda_config.ddb_domain
+    DESTINATION_SQS_URL   = local.typedb_ingestion_config.destination_sqs_url
   }
 
   assume_role_policy_statements = {

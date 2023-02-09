@@ -27,6 +27,7 @@ locals {
 
   tydedb_ingestion_config = {
     typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
+    destination_sqs_url           = var.destination_sqs_url
   }
 
   typedb_config = {
