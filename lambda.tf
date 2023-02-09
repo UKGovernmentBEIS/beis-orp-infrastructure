@@ -249,6 +249,8 @@ module "keyword_extraction" {
     DDB_USER      = local.lambda_config.ddb_user
     DDB_PASSWORD  = local.lambda_config.ddb_password
     DDB_DOMAIN    = local.lambda_config.ddb_domain
+    SOURCE_BUCKET = local.lambda_config.s3_data_lake
+    MODEL_BUCKET  = local.lambda_config.s3_model_bucket
   }
 
   assume_role_policy_statements = {

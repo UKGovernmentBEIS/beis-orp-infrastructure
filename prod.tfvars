@@ -7,9 +7,9 @@ tf_profile = "personal"
 environment = "prod"
 region      = "eu-west-2"
 
-ddb_user        = ""
-ddb_password    = ""
-ddb_domain      = ""
+ddb_user        = "ddbadmin"
+ddb_password    = "Test123456789"
+ddb_domain      = "beis-orp-dev-beis-orp.cluster-cau6o2mf7iuc.eu-west-2.docdb.amazonaws.com"
 
 pdf_to_text_image_ver         = "latest"
 typedb_search_query_image_ver = "latest"
@@ -23,11 +23,12 @@ typedb_database_file   = "orp-mvp-kgdb.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
-destination_sqs_url     = ""
+destination_sqs_url     = "https://sqs.eu-west-2.amazonaws.com/455762151948/update-typedb"
 
 domain           = "https://app.dev.bre-orp-alpha.io/"
 s3_upload_bucket = "beis-orp-dev-upload"
 s3_data_lake     = "beis-orp-dev-datalake"
+s3_model_bucket  = "beis-orp-dev-clustering-models"
 mc_server        = "us13"
 mc_list          = "d8234fcc62"
 orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"

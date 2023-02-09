@@ -86,6 +86,10 @@ variable "s3_data_lake" {
   type = string
 }
 
+variable "s3_model_bucket" {
+  type = string
+}
+
 variable "mc_server" {
   type = string
 }

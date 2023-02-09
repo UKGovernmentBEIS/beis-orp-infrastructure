@@ -13,6 +13,7 @@ locals {
     ddb_domain                    = var.ddb_domain
     s3_upload_bucket              = var.s3_upload_bucket
     s3_data_lake                  = var.s3_data_lake
+    s3_model_bucket               = var.s3_model_bucket
   }
 
   pdf_to_text_config = {
