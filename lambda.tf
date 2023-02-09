@@ -22,10 +22,11 @@ module "pdf_to_text" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    DDB_USER      = local.lambda_config.ddb_user
-    DDB_PASSWORD  = local.lambda_config.ddb_password
-    DDB_DOMAIN    = local.lambda_config.ddb_domain
+    ENVIRONMENT         = local.environment
+    DDB_USER            = local.lambda_config.ddb_user
+    DDB_PASSWORD        = local.lambda_config.ddb_password
+    DDB_DOMAIN          = local.lambda_config.ddb_domain
+    DESTINATION_BUCKET  = local.lambda.s3_data_lake
   }
 
   assume_role_policy_statements = {

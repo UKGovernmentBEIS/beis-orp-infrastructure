@@ -26,6 +26,7 @@ typedb_server_port     = 1729
 
 domain           = "https://app.dev.bre-orp-alpha.io/"
 s3_upload_bucket = "beis-orp-dev-upload"
+s3_data_lake     = "beis-orp-dev-datalake"
 mc_server        = "us13"
 mc_list          = "d8234fcc62"
 orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"

@@ -11,6 +11,8 @@ locals {
     ddb_user                      = var.ddb_user
     ddb_password                  = var.ddb_password
     ddb_domain                    = var.ddb_domain
+    s3_upload_bucket              = var.s3_upload_bucket
+    s3_data_lake                  = var.s3_data_lake
   }
 
   pdf_to_text_config = {
@@ -19,14 +21,12 @@ locals {
 
   keyword_extraction_config = {
     keyword_extraction_image_ver  = var.keyword_extraction_image_ver
-
   }
 
   text_summarisation_config = {}
 
   tydedb_ingestion_config = {
     typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
-
   }
 
   typedb_config = {
