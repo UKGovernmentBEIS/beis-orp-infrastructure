@@ -154,7 +154,7 @@ resource "aws_iam_policy" "pdf_to_text_lambda_s3_policy" {
 }
 
 resource "aws_iam_policy" "doc_to_pdf_lambda_s3_policy" {
-  name        = "pdf-to-text-Lambda-to-S3"
+  name        = "doc-to-pdf-Lambda-to-S3"
   path        = "/"
   description = "Allow "
 
