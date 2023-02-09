@@ -8,7 +8,7 @@ module "pdf_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.lambda_config.pdf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.pdf_to_text_config.pdf_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -227,7 +227,7 @@ module "keyword_extraction" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.lambda_config.keyword_extraction_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.keyword_extraction_config.keyword_extraction_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -286,7 +286,7 @@ module "typedb_ingestion" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.lambda_config.typedb_ingestion_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.typedb_ingestion_config.typedb_ingestion_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0

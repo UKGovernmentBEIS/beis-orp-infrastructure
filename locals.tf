@@ -7,11 +7,23 @@ locals {
   region      = "eu-west-2"
 
   lambda_config = {
-    pdf_to_text_image_ver         = var.pdf_to_text_image_ver
     typedb_search_query_image_ver = var.typedb_search_query_image_ver
+  }
+
+  pdf_to_text_config = {
+    pdf_to_text_image_ver         = var.pdf_to_text_image_ver
+  }
+
+  keyword_extraction_config = {
     keyword_extraction_image_ver  = var.keyword_extraction_image_ver
+
+  }
+
+  text_summarisation_config = {}
+
+  tydedb_ingestion_config = {
     typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
-    pdf_to_text_image_uri         = var.pdf_to_text_image_uri
+
   }
 
   typedb_config = {
@@ -21,7 +33,7 @@ locals {
     typedb_database_file   = var.typedb_database_file
     typedb_docu_sqs_name   = var.typedb_docu_sqs_name
     typedb_server_port     = var.typedb_server_port
-    }
+  }
 #    prod = {
 #      database_workdir       = "graph_database"
 #      typedb_database_name   = "orp-mvp-v0.1"
