@@ -52,7 +52,7 @@ resource "aws_security_group_rule" "documentdb_cluster_from_summarisation_lambda
 }
 
 resource "aws_security_group_rule" "documentdb_cluster_from_title_generation_lambda" {
-  description      = "Manually added rule for title_generation"
+  description      = "Rule for title_generation Lambda"
   from_port         = 27017
   protocol          = "tcp"
   security_group_id = aws_security_group.documentdb_cluster.id

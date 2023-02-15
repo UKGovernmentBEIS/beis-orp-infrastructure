@@ -26,7 +26,7 @@ module "pdf_to_text" {
     DDB_USER            = local.lambda_config.ddb_user
     DDB_PASSWORD        = local.lambda_config.ddb_password
     DDB_DOMAIN          = local.lambda_config.ddb_domain
-    DESTINATION_BUCKET  = local.lambda.s3_data_lake
+    DESTINATION_BUCKET  = local.lambda_config.s3_data_lake
   }
 
   assume_role_policy_statements = {
