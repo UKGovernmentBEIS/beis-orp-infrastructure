@@ -26,9 +26,9 @@ locals {
 
   text_summarisation_config = {}
 
-  tydedb_ingestion_config = {
+  typedb_ingestion_config = {
     typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
-    destination_sqs_url           = var.destination_sqs_url
+    destination_sqs_url           = aws_sqs_queue.update_typedb.url
   }
 
   typedb_config = {

@@ -63,6 +63,8 @@ data "aws_iam_policy_document" "ecs_instance" {
       "rds:*",
       "logs:*",
       "secretsmanager:*",
+      "cognito:*",
+      "cognito-idp:*",
     ]
   }
 }

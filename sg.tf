@@ -31,6 +31,36 @@ resource "aws_security_group" "documentdb_cluster" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group_rule" "documentdb_cluster_from_odf_extraction_lambda" {
+  description      = "Manually added rule for odf_extraction"
+  from_port         = 27017
+  protocol          = "tcp"
+  security_group_id = aws_security_group.documentdb_cluster.id
+  to_port           = 27017
+  type              = "ingress"
+  source_security_group_id = "sg-0a86bb71fdd44ff20"
+}
+
+resource "aws_security_group_rule" "documentdb_cluster_from_summarisation_lambda" {
+  description      = "Manually added rule for summarisation"
+  from_port         = 27017
+  protocol          = "tcp"
+  security_group_id = aws_security_group.documentdb_cluster.id
+  to_port           = 27017
+  type              = "ingress"
+  source_security_group_id = "sg-09f2435835250f0c5"
+}
+
+resource "aws_security_group_rule" "documentdb_cluster_from_title_generation_lambda" {
+  description      = "Rule for title_generation Lambda"
+  from_port         = 27017
+  protocol          = "tcp"
+  security_group_id = aws_security_group.documentdb_cluster.id
+  to_port           = 27017
+  type              = "ingress"
+  source_security_group_id = "sg-0ef01bb033a5b7bba"
+}
+
 resource "aws_security_group" "mongo_bastion_instance" {
   name        = "beis-orp-mongo-bastion-instance"
   description = "Security Group for BEIS ORP Mongo Bastion EC2 Instance"

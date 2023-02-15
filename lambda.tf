@@ -26,7 +26,7 @@ module "pdf_to_text" {
     DDB_USER            = local.lambda_config.ddb_user
     DDB_PASSWORD        = local.lambda_config.ddb_password
     DDB_DOMAIN          = local.lambda_config.ddb_domain
-    DESTINATION_BUCKET  = local.lambda.s3_data_lake
+    DESTINATION_BUCKET  = local.lambda_config.s3_data_lake
   }
 
   assume_role_policy_statements = {
@@ -105,6 +105,7 @@ module "typedb_search_query" {
     TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
     TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
     TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
+    NLTK_DATA           = "./nltk_data"
   }
 
   assume_role_policy_statements = {

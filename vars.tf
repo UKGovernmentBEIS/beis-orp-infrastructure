@@ -22,11 +22,11 @@ variable "ddb_user" {
   type = string
 }
 
-variable "ddb_user" {
+variable "ddb_password" {
   type = string
 }
 
-variable "ddb_user" {
+variable "ddb_domain" {
   type = string
 }
 
@@ -43,10 +43,6 @@ variable "keyword_extraction_image_ver" {
 }
 
 variable "typedb_ingestion_image_ver" {
-  type = string
-}
-
-variable "destination_sqs_url" {
   type = string
 }
 
