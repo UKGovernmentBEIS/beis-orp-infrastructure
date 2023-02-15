@@ -18,6 +18,18 @@ variable "environment" {
   type = string
 }
 
+variable "ddb_user" {
+  type = string
+}
+
+variable "ddb_user" {
+  type = string
+}
+
+variable "ddb_user" {
+  type = string
+}
+
 variable "pdf_to_text_image_ver" {
   type = string
 }
@@ -34,7 +46,7 @@ variable "typedb_ingestion_image_ver" {
   type = string
 }
 
-variable "pdf_to_text_image_uri" {
+variable "destination_sqs_url" {
   type = string
 }
 
@@ -67,6 +79,14 @@ variable "domain" {
 }
 
 variable "s3_upload_bucket" {
+  type = string
+}
+
+variable "s3_data_lake" {
+  type = string
+}
+
+variable "s3_model_bucket" {
   type = string
 }
 

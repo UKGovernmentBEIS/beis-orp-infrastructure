@@ -8,7 +8,7 @@ module "pdf_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.lambda_config.pdf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.pdf_to_text_config.pdf_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -22,7 +22,11 @@ module "pdf_to_text" {
   ]
 
   environment_variables = {
-    ENVIRONMENT = local.environment
+    ENVIRONMENT         = local.environment
+    DDB_USER            = local.lambda_config.ddb_user
+    DDB_PASSWORD        = local.lambda_config.ddb_password
+    DDB_DOMAIN          = local.lambda_config.ddb_domain
+    DESTINATION_BUCKET  = local.lambda.s3_data_lake
   }
 
   assume_role_policy_statements = {
@@ -57,76 +61,6 @@ module "pdf_to_text" {
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
     aws_iam_policy.pdf_to_text_lambda_s3_policy.arn
-  ]
-  number_of_policies = 4
-
-  #  allowed_triggers = {
-  #    update_images = {
-  #      principal  = "events.amazonaws.com"
-  #      source_arn = module.eventbridge.eventbridge_rule_arns["update_images"]
-  #    }
-  #  }
-}
-
-module "doc_to_pdf" {
-  source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
-
-  function_name          = "doc_to_pdf"
-  handler                = "doc_to_pdf.handler"
-  runtime                = "python3.8"
-  memory_size            = "1024"
-  timeout                = 900
-  create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/doc-to-pdf:latest"
-  package_type           = "Image"
-  vpc_subnet_ids         = module.vpc.private_subnets
-  maximum_retry_attempts = 0
-  attach_network_policy  = true
-
-  create_current_version_allowed_triggers = false
-
-  vpc_security_group_ids = [
-    aws_security_group.doc_to_pdf_lambda.id,
-    module.vpc.default_security_group_id
-  ]
-
-  environment_variables = {
-    ENVIRONMENT = local.environment
-  }
-
-  assume_role_policy_statements = {
-    account_root = {
-      effect  = "Allow",
-      actions = ["sts:AssumeRole"],
-      principals = {
-        account_principal = {
-          type        = "AWS",
-          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-        }
-      }
-    }
-    lambda = {
-      effect  = "Allow",
-      actions = ["sts:AssumeRole"],
-      principals = {
-        rds_principal = {
-          type = "Service"
-          identifiers = [
-            "lambda.amazonaws.com",
-          ]
-        }
-      }
-    }
-  }
-
-  #Attaching AWS policies
-  attach_policies = true
-  policies = [
-    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
-    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.doc_to_pdf_lambda_s3_policy.arn
   ]
   number_of_policies = 4
 
@@ -228,7 +162,7 @@ module "keyword_extraction" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.lambda_config.keyword_extraction_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.keyword_extraction_config.keyword_extraction_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -240,6 +174,15 @@ module "keyword_extraction" {
     aws_security_group.keyword_extraction_lambda.id,
     module.vpc.default_security_group_id
   ]
+
+  environment_variables = {
+    ENVIRONMENT   = local.environment
+    DDB_USER      = local.lambda_config.ddb_user
+    DDB_PASSWORD  = local.lambda_config.ddb_password
+    DDB_DOMAIN    = local.lambda_config.ddb_domain
+    SOURCE_BUCKET = local.lambda_config.s3_data_lake
+    MODEL_BUCKET  = local.lambda_config.s3_model_bucket
+  }
 
   assume_role_policy_statements = {
     account_root = {
@@ -287,7 +230,7 @@ module "typedb_ingestion" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.lambda_config.typedb_ingestion_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.typedb_ingestion_config.typedb_ingestion_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -299,6 +242,14 @@ module "typedb_ingestion" {
     aws_security_group.typedb_ingestion_lambda.id,
     aws_security_group.sqs_vpc_endpoint.id
   ]
+
+  environment_variables = {
+    ENVIRONMENT           = local.environment
+    DDB_USER              = local.lambda_config.ddb_user
+    DDB_PASSWORD          = local.lambda_config.ddb_password
+    DDB_DOMAIN            = local.lambda_config.ddb_domain
+    DESTINATION_SQS_URL   = local.typedb_ingestion_config.destination_sqs_url
+  }
 
   assume_role_policy_statements = {
     account_root = {

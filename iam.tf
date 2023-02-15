@@ -153,32 +153,6 @@ resource "aws_iam_policy" "pdf_to_text_lambda_s3_policy" {
   })
 }
 
-resource "aws_iam_policy" "doc_to_pdf_lambda_s3_policy" {
-  name        = "doc-to-pdf-Lambda-to-S3"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn,
-          aws_s3_bucket.beis-orp-upload.arn
-        ]
-      }
-    ]
-  })
-}
-
 resource "aws_iam_policy" "update_typedb_sqs_queue" {
   name        = "udpate-typedb-sqs-queue"
   path        = "/"
