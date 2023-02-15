@@ -43,12 +43,6 @@ resource "aws_security_group" "pdf_to_text_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group" "doc_to_pdf_lambda" {
-  name        = "beis-orp-doc-to-pdf-lambda"
-  description = "Security Group for BEIS ORP pdf-to-text Lambda"
-  vpc_id      = module.vpc.vpc_id
-}
-
 resource "aws_security_group" "typedb_search_query_lambda" {
   name        = "beis-orp-typedb-search-query-lambda"
   description = "Security Group for BEIS ORP typedb-search-query Lambda"
@@ -150,15 +144,6 @@ resource "aws_security_group_rule" "keyword_extraction_lambda_s3_pfl" {
   from_port         = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.keyword_extraction_lambda.id
-  to_port           = 443
-  type              = "egress"
-  cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
-}
-
-resource "aws_security_group_rule" "doc_to_pdf_lambda_s3_pfl" {
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.doc_to_pdf_lambda.id
   to_port           = 443
   type              = "egress"
   cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]

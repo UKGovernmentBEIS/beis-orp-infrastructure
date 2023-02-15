@@ -130,7 +130,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "StringMatches": "*.docx"
             }
           ],
-          "Next": "Convert .doc to .pdf"
+          "Next": "Fail"
         },
         {
           "Variable": "$.detail.object.key",
@@ -139,29 +139,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         }
       ],
       "Default": "Fail"
-    },
-    "Convert .doc to .pdf": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke",
-      "OutputPath": "$.Payload",
-      "Parameters": {
-        "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:doc_to_pdf:$LATEST"
-      },
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException",
-            "Lambda.TooManyRequestsException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 0,
-          "BackoffRate": 2
-        }
-      ],
-      "Next": "Convert .pdf to .txt"
     },
     "Convert .pdf to .txt": {
       "Type": "Task",
