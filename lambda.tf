@@ -171,6 +171,7 @@ module "typedb_search_query" {
     TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
     TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
     TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
+    NLTK_DATA           = "./nltk_data"
   }
 
   assume_role_policy_statements = {

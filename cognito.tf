@@ -61,6 +61,15 @@ resource "aws_cognito_user_pool" "beis_api" {
       min_length = "0"
     }
   }
+
+  password_policy {
+    minimum_length = 6
+    require_lowercase = false
+    require_uppercase = false
+    require_numbers = false
+    require_symbols = false
+    temporary_password_validity_days = 7
+  }
 }
 
 resource "aws_cognito_user_pool_client" "beis_api_client" {
