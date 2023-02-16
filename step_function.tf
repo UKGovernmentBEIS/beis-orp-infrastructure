@@ -62,7 +62,6 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
             ],
             "Resource": [
                 "${module.pdf_to_text.lambda_function_arn}",
-                "${module.typedb_search_query.lambda_function_arn}",
                 "${module.keyword_extraction.lambda_function_arn}",
                 "${module.typedb_ingestion.lambda_function_arn}",
                 "arn:aws:lambda:eu-west-2:*:*"
@@ -130,7 +129,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "StringMatches": "*.docx"
             }
           ],
-          "Next": "Fail"
+          "Next": "Convert .docx to .txt"
         },
         {
           "Variable": "$.detail.object.key",
@@ -139,6 +138,29 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         }
       ],
       "Default": "Fail"
+    },
+    "Convert .docx to .txt": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:docx_to_text:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 0,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Keyword Extraction"
     },
     "Convert .pdf to .txt": {
       "Type": "Task",

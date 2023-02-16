@@ -12,6 +12,7 @@ ddb_password    = "Test123456789"
 ddb_domain      = "beis-orp-dev-beis-orp.cluster-cau6o2mf7iuc.eu-west-2.docdb.amazonaws.com"
 
 pdf_to_text_image_ver         = "latest"
+docx_to_text_image_ver        = "latest"
 typedb_search_query_image_ver = "test-filter.0.1"
 keyword_extraction_image_ver  = "latest"
 typedb_ingestion_image_ver    = "latest"

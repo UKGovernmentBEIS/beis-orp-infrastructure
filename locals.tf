@@ -20,6 +20,10 @@ locals {
     pdf_to_text_image_ver         = var.pdf_to_text_image_ver
   }
 
+  docx_to_text_config = {
+    docx_to_text_image_ver         = var.docx_to_text_image_ver
+  }
+
   keyword_extraction_config = {
     keyword_extraction_image_ver  = var.keyword_extraction_image_ver
   }
