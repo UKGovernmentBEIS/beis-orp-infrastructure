@@ -34,7 +34,7 @@ variable "pdf_to_text_image_ver" {
   type = string
 }
 
-variable "typedb_search_query_image_ver" {
+variable "docx_to_text_image_ver" {
   type = string
 }
 
@@ -43,6 +43,10 @@ variable "keyword_extraction_image_ver" {
 }
 
 variable "typedb_ingestion_image_ver" {
+  type = string
+}
+
+variable "typedb_search_query_image_ver" {
   type = string
 }
 

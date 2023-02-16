@@ -12,6 +12,7 @@ ddb_password    = "Test123456789"
 ddb_domain      = "beis-orp-dev-beis-orp.cluster-cau6o2mf7iuc.eu-west-2.docdb.amazonaws.com"
 
 pdf_to_text_image_ver         = "latest"
+docx_to_text_image_ver        = "latest"
 typedb_search_query_image_ver = "test-filter.0.2"
 keyword_extraction_image_ver  = "latest"
 typedb_ingestion_image_ver    = "latest"
@@ -22,6 +23,8 @@ typedb_database_schema = "orp-gdb-schema.tql"
 typedb_database_file   = "orp-mvp-kgdb.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
+
+destination_sqs_url     = aws_sqs_queue.update_typedb.url
 
 domain           = "https://app.dev.cannonband.com/"
 s3_upload_bucket = "beis-orp-dev-upload"
