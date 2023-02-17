@@ -24,6 +24,10 @@ locals {
     docx_to_text_image_ver         = var.docx_to_text_image_ver
   }
 
+  title_generation_config = {
+    title_generation_image_ver    = var.title_generation_image_ver
+  }
+
   keyword_extraction_config = {
     keyword_extraction_image_ver  = var.keyword_extraction_image_ver
   }

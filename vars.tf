@@ -38,6 +38,10 @@ variable "docx_to_text_image_ver" {
   type = string
 }
 
+variable "title_generation_image_ver" {
+  type = string
+}
+
 variable "keyword_extraction_image_ver" {
   type = string
 }

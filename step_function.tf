@@ -62,6 +62,8 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
             ],
             "Resource": [
                 "${module.pdf_to_text.lambda_function_arn}",
+                "${module.docx_to_text.lambda_function_arn}",
+                "${module.typedb_ingestion.lambda_function_arn}",
                 "${module.keyword_extraction.lambda_function_arn}",
                 "${module.typedb_ingestion.lambda_function_arn}",
                 "arn:aws:lambda:eu-west-2:*:*"
@@ -160,7 +162,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           "BackoffRate": 2
         }
       ],
-      "Next": "Keyword Extraction"
+      "Next": "Parallel"
     },
     "Convert .pdf to .txt": {
       "Type": "Task",
@@ -183,30 +185,69 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           "BackoffRate": 2
         }
       ],
-      "Next": "Keyword Extraction"
+      "Next": "Parallel"
     },
-    "Keyword Extraction": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke",
-      "OutputPath": "$.Payload",
-      "Parameters": {
-        "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:keyword_extraction:$LATEST"
-      },
-      "Retry": [
+    "Parallel": {
+      "Type": "Parallel",
+      "Next": "TypeDB Ingestion",
+      "Branches": [
         {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException",
-            "Lambda.TooManyRequestsException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 0,
-          "BackoffRate": 2
+          "StartAt": "Title Generation",
+          "States": {
+            "Title Generation": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "OutputPath": "$.Payload",
+              "Parameters": {
+                "Payload.$": "$",
+                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:title_generation:$LATEST"
+              },
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException",
+                    "Lambda.TooManyRequestsException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 0,
+                  "BackoffRate": 2
+                }
+              ],
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Keyword Extraction",
+          "States": {
+            "Keyword Extraction": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "OutputPath": "$.Payload",
+              "Parameters": {
+                "Payload.$": "$",
+                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:keyword_extraction:$LATEST"
+              },
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException",
+                    "Lambda.TooManyRequestsException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 0,
+                  "BackoffRate": 2
+                }
+              ],
+              "End": true
+            }
+          }
         }
-      ],
-      "Next": "TypeDB Ingestion"
+      ]
     },
     "TypeDB Ingestion": {
       "Type": "Task",
