@@ -11,9 +11,9 @@ locals {
     ddb_user                      = var.ddb_user
     ddb_password                  = var.ddb_password
     ddb_domain                    = var.ddb_domain
-    s3_upload_bucket              = var.s3_upload_bucket
-    s3_data_lake                  = var.s3_data_lake
-    s3_model_bucket               = var.s3_model_bucket
+    # s3_upload_bucket              = var.s3_upload_bucket
+    # s3_data_lake                  = var.s3_data_lake
+    # s3_model_bucket               = var.s3_model_bucket
   }
 
   pdf_to_text_config = {
@@ -22,6 +22,10 @@ locals {
 
   docx_to_text_config = {
     docx_to_text_image_ver         = var.docx_to_text_image_ver
+  }
+
+  title_generation_config = {
+    title_generation_image_ver    = var.title_generation_image_ver
   }
 
   keyword_extraction_config = {

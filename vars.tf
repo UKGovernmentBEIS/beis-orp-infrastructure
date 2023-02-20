@@ -38,6 +38,10 @@ variable "docx_to_text_image_ver" {
   type = string
 }
 
+variable "title_generation_image_ver" {
+  type = string
+}
+
 variable "keyword_extraction_image_ver" {
   type = string
 }
@@ -78,17 +82,17 @@ variable "domain" {
   type = string
 }
 
-variable "s3_upload_bucket" {
-  type = string
-}
+# variable "s3_upload_bucket" {
+#   type = string
+# }
 
-variable "s3_data_lake" {
-  type = string
-}
+# variable "s3_data_lake" {
+#   type = string
+# }
 
-variable "s3_model_bucket" {
-  type = string
-}
+# variable "s3_model_bucket" {
+#   type = string
+# }
 
 variable "mc_server" {
   type = string
