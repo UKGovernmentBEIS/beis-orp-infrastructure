@@ -46,6 +46,10 @@ variable "title_generation_image_ver" {
   type = string
 }
 
+variable "date_generation_image_ver" {
+  type = string
+}
+
 variable "summarisation_image_ver" {
   type = string
 }
