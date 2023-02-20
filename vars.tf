@@ -82,9 +82,9 @@ variable "domain" {
   type = string
 }
 
-# variable "s3_upload_bucket" {
-#   type = string
-# }
+variable "s3_upload_bucket" {
+  type = string
+}
 
 # variable "s3_data_lake" {
 #   type = string
