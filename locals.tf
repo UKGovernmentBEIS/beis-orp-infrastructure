@@ -32,7 +32,9 @@ locals {
     keyword_extraction_image_ver  = var.keyword_extraction_image_ver
   }
 
-  text_summarisation_config = {}
+  summarisation_config = {
+    summarisation_image_ver       = var.summarisation_image_ver
+  }
 
   typedb_ingestion_config = {
     typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
