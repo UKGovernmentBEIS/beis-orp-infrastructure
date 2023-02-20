@@ -21,7 +21,11 @@ locals {
   }
 
   docx_to_text_config = {
-    docx_to_text_image_ver         = var.docx_to_text_image_ver
+    docx_to_text_image_ver        = var.docx_to_text_image_ver
+  }
+
+  odf_to_text_config = {
+    odf_to_text_image_ver         = var.odf_to_text_image_ver
   }
 
   title_generation_config = {

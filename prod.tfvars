@@ -13,6 +13,7 @@ ddb_domain      = "beis-orp-dev-beis-orp.cluster-cau6o2mf7iuc.eu-west-2.docdb.am
 
 pdf_to_text_image_ver         = "latest"
 docx_to_text_image_ver        = "latest"
+odf_to_text_image_ver        = "latest"
 title_generation_image_ver    = "latest"
 keyword_extraction_image_ver  = "latest"
 title_generation_image_ver    = "latest"
