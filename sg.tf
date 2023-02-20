@@ -73,6 +73,18 @@ resource "aws_security_group" "pdf_to_text_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "docx_to_text_lambda" {
+  name        = "beis-orp-docx-to-text-lambda"
+  description = "Security Group for BEIS ORP docx-to-text Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group" "title_generation_lambda" {
+  name        = "beis-orp-title-generation-lambda"
+  description = "Security Group for BEIS ORP title-generation Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "typedb_search_query_lambda" {
   name        = "beis-orp-typedb-search-query-lambda"
   description = "Security Group for BEIS ORP typedb-search-query Lambda"
