@@ -26,7 +26,7 @@ module "pdf_to_text" {
     DDB_USER            = local.lambda_config.ddb_user
     DDB_PASSWORD        = local.lambda_config.ddb_password
     DDB_DOMAIN          = local.lambda_config.ddb_domain
-    DESTINATION_BUCKET  = local.lambda_config.s3_data_lake
+    DESTINATION_BUCKET  = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
   }
 
   assume_role_policy_statements = {
@@ -100,7 +100,7 @@ module "docx_to_text" {
     DDB_USER            = local.lambda_config.ddb_user
     DDB_PASSWORD        = local.lambda_config.ddb_password
     DDB_DOMAIN          = local.lambda_config.ddb_domain
-    DESTINATION_BUCKET  = local.lambda_config.s3_data_lake
+    DESTINATION_BUCKET  = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
   }
 
   assume_role_policy_statements = {
@@ -167,8 +167,8 @@ module "title_generation" {
     DDB_USER            = local.lambda_config.ddb_user
     DDB_PASSWORD        = local.lambda_config.ddb_password
     DDB_DOMAIN          = local.lambda_config.ddb_domain
-    SOURCE_BUCKET       = local.lambda_config.s3_data_lake
-    MODEL_BUCKET        = local.lambda_config.s3_model_bucket
+    SOURCE_BUCKET       = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
+    MODEL_BUCKET        = aws_s3_bucket.beis-orp-clustering-models.bucket_domain_name
   }
 
   assume_role_policy_statements = {
@@ -235,8 +235,8 @@ module "keyword_extraction" {
     DDB_USER      = local.lambda_config.ddb_user
     DDB_PASSWORD  = local.lambda_config.ddb_password
     DDB_DOMAIN    = local.lambda_config.ddb_domain
-    SOURCE_BUCKET = local.lambda_config.s3_data_lake
-    MODEL_BUCKET  = local.lambda_config.s3_model_bucket
+    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
+    MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.bucket_domain_name
   }
 
   assume_role_policy_statements = {
