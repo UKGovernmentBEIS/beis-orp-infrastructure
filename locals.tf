@@ -33,7 +33,7 @@ locals {
   }
 
   date_generation_config = {
-    title_generation_image_ver    = var.title_generation_image_ver
+    date_generation_image_ver    = var.date_generation_image_ver
   }
 
   keyword_extraction_config = {
