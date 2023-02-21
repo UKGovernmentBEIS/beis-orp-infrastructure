@@ -31,7 +31,7 @@ typedb_server_port     = 1729
 destination_sqs_url     = aws_sqs_queue.update_typedb.url
 
 domain           = "https://app.dev.cannonband.com/"
-# s3_upload_bucket = "beis-orp-dev-upload"
+s3_upload_bucket = "beis-orp-dev-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
 mc_server        = "us13"
