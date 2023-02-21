@@ -19,7 +19,7 @@ date_generation_image_ver     = "latest"
 keyword_extraction_image_ver  = "latest"
 summarisation_image_ver       = "latest"
 typedb_ingestion_image_ver    = "latest"
-typedb_search_query_image_ver = "test-filter.0.2"
+typedb_search_query_image_ver = "latest"
 
 database_workdir       = "graph_database"
 typedb_database_name   = "test-orp-pbeta"
