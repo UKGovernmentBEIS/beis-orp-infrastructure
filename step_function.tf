@@ -137,6 +137,23 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           "Variable": "$.detail.object.key",
           "StringMatches": "*.pdf",
           "Next": "Convert .pdf to .txt"
+        },
+        {
+          "Or": [
+            {
+              "Variable": "$.detail.object.key",
+              "StringMatches": "*.odt"
+            },
+            {
+              "Variable": "$.detail.object.key",
+              "StringMatches": "*.odp"
+            },
+            {
+              "Variable": "$.detail.object.key",
+              "StringMatches": "*.odf"
+            }
+          ],
+          "Next": "Convert .odf to .txt"
         }
       ],
       "Default": "Fail"
@@ -149,19 +166,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:docx_to_text:$LATEST"
       },
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException",
-            "Lambda.TooManyRequestsException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 0,
-          "BackoffRate": 2
-        }
-      ],
       "Next": "Parallel"
     },
     "Convert .pdf to .txt": {
@@ -172,25 +176,27 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:pdf_to_text:$LATEST"
       },
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException",
-            "Lambda.TooManyRequestsException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 0,
-          "BackoffRate": 2
-        }
-      ],
       "Next": "Parallel"
     },
     "Parallel": {
       "Type": "Parallel",
       "Next": "TypeDB Ingestion",
       "Branches": [
+        {
+          "StartAt": "Date Generation",
+          "States": {
+            "Date Generation": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "OutputPath": "$.Payload",
+              "Parameters": {
+                "Payload.$": "$",
+                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:date_generation:$LATEST"
+              },
+              "End": true
+            }
+          }
+        },
         {
           "StartAt": "Title Generation",
           "States": {
@@ -202,19 +208,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
                 "Payload.$": "$",
                 "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:title_generation:$LATEST"
               },
-              "Retry": [
-                {
-                  "ErrorEquals": [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException",
-                    "Lambda.TooManyRequestsException"
-                  ],
-                  "IntervalSeconds": 2,
-                  "MaxAttempts": 0,
-                  "BackoffRate": 2
-                }
-              ],
               "End": true
             }
           }
@@ -230,19 +223,21 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
                 "Payload.$": "$",
                 "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:keyword_extraction:$LATEST"
               },
-              "Retry": [
-                {
-                  "ErrorEquals": [
-                    "Lambda.ServiceException",
-                    "Lambda.AWSLambdaException",
-                    "Lambda.SdkClientException",
-                    "Lambda.TooManyRequestsException"
-                  ],
-                  "IntervalSeconds": 2,
-                  "MaxAttempts": 0,
-                  "BackoffRate": 2
-                }
-              ],
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Summarisation",
+          "States": {
+            "Summarisation": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "OutputPath": "$.Payload",
+              "Parameters": {
+                "Payload.$": "$",
+                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:summarisation:$LATEST"
+              },
               "End": true
             }
           }
@@ -257,19 +252,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:typedb_ingestion:$LATEST"
       },
-      "Retry": [
-        {
-          "ErrorEquals": [
-            "Lambda.ServiceException",
-            "Lambda.AWSLambdaException",
-            "Lambda.SdkClientException",
-            "Lambda.TooManyRequestsException"
-          ],
-          "IntervalSeconds": 2,
-          "MaxAttempts": 0,
-          "BackoffRate": 2
-        }
-      ],
       "Next": "Success"
     },
     "Success": {
@@ -277,6 +259,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     },
     "Fail": {
       "Type": "Fail"
+    },
+    "Convert .odf to .txt": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:odf_to_text:$LATEST"
+      },
+      "Next": "Parallel"
     }
   },
   "TimeoutSeconds": 3600,

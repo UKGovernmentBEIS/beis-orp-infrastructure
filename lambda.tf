@@ -139,6 +139,73 @@ module "docx_to_text" {
   number_of_policies = 4
 }
 
+module "odf_to_text" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4"
+
+  function_name          = "odf_to_text"
+  handler                = "odf_to_text.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/odf-to-text:${local.odf_to_text_config.odf_to_text_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.odf_to_text_lambda.id,
+    module.vpc.default_security_group_id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT         = local.environment
+    DDB_USER            = local.lambda_config.ddb_user
+    DDB_PASSWORD        = local.lambda_config.ddb_password
+    DDB_DOMAIN          = local.lambda_config.ddb_domain
+    DESTINATION_BUCKET  = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.odf_to_text_lambda_s3_policy.arn
+  ]
+  number_of_policies = 4
+}
+
 module "title_generation" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4"
@@ -207,6 +274,73 @@ module "title_generation" {
   number_of_policies = 4
 }
 
+module "date_generation" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4"
+
+  function_name          = "date_generation"
+  handler                = "date_generation.handler"
+  runtime                = "python3.8"
+  memory_size            = "3072"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/date-generation:${local.date_generation_config.date_generation_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.date_generation_lambda.id,
+    module.vpc.default_security_group_id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT         = local.environment
+    DDB_USER            = local.lambda_config.ddb_user
+    DDB_PASSWORD        = local.lambda_config.ddb_password
+    DDB_DOMAIN          = local.lambda_config.ddb_domain
+    SOURCE_BUCKET       = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.date_generation_lambda_s3_policy.arn
+  ]
+  number_of_policies = 4
+}
+
 module "keyword_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4"
@@ -271,6 +405,74 @@ module "keyword_extraction" {
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     aws_iam_policy.text_extraction_lambda_s3_policy.arn,
     aws_iam_policy.lambda_invoke_typedb_ingestion.arn
+  ]
+  number_of_policies = 4
+}
+
+module "summarisation" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4"
+
+  function_name          = "summarisation"
+  handler                = "summarisation.handler"
+  runtime                = "python3.8"
+  memory_size            = "3072"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/summarisation:${local.summarisation_config.summarisation_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.summarisation_lambda.id,
+    module.vpc.default_security_group_id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT   = local.environment
+    DDB_USER      = local.lambda_config.ddb_user
+    DDB_PASSWORD  = local.lambda_config.ddb_password
+    DDB_DOMAIN    = local.lambda_config.ddb_domain
+    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.bucket_domain_name
+    MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.bucket_domain_name
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.summarisation_lambda_s3_policy.arn
   ]
   number_of_policies = 4
 }

@@ -38,7 +38,19 @@ variable "docx_to_text_image_ver" {
   type = string
 }
 
+variable "odf_to_text_image_ver" {
+  type = string
+}
+
 variable "title_generation_image_ver" {
+  type = string
+}
+
+variable "date_generation_image_ver" {
+  type = string
+}
+
+variable "summarisation_image_ver" {
   type = string
 }
 
@@ -82,9 +94,9 @@ variable "domain" {
   type = string
 }
 
-# variable "s3_upload_bucket" {
-#   type = string
-# }
+variable "s3_upload_bucket" {
+  type = string
+}
 
 # variable "s3_data_lake" {
 #   type = string

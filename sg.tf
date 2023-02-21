@@ -79,9 +79,27 @@ resource "aws_security_group" "docx_to_text_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "odf_to_text_lambda" {
+  name        = "beis-orp-odf-to-text-lambda"
+  description = "Security Group for BEIS ORP odf-to-text Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "title_generation_lambda" {
   name        = "beis-orp-title-generation-lambda"
   description = "Security Group for BEIS ORP title-generation Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group" "date_generation_lambda" {
+  name        = "beis-orp-date-generation-lambda"
+  description = "Security Group for BEIS ORP date-generation Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group" "summarisation_lambda" {
+  name        = "beis-orp-summarisation-lambda"
+  description = "Security Group for BEIS ORP summarisation Lambda"
   vpc_id      = module.vpc.vpc_id
 }
 
