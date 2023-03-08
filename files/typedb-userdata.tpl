@@ -17,12 +17,12 @@ AWS_REGION=${aws_region}
 DATABASE_WORKDIR=${database_workdir}
 TYPEDB_DATABASE_NAME=${typedb_database_name}
 TYPEDB_DATABASE_SCHEMA=${typedb_database_schema}
-TYPEDB_DATABASE_FILE=orp-mvp-kgdb.typedb
-TYPEDB_DOCU_SQS_NAME=update-typedb 
+TYPEDB_DATABASE_FILE=${typedb_database_file}
+TYPEDB_DOCU_SQS_NAME=${typedb_docu_sqs_name}
 
 # import graph database into typedb server
 mkdir $DATABASE_WORKDIR
-aws s3 sync s3://beis-orp-dev-graph-database $DATABASE_WORKDIR
+aws s3 sync s3://beis-orp-dev-graph-database/pbeta/ $DATABASE_WORKDIR
 typedb console --command='database create '$TYPEDB_DATABASE_NAME'' --command='transaction '$TYPEDB_DATABASE_NAME' schema write' --command='source '$DATABASE_WORKDIR'/'$TYPEDB_DATABASE_SCHEMA'' --command='commit'
 typedb server import --database=$TYPEDB_DATABASE_NAME --file=$DATABASE_WORKDIR/$TYPEDB_DATABASE_FILE --port=1729
 
