@@ -25,6 +25,12 @@ resource "aws_security_group_rule" "typedb_instance_s3_pfl" {
   cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
 }
 
+resource "aws_security_group" "mongo_bastion_instance" {
+  name        = "beis-orp-mongo-bastion-instance"
+  description = "Security Group for BEIS ORP Mongo Bastion EC2 Instance"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "pdf_to_text_lambda" {
   name        = "beis-orp-pdf-to-text-lambda"
   description = "Security Group for BEIS ORP pdf-to-text Lambda"
