@@ -387,7 +387,7 @@ module "keyword_extraction" {
     aws_iam_policy.text_extraction_lambda_s3_policy.arn,
     aws_iam_policy.lambda_invoke_typedb_ingestion.arn
   ]
-  number_of_policies = 4
+  number_of_policies = 3
 }
 
 module "summarisation" {
@@ -514,7 +514,7 @@ module "typedb_ingestion" {
     aws_iam_policy.typedb_ingestion_sqs.arn,
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
   ]
-  number_of_policies = 4
+  number_of_policies = 2
 }
 
 module "typedb_search_query" {
