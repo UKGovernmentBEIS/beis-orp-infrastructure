@@ -23,9 +23,6 @@ module "pdf_to_text" {
 
   environment_variables = {
     ENVIRONMENT         = local.environment
-    DDB_USER            = local.lambda_config.ddb_user
-    DDB_PASSWORD        = local.lambda_config.ddb_password
-    DDB_DOMAIN          = local.lambda_config.ddb_domain
     DESTINATION_BUCKET  = aws_s3_bucket.beis-orp-datalake.id
   }
 
@@ -97,9 +94,6 @@ module "docx_to_text" {
 
   environment_variables = {
     ENVIRONMENT         = local.environment
-    DDB_USER            = local.lambda_config.ddb_user
-    DDB_PASSWORD        = local.lambda_config.ddb_password
-    DDB_DOMAIN          = local.lambda_config.ddb_domain
     DESTINATION_BUCKET  = aws_s3_bucket.beis-orp-datalake.id
   }
 
@@ -164,9 +158,6 @@ module "odf_to_text" {
 
   environment_variables = {
     ENVIRONMENT         = local.environment
-    DDB_USER            = local.lambda_config.ddb_user
-    DDB_PASSWORD        = local.lambda_config.ddb_password
-    DDB_DOMAIN          = local.lambda_config.ddb_domain
     DESTINATION_BUCKET  = aws_s3_bucket.beis-orp-datalake.id
   }
 
@@ -231,9 +222,6 @@ module "title_generation" {
 
   environment_variables = {
     ENVIRONMENT         = local.environment
-    DDB_USER            = local.lambda_config.ddb_user
-    DDB_PASSWORD        = local.lambda_config.ddb_password
-    DDB_DOMAIN          = local.lambda_config.ddb_domain
     SOURCE_BUCKET       = aws_s3_bucket.beis-orp-datalake.id
     MODEL_BUCKET        = aws_s3_bucket.beis-orp-clustering-models.id
   }
@@ -299,9 +287,6 @@ module "date_generation" {
 
   environment_variables = {
     ENVIRONMENT         = local.environment
-    DDB_USER            = local.lambda_config.ddb_user
-    DDB_PASSWORD        = local.lambda_config.ddb_password
-    DDB_DOMAIN          = local.lambda_config.ddb_domain
     SOURCE_BUCKET       = aws_s3_bucket.beis-orp-datalake.id
   }
 
@@ -366,9 +351,6 @@ module "keyword_extraction" {
 
   environment_variables = {
     ENVIRONMENT   = local.environment
-    DDB_USER      = local.lambda_config.ddb_user
-    DDB_PASSWORD  = local.lambda_config.ddb_password
-    DDB_DOMAIN    = local.lambda_config.ddb_domain
     SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
     MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.id
   }
@@ -401,7 +383,6 @@ module "keyword_extraction" {
   #Attaching AWS policies
   attach_policies = true
   policies = [
-    aws_iam_policy.text_extraction_to_document_db.arn,
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     aws_iam_policy.text_extraction_lambda_s3_policy.arn,
     aws_iam_policy.lambda_invoke_typedb_ingestion.arn
@@ -434,9 +415,6 @@ module "summarisation" {
 
   environment_variables = {
     ENVIRONMENT   = local.environment
-    DDB_USER      = local.lambda_config.ddb_user
-    DDB_PASSWORD  = local.lambda_config.ddb_password
-    DDB_DOMAIN    = local.lambda_config.ddb_domain
     SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
     MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.id
   }
@@ -502,9 +480,6 @@ module "typedb_ingestion" {
 
   environment_variables = {
     ENVIRONMENT           = local.environment
-    DDB_USER              = local.lambda_config.ddb_user
-    DDB_PASSWORD          = local.lambda_config.ddb_password
-    DDB_DOMAIN            = local.lambda_config.ddb_domain
     DESTINATION_SQS_URL   = local.typedb_ingestion_config.destination_sqs_url
   }
 
@@ -536,9 +511,7 @@ module "typedb_ingestion" {
   #Attaching AWS policies
   attach_policies = true
   policies = [
-    aws_iam_policy.text_extraction_to_document_db.arn,
     aws_iam_policy.typedb_ingestion_sqs.arn,
-    aws_iam_policy.typedb_ingestion_to_document_db.arn,
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
   ]
   number_of_policies = 4
@@ -612,7 +585,6 @@ module "typedb_search_query" {
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     #    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
     #    aws_iam_policy.update_typedb_sqs_queue.arn
-    #    aws_iam_policy.typedb_search_query_to_document_db.arn
   ]
   number_of_policies = 1
 

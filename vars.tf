@@ -18,18 +18,6 @@ variable "environment" {
   type = string
 }
 
-variable "ddb_user" {
-  type = string
-}
-
-variable "ddb_password" {
-  type = string
-}
-
-variable "ddb_domain" {
-  type = string
-}
-
 variable "pdf_to_text_image_ver" {
   type = string
 }
