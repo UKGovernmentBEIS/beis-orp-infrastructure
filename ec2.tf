@@ -66,13 +66,10 @@ resource "aws_instance" "mongo_bastion" {
 
   user_data = <<EOF
 #!/bin/bash
-
 apt install -y software-properties-common apt-transport-https
 apt-key adv --keyserver keyserver.ubuntu.com --recv 8F3DA4B5E9AEF44C
 add-apt-repository 'deb [ arch=all ] https://repo.vaticle.com/repository/apt/ trusty main' -y
 apt update
-
 apt-get install -y postgresql-client
-
 EOF
 }
