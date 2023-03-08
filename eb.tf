@@ -12,7 +12,9 @@ resource "aws_cloudwatch_event_rule" "eb_trigger" {
     },
     "object": {
       "key": [{
-        "prefix": "trigger-pipeline/"
+        "anything-but": {
+          "prefix": "unconfirmed/"
+        }
       }]
     }
   }
