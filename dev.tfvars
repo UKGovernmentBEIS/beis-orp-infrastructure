@@ -1,5 +1,5 @@
 route53_zone_dev = true
-route53_zone_prod = false
+#route53_zone_prod = false
 route53_domain = "cannonband.com"
 
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"

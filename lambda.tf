@@ -333,7 +333,7 @@ module "keyword_extraction" {
   function_name          = "keyword_extraction"
   handler                = "keyword_extraction.handler"
   runtime                = "python3.8"
-  memory_size            = "512"
+  memory_size            = "2048"
   timeout                = 900
   create_package         = false
   image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.keyword_extraction_config.keyword_extraction_image_ver}"
@@ -529,7 +529,7 @@ module "typedb_search_query" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_search_query:${local.lambda_config.typedb_search_query_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-search-query:${local.lambda_config.typedb_search_query_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
