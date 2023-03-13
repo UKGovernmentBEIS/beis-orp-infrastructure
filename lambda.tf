@@ -481,6 +481,8 @@ module "typedb_ingestion" {
   environment_variables = {
     ENVIRONMENT           = local.environment
     DESTINATION_SQS_URL   = local.typedb_ingestion_config.destination_sqs_url
+    COGNITO_USER_POOL     = local.typedb_ingestion_config.cognito_user_pool
+    SENDER_EMAIL_ADDRESS  = local.typedb_ingestion_config.sender_email_address
   }
 
   assume_role_policy_statements = {
