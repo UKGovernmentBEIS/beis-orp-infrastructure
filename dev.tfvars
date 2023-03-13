@@ -17,6 +17,8 @@ summarisation_image_ver       = "latest"
 typedb_ingestion_image_ver    = "latest"
 typedb_search_query_image_ver = "latest"
 
+typedb_ingestion_sender_email_address   = "upload-completion@orp.gov.uk"
+
 database_workdir       = "graph_database"
 typedb_database_name   = "orp-pbeta-demo"
 typedb_database_schema = "orp-gdb-schema-pbeta.tql"

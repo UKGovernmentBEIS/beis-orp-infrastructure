@@ -41,6 +41,8 @@ locals {
   typedb_ingestion_config = {
     typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
     destination_sqs_url           = aws_sqs_queue.update_typedb.url
+    cognito_user_pool             = aws_cognito_user_pool.beis.id
+    sender_email_address          = var.typedb_ingestion_sender_email_address
   }
 
   typedb_config = {

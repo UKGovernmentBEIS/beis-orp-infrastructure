@@ -54,6 +54,10 @@ variable "typedb_search_query_image_ver" {
   type = string
 }
 
+variable "typedb_ingestion_sender_email_address" {
+  type = string
+}
+
 variable "database_workdir" {
   type = string
 }
