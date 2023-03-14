@@ -1,9 +1,9 @@
-route53_zone_dev = false
+route53_zone_dev  = false
 route53_zone_prod = true
-route53_domain = "bre-orp-alpha.io"
+route53_domain    = "bre-orp-alpha.io"
 
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
-tf_profile = "personal"
+tf_profile  = "personal"
 environment = "prod"
 region      = "eu-west-2"
 
@@ -17,7 +17,7 @@ summarisation_image_ver       = "latest"
 typedb_ingestion_image_ver    = "latest"
 typedb_search_query_image_ver = "latest"
 
-typedb_ingestion_sender_email_address   = "upload-completion@orp.gov.uk"
+typedb_ingestion_sender_email_address = "ben.jeffrey@mdrx.tech"
 
 database_workdir       = "graph_database"
 typedb_database_name   = "test-orp-pbeta"
@@ -26,15 +26,15 @@ typedb_database_file   = "orp-mvp-kgdb.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
-destination_sqs_url     = aws_sqs_queue.update_typedb.url
+destination_sqs_url = aws_sqs_queue.update_typedb.url
 
 domain           = "https://app.dev.bre-orp-alpha.io/"
 s3_upload_bucket = "beis-orp-dev-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
-mc_server        = "us13"
-mc_list          = "d8234fcc62"
-orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
+mc_server      = "us13"
+mc_list        = "d8234fcc62"
+orp_search_url = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
 
 engine_version       = "13.7"
 engine               = "aurora-postgresql"
