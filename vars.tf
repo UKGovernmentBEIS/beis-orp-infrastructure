@@ -30,6 +30,10 @@ variable "odf_to_text_image_ver" {
   type = string
 }
 
+variable "html_to_text_image_ver" {
+  type = string
+}
+
 variable "title_generation_image_ver" {
   type = string
 }
