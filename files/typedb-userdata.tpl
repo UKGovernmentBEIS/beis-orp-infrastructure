@@ -28,6 +28,6 @@ typedb server import --database=$TYPEDB_DATABASE_NAME --file=$DATABASE_WORKDIR/$
 
 # launch graph update as a cron job
 cd $DATABASE_WORKDIR/stream_update_process
-apt install python3-pip
+apt -y install python3-pip
 pip3 install -r requirements.txt 
 (crontab -l 2>/dev/null;  echo '* * * * * export TYPEDB_DOCU_SQS_NAME='$TYPEDB_DOCU_SQS_NAME' TYPEDB_DATABASE_NAME='$TYPEDB_DATABASE_NAME' AWS_REGION='$AWS_REGION' && cd '$(pwd) '&&' $(which python3) $(readlink -f main.py))| crontab -
