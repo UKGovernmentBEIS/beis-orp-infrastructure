@@ -8,11 +8,6 @@ resource "aws_dynamodb_table" "legislative-origin" {
     type = "S"
   }
 
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
-  }
-
   tags = {
     Name        = "legislative-origin"
     Environment = local.environment
