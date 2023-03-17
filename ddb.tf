@@ -20,5 +20,5 @@ module "beis_orp_documentdb_cluster" {
   allowed_security_groups = [
     aws_security_group.documentdb_cluster.id
   ]
-  zone_id = data.aws_route53_zone.cannonbandcom.zone_id
+  zone_id = data.aws_route53_zone.beis.zone_id
 }
