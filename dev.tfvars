@@ -15,10 +15,14 @@ title_generation_image_ver    = "latest"
 date_generation_image_ver     = "latest"
 keyword_extraction_image_ver  = "latest"
 summarisation_image_ver       = "latest"
+legislative_origin_extraction_image_ver = "latest"
 typedb_ingestion_image_ver    = "latest"
 typedb_search_query_image_ver = "latest"
 
+legislative_origin_extraction_table_name = "legislative-origin"
+legislative_origin_extraction_year_index_name = "year-candidate_titles-index"
 typedb_ingestion_sender_email_address = "OpenRegulationPlatform@beis.gov.uk"
+destination_sqs_url = aws_sqs_queue.update_typedb.url
 
 database_workdir       = "graph_database"
 typedb_database_name   = "orp-pbeta-demo"
@@ -26,8 +30,6 @@ typedb_database_schema = "orp-gdb-schema-pbeta.tql"
 typedb_database_file   = "orp-pbeta-demo.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
-
-destination_sqs_url = aws_sqs_queue.update_typedb.url
 
 domain           = "https://app.dev.cannonband.com/"
 s3_upload_bucket = "beis-orp-dev-upload"

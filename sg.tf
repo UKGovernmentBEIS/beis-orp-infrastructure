@@ -73,6 +73,12 @@ resource "aws_security_group" "summarisation_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "legislative_origin_extraction_lambda" {
+  name        = "beis-orp-legislative-origin-extraction-lambda"
+  description = "Security Group for BEIS ORP legislative-origin-extraction Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "typedb_search_query_lambda" {
   name        = "beis-orp-typedb-search-query-lambda"
   description = "Security Group for BEIS ORP typedb-search-query Lambda"
