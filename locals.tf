@@ -42,6 +42,12 @@ locals {
     summarisation_image_ver = var.summarisation_image_ver
   }
 
+  legislative_origin_extraction_config = {
+    legislative_origin_extraction_image_ver = var.legislative_origin_extraction_image_ver
+    table_name                              = var.legislative_origin_extraction_table_name
+    year_index_name                         = var.legislative_origin_extraction_year_index_name
+  }
+
   typedb_ingestion_config = {
     typedb_ingestion_image_ver = var.typedb_ingestion_image_ver
     destination_sqs_url        = aws_sqs_queue.update_typedb.url

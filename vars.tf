@@ -50,6 +50,18 @@ variable "keyword_extraction_image_ver" {
   type = string
 }
 
+variable "legislative_origin_extraction_image_ver" {
+  type = string
+}
+
+variable "legislative_origin_extraction_table_name" {
+  type = string
+}
+
+variable "legislative_origin_extraction_year_index_name" {
+  type = string
+}
+
 variable "typedb_ingestion_image_ver" {
   type = string
 }
