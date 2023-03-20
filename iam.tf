@@ -379,6 +379,29 @@ resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
   })
 }
 
+resource "aws_iam_policy" "legislative_origin_extraction_lambda_s3_policy" {
+  name        = "legislative-origin-extraction-lambda-s3-policy"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "lambda_invoke_keyword_extraction" {
   name        = "lambda_invoke_keyword_extraction"
   path        = "/"
