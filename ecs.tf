@@ -68,10 +68,6 @@ resource "aws_ecs_task_definition" "webserver" {
       cloudwatch_stream_name = local.environment
       api_upload_key         = data.aws_secretsmanager_secret_version.api_upload_key.secret_string
       orp_search_url         = local.webserver_config.orp_search_url
-      postgres_db            = module.db_postgresql.cluster_endpoint
-      postgres_user          = module.db_postgresql.cluster_master_username
-      postgres_password      = module.db_postgresql.cluster_master_password
-      postgres_full          = "postgres://${module.db_postgresql.cluster_master_username}:${module.db_postgresql.cluster_master_password}@${module.db_postgresql.cluster_endpoint}:5432/beis"
       cognito_user_pool      = aws_cognito_user_pool.beis.id
       cognito_client_id      = aws_cognito_user_pool_client.beis_client.id
       cognito_api_user_pool  = aws_cognito_user_pool.beis_api.id
