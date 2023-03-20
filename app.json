@@ -59,22 +59,6 @@
         "value": "${orp_search_url}"
       },
       {
-        "name": "POSTGRES_DB",
-        "value": "${postgres_db}"
-      },
-      {
-        "name": "POSTGRES_USER",
-        "value": "${postgres_user}"
-      },
-      {
-        "name": "POSTGRES_PASSWORD",
-        "value": "${postgres_password}"
-      },
-      {
-        "name": "POSTGRES_FULL",
-        "value": "${postgres_full}"
-      },
-      {
         "name": "COGNITO_USER_POOL",
         "value": "${cognito_user_pool}"
       },
