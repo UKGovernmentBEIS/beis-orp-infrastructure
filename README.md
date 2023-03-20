@@ -13,4 +13,3 @@ AWS Credentials under a profile named `terraform`
 * terraform init
 * terraform plan
 * terraform apply
-
