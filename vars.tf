@@ -18,18 +18,6 @@ variable "environment" {
   type = string
 }
 
-variable "ddb_user" {
-  type = string
-}
-
-variable "ddb_password" {
-  type = string
-}
-
-variable "ddb_domain" {
-  type = string
-}
-
 variable "pdf_to_text_image_ver" {
   type = string
 }
@@ -39,6 +27,10 @@ variable "docx_to_text_image_ver" {
 }
 
 variable "odf_to_text_image_ver" {
+  type = string
+}
+
+variable "html_to_text_image_ver" {
   type = string
 }
 
@@ -58,11 +50,27 @@ variable "keyword_extraction_image_ver" {
   type = string
 }
 
+variable "legislative_origin_extraction_image_ver" {
+  type = string
+}
+
+variable "legislative_origin_extraction_table_name" {
+  type = string
+}
+
+variable "legislative_origin_extraction_year_index_name" {
+  type = string
+}
+
 variable "typedb_ingestion_image_ver" {
   type = string
 }
 
 variable "typedb_search_query_image_ver" {
+  type = string
+}
+
+variable "typedb_ingestion_sender_email_address" {
   type = string
 }
 

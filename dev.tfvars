@@ -1,44 +1,45 @@
 route53_zone_dev = true
-route53_zone_prod = false
+#route53_zone_prod = false
 route53_domain = "cannonband.com"
 
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
-tf_profile = "terraform-dev"
+tf_profile  = "terraform-dev"
 environment = "dev"
 region      = "eu-west-2"
-
-ddb_user        = "ddbadmin"
-ddb_password    = "Test123456789"
-ddb_domain      = "beis-orp-dev-beis-orp.cluster-cau6o2mf7iuc.eu-west-2.docdb.amazonaws.com"
 
 pdf_to_text_image_ver         = "latest"
 docx_to_text_image_ver        = "latest"
 odf_to_text_image_ver         = "latest"
+html_to_text_image_ver        = "latest"
 title_generation_image_ver    = "latest"
 date_generation_image_ver     = "latest"
 keyword_extraction_image_ver  = "latest"
 summarisation_image_ver       = "latest"
+legislative_origin_extraction_image_ver = "latest"
 typedb_ingestion_image_ver    = "latest"
 typedb_search_query_image_ver = "latest"
 
+legislative_origin_extraction_table_name = "legislative-origin"
+legislative_origin_extraction_year_index_name = "year-candidate_titles-index"
+typedb_ingestion_sender_email_address = "OpenRegulationPlatform@beis.gov.uk"
+destination_sqs_url = aws_sqs_queue.update_typedb.url
+
 database_workdir       = "graph_database"
-typedb_database_name   = "test-orp-pbeta"
-typedb_database_schema = "orp-gdb-schema.tql"
-typedb_database_file   = "orp-mvp-kgdb.typedb"
+typedb_database_name   = "orp-pbeta-demo"
+typedb_database_schema = "orp-gdb-schema-pbeta.tql"
+typedb_database_file   = "orp-pbeta-demo.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
-
-destination_sqs_url     = aws_sqs_queue.update_typedb.url
 
 domain           = "https://app.dev.cannonband.com/"
 s3_upload_bucket = "beis-orp-dev-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
-mc_server        = "us13"
-mc_list          = "d8234fcc62"
-orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
+mc_server      = "us13"
+mc_list        = "d8234fcc62"
+orp_search_url = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
 
-engine_version       = "13.7"
+engine_version       = "13.8"
 engine               = "aurora-postgresql"
 scaling_min_capacity = "0.5"
 scaling_max_capacity = "1.0"

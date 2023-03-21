@@ -205,6 +205,32 @@ resource "aws_iam_policy" "odf_to_text_lambda_s3_policy" {
   })
 }
 
+resource "aws_iam_policy" "html_to_text_lambda_s3_policy" {
+  name        = "html-to-text-Lambda-to-S3"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-upload.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "title_generation_lambda_s3_policy" {
   name        = "title-generation-Lambda-to-S3"
   path        = "/"
@@ -302,27 +328,6 @@ resource "aws_iam_policy" "update_typedb_sqs_queue" {
   })
 }
 
-resource "aws_iam_policy" "text_extraction_to_document_db" {
-  name        = "text-extraction-to-document-db"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "docdb-elastic:*"
-        ],
-        "Resource" : [
-          module.beis_orp_documentdb_cluster.arn
-        ]
-      }
-    ]
-  })
-}
-
 resource "aws_iam_policy" "typedb_ingestion_sqs" {
   name        = "typedb-ingestion-sqs-queue"
   path        = "/"
@@ -351,8 +356,8 @@ resource "aws_iam_policy" "typedb_ingestion_sqs" {
   })
 }
 
-resource "aws_iam_policy" "typedb_ingestion_to_document_db" {
-  name        = "typedb-ingestion-to-document-db"
+resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
+  name        = "text-extraction-Lambda-to-S3"
   path        = "/"
   description = "Allow "
 
@@ -362,39 +367,20 @@ resource "aws_iam_policy" "typedb_ingestion_to_document_db" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "docdb-elastic:*"
+          "s3:GetObject",
+          "s3:ListBucket"
         ],
         "Resource" : [
-          module.beis_orp_documentdb_cluster.arn
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn
         ]
       }
     ]
   })
 }
 
-#resource "aws_iam_policy" "typedb_search_query_to_document_db" {
-#  name        = "typedb-search-query-to-document-db"
-#  path        = "/"
-#  description = "Allow "
-#
-#  policy = jsonencode({
-#    "Version" : "2012-10-17",
-#    "Statement" : [
-#      {
-#        "Effect" : "Allow",
-#        "Action" : [
-#          "docdb-elastic:*"
-#        ],
-#        "Resource" : [
-#          module.beis_orp_documentdb_cluster.arn
-#        ]
-#      }
-#    ]
-#  })
-#}
-
-resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
-  name        = "text-extraction-Lambda-to-S3"
+resource "aws_iam_policy" "legislative_origin_extraction_lambda_s3_policy" {
+  name        = "legislative-origin-extraction-lambda-s3-policy"
   path        = "/"
   description = "Allow "
 
@@ -453,6 +439,28 @@ resource "aws_iam_policy" "lambda_invoke_typedb_ingestion" {
         "Resource" : [
           module.typedb_ingestion.lambda_function_arn
         ]
+      }
+    ]
+  })
+}
+  
+resource "aws_iam_policy" "lambda_access_dynamodb" {
+  name        = "lambda_access_dynamodb"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ListAndDescribe",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:*"
+            ],
+            "Resource": [
+              aws_dynamodb_table.legislative-origin.arn
+              ]
       }
     ]
   })
