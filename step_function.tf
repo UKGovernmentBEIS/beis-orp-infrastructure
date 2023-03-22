@@ -201,6 +201,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       },
       "Next": "Parallel"
     },
+    "Convert .odf to .txt": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:odf_to_text:$LATEST"
+      },
+      "Next": "Parallel"
+    },
     "Parallel": {
       "Type": "Parallel",
       "Next": "TypeDB Ingestion",
@@ -264,6 +274,21 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "End": true
             }
           }
+        },
+        {
+          "StartAt": "Legislative Origin Extraction",
+          "States": {
+            "Summarisation": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "OutputPath": "$.Payload",
+              "Parameters": {
+                "Payload.$": "$",
+                "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:legislative_origin_extraction:$LATEST"
+              },
+              "End": true
+            }
+          }
         }
       ]
     },
@@ -282,16 +307,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     },
     "Fail": {
       "Type": "Fail"
-    },
-    "Convert .odf to .txt": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke",
-      "OutputPath": "$.Payload",
-      "Parameters": {
-        "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:odf_to_text:$LATEST"
-      },
-      "Next": "Parallel"
     }
   },
   "TimeoutSeconds": 3600,
