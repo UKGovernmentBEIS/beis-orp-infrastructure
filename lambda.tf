@@ -1,6 +1,6 @@
 module "pdf_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "pdf_to_text"
   handler                = "pdf_to_text.handler"
@@ -71,7 +71,7 @@ module "pdf_to_text" {
 
 module "docx_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "docx_to_text"
   handler                = "docx_to_text.handler"
@@ -135,7 +135,7 @@ module "docx_to_text" {
 
 module "odf_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "odf_to_text"
   handler                = "odf_to_text.handler"
@@ -199,7 +199,7 @@ module "odf_to_text" {
 
 module "html_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "html_to_text"
   handler                = "html_to_text.handler"
@@ -263,7 +263,7 @@ module "html_to_text" {
 
 module "title_generation" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "title_generation"
   handler                = "title_generation.handler"
@@ -328,7 +328,7 @@ module "title_generation" {
 
 module "date_generation" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "date_generation"
   handler                = "date_generation.handler"
@@ -392,7 +392,7 @@ module "date_generation" {
 
 module "keyword_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "keyword_extraction"
   handler                = "keyword_extraction.handler"
@@ -456,7 +456,7 @@ module "keyword_extraction" {
 
 module "summarisation" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "summarisation"
   handler                = "summarisation.handler"
@@ -522,7 +522,7 @@ module "summarisation" {
 
 module "legislative_origin_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "legislative_origin_extraction"
   handler                = "legislative_origin_extraction.handler"
@@ -589,7 +589,7 @@ module "legislative_origin_extraction" {
 
 module "typedb_ingestion" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "typedb_ingestion"
   handler                = "lambda_function.handler"
@@ -645,82 +645,17 @@ module "typedb_ingestion" {
   #Attaching AWS policies
   attach_policies = true
   policies = [
-    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
     aws_iam_policy.text_extraction_lambda_s3_policy.arn,
     aws_iam_policy.typedb_ingestion_sqs.arn
   ]
-  number_of_policies = 5
-}
-
-module "typedb_ingestion" {
-  source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
-
-  function_name          = "typedb_ingestion"
-  handler                = "lambda_function.handler"
-  runtime                = "python3.8"
-  memory_size            = "512"
-  timeout                = 900
-  create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.typedb_ingestion_config.typedb_ingestion_image_ver}"
-  package_type           = "Image"
-  vpc_subnet_ids         = module.vpc.private_subnets
-  maximum_retry_attempts = 0
-  attach_network_policy  = true
-
-  create_current_version_allowed_triggers = false
-
-  vpc_security_group_ids = [
-    aws_security_group.typedb_ingestion_lambda.id,
-    aws_security_group.sqs_vpc_endpoint.id
-  ]
-
-  environment_variables = {
-    ENVIRONMENT          = local.environment
-    DESTINATION_SQS_URL  = local.typedb_ingestion_config.destination_sqs_url
-    COGNITO_USER_POOL    = local.typedb_ingestion_config.cognito_user_pool
-    SENDER_EMAIL_ADDRESS = local.typedb_ingestion_config.sender_email_address
-  }
-
-  assume_role_policy_statements = {
-    account_root = {
-      effect  = "Allow",
-      actions = ["sts:AssumeRole"],
-      principals = {
-        account_principal = {
-          type        = "AWS",
-          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-        }
-      }
-    }
-    lambda = {
-      effect  = "Allow",
-      actions = ["sts:AssumeRole"],
-      principals = {
-        rds_principal = {
-          type = "Service"
-          identifiers = [
-            "lambda.amazonaws.com",
-          ]
-        }
-      }
-    }
-  }
-
-  #Attaching AWS policies
-  attach_policies = true
-  policies = [
-    aws_iam_policy.typedb_ingestion_sqs.arn,
-    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
-  ]
-  number_of_policies = 2
+  number_of_policies = 4
 }
 
 module "typedb_search_query" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "typedb_search_query"
   handler                = "handler.lambda_handler"
@@ -728,7 +663,7 @@ module "typedb_search_query" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-search-query:${local.lambda_config.typedb_search_query_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_search_query:${local.lambda_config.typedb_search_query_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0

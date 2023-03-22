@@ -8,6 +8,13 @@ resource "aws_iam_role" "iam_for_step_function" {
     {
       "Effect": "Allow",
       "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
         "Service": "states.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
@@ -26,7 +33,6 @@ resource "aws_iam_policy" "policy_write_sqs" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
               "sqs:SendMessage"
@@ -128,7 +134,7 @@ resource "aws_cloudwatch_event_target" "SFNTarget" {
 
 resource "aws_sfn_state_machine" "sfn_state_machine" {
   name     = "orp_document_ingestion"
-  role_arn = "${aws_iam_role.iam_for_step_function.arn}"
+  role_arn = aws_iam_role.iam_for_step_function.arn
 
   definition = <<EOF
 {
@@ -307,9 +313,24 @@ resource "aws_iam_policy" "policy_invoke_stepFunction" {
         {
             "Effect": "Allow",
              "Action": [ "states:StartExecution" ],
-            "Resource": [ "arn:aws:states:*:*:stateMachine:*" ]
+            "Resource": [ "${aws_sfn_state_machine.sfn_state_machine.arn}" ]
         }
      ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "policy_cw" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "policy_sf" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "policy_eb" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
 }

@@ -33,3 +33,8 @@ resource "aws_s3_bucket_acl" "beis-orp-graph-database" {
   bucket = "beis-${local.environment}-graph-database"
   acl    = "private"
 }
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket      = aws_s3_bucket.beis-orp-upload.id
+  eventbridge = true
+}
