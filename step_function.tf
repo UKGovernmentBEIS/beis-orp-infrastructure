@@ -278,7 +278,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         {
           "StartAt": "Legislative Origin Extraction",
           "States": {
-            "Summarisation": {
+            "Legislative Origin Extraction": {
               "Type": "Task",
               "Resource": "arn:aws:states:::lambda:invoke",
               "OutputPath": "$.Payload",
