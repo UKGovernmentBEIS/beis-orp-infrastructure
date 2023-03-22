@@ -66,7 +66,6 @@ resource "aws_ecs_task_definition" "webserver" {
       mc_api_key             = data.aws_secretsmanager_secret_version.mc_api_key.secret_string
       cloudwatch_group_name  = "/app/beis/client"
       cloudwatch_stream_name = local.environment
-      api_upload_key         = data.aws_secretsmanager_secret_version.api_upload_key.secret_string
       orp_search_url         = local.webserver_config.orp_search_url
       cognito_user_pool      = aws_cognito_user_pool.beis.id
       cognito_client_id      = aws_cognito_user_pool_client.beis_client.id

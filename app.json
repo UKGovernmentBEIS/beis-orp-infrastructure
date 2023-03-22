@@ -51,10 +51,6 @@
         "value": "${cloudwatch_stream_name}"
       },
       {
-        "name": "API_UPLOAD_KEY",
-        "value": "${api_upload_key}"
-      },
-      {
         "name": "ORP_SEARCH_URL",
         "value": "${orp_search_url}"
       },

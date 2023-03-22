@@ -87,19 +87,11 @@ data "aws_iam_policy_document" "ecs_svc" {
 }
 
 data "aws_secretsmanager_secret" "mc_api_key" {
-  name = "mc_api_key_${local.environment}"
+  name = "mc_api_key"
 }
 
 data "aws_secretsmanager_secret_version" "mc_api_key" {
   secret_id = data.aws_secretsmanager_secret.mc_api_key.id
-}
-
-data "aws_secretsmanager_secret" "api_upload_key" {
-  name = "api_upload_key_${local.environment}"
-}
-
-data "aws_secretsmanager_secret_version" "api_upload_key" {
-  secret_id = data.aws_secretsmanager_secret.api_upload_key.id
 }
 
 resource "aws_vpc_endpoint" "private_s3" {

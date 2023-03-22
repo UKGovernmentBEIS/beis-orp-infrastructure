@@ -1,6 +1,6 @@
 module "pdf_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "pdf_to_text"
   handler                = "pdf_to_text.handler"
@@ -8,7 +8,7 @@ module "pdf_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf-to-text:${local.pdf_to_text_config.pdf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf_to_text:${local.pdf_to_text_config.pdf_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -71,7 +71,7 @@ module "pdf_to_text" {
 
 module "docx_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "docx_to_text"
   handler                = "docx_to_text.handler"
@@ -79,7 +79,7 @@ module "docx_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/docx-to-text:${local.docx_to_text_config.docx_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/docx_to_text:${local.docx_to_text_config.docx_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -135,7 +135,7 @@ module "docx_to_text" {
 
 module "odf_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "odf_to_text"
   handler                = "odf_to_text.handler"
@@ -143,7 +143,7 @@ module "odf_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/odf-to-text:${local.odf_to_text_config.odf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/odf_to_text:${local.odf_to_text_config.odf_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -199,7 +199,7 @@ module "odf_to_text" {
 
 module "html_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "html_to_text"
   handler                = "html_to_text.handler"
@@ -207,7 +207,7 @@ module "html_to_text" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/html-to-text:${local.html_to_text_config.html_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/html_to_text:${local.html_to_text_config.html_to_text_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -263,7 +263,7 @@ module "html_to_text" {
 
 module "title_generation" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "title_generation"
   handler                = "title_generation.handler"
@@ -271,7 +271,7 @@ module "title_generation" {
   memory_size            = "3072"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/title-generation:${local.title_generation_config.title_generation_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/title_generation:${local.title_generation_config.title_generation_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -328,7 +328,7 @@ module "title_generation" {
 
 module "date_generation" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "date_generation"
   handler                = "date_generation.handler"
@@ -336,7 +336,7 @@ module "date_generation" {
   memory_size            = "3072"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/date-generation:${local.date_generation_config.date_generation_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/date_generation:${local.date_generation_config.date_generation_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -392,7 +392,7 @@ module "date_generation" {
 
 module "keyword_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "keyword_extraction"
   handler                = "keyword_extraction.handler"
@@ -400,7 +400,7 @@ module "keyword_extraction" {
   memory_size            = "2048"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword-extraction:${local.keyword_extraction_config.keyword_extraction_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/keyword_extraction:${local.keyword_extraction_config.keyword_extraction_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -456,7 +456,7 @@ module "keyword_extraction" {
 
 module "summarisation" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "summarisation"
   handler                = "summarisation.handler"
@@ -522,7 +522,7 @@ module "summarisation" {
 
 module "legislative_origin_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "legislative_origin_extraction"
   handler                = "legislative_origin_extraction.handler"
@@ -530,7 +530,7 @@ module "legislative_origin_extraction" {
   memory_size            = "3072"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/legislative-origin-extraction:${local.legislative_origin_extraction_config.legislative_origin_extraction_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/legislative_origin_extraction:${local.legislative_origin_extraction_config.legislative_origin_extraction_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -581,14 +581,15 @@ module "legislative_origin_extraction" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.text_extraction_lambda_s3_policy.arn
+    aws_iam_policy.legislative_origin_extraction_lambda_s3_policy.arn,
+    aws_iam_policy.lambda_access_dynamodb.arn
   ]
-  number_of_policies = 4
+  number_of_policies = 5
 }
 
 module "typedb_ingestion" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "typedb_ingestion"
   handler                = "lambda_function.handler"
@@ -596,7 +597,7 @@ module "typedb_ingestion" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-ingestion:${local.typedb_ingestion_config.typedb_ingestion_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_ingestion:${local.typedb_ingestion_config.typedb_ingestion_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -644,15 +645,17 @@ module "typedb_ingestion" {
   #Attaching AWS policies
   attach_policies = true
   policies = [
-    aws_iam_policy.typedb_ingestion_sqs.arn,
-    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.text_extraction_lambda_s3_policy.arn,
+    aws_iam_policy.typedb_ingestion_sqs.arn
   ]
-  number_of_policies = 2
+  number_of_policies = 4
 }
 
 module "typedb_search_query" {
   source  = "terraform-aws-modules/lambda/aws"
-  version = "~> 4"
+  version = "~> 4.1.2"
 
   function_name          = "typedb_search_query"
   handler                = "handler.lambda_handler"
@@ -660,7 +663,7 @@ module "typedb_search_query" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb-search-query:${local.lambda_config.typedb_search_query_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_search_query:${local.lambda_config.typedb_search_query_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0

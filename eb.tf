@@ -8,7 +8,7 @@ resource "aws_cloudwatch_event_rule" "eb_trigger" {
   "detail-type": ["Object Created"],
   "detail": {
     "bucket": {
-      "name": ["beis-orp-dev-upload"]
+      "name": ["${aws_s3_bucket.beis-orp-upload.id}"]
     },
     "object": {
       "key": [{

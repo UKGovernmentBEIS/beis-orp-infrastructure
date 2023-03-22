@@ -8,6 +8,13 @@ resource "aws_iam_role" "iam_for_step_function" {
     {
       "Effect": "Allow",
       "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
         "Service": "states.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
@@ -26,7 +33,6 @@ resource "aws_iam_policy" "policy_write_sqs" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
               "sqs:SendMessage"
@@ -46,6 +52,13 @@ resource "aws_iam_role_policy_attachment" "iam_for_step_function_attach_policy_w
   policy_arn = aws_iam_policy.policy_write_sqs.arn
 }
 
+resource "aws_iam_role_policy_attachment" "policy_invoke_stepFunction" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = aws_iam_policy.policy_invoke_stepFunction.arn
+}
+
+
+
 
 resource "aws_iam_policy" "policy_invoke_lambda" {
   name        = "stepFunctionLambdaFunctionInvocationPolicy"
@@ -63,10 +76,14 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
             "Resource": [
                 "${module.pdf_to_text.lambda_function_arn}",
                 "${module.docx_to_text.lambda_function_arn}",
-                "${module.typedb_ingestion.lambda_function_arn}",
+                "${module.odf_to_text.lambda_function_arn}",
+                "${module.html_to_text.lambda_function_arn}",
+                "${module.title_generation.lambda_function_arn}",
+                "${module.date_generation.lambda_function_arn}",
                 "${module.keyword_extraction.lambda_function_arn}",
-                "${module.typedb_ingestion.lambda_function_arn}",
-                "arn:aws:lambda:eu-west-2:*:*"
+                "${module.summarisation.lambda_function_arn}",
+                "${module.legislative_origin_extraction.lambda_function_arn}",
+                "${module.typedb_ingestion.lambda_function_arn}"
             ]
         }
     ]
@@ -109,9 +126,15 @@ resource "aws_iam_role_policy_attachment" "iam_for_step_function_attach_policy_a
   policy_arn = aws_iam_policy.policy_access_s3.arn
 }
 
+resource "aws_cloudwatch_event_target" "SFNTarget" {
+  rule     = aws_cloudwatch_event_rule.eb_trigger.name
+  arn      = aws_sfn_state_machine.sfn_state_machine.arn
+  role_arn = aws_iam_role.iam_for_step_function.arn
+}
+
 resource "aws_sfn_state_machine" "sfn_state_machine" {
   name     = "orp_document_ingestion"
-  role_arn = "${aws_iam_role.iam_for_step_function.arn}"
+  role_arn = aws_iam_role.iam_for_step_function.arn
 
   definition = <<EOF
 {
@@ -164,7 +187,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:docx_to_text:$LATEST"
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_text:$LATEST"
       },
       "Next": "Parallel"
     },
@@ -174,7 +197,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:pdf_to_text:$LATEST"
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:pdf_to_text:$LATEST"
       },
       "Next": "Parallel"
     },
@@ -191,7 +214,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:date_generation:$LATEST"
+                "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:date_generation:$LATEST"
               },
               "End": true
             }
@@ -206,7 +229,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:title_generation:$LATEST"
+                "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:title_generation:$LATEST"
               },
               "End": true
             }
@@ -221,7 +244,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:keyword_extraction:$LATEST"
+                "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:keyword_extraction:$LATEST"
               },
               "End": true
             }
@@ -236,7 +259,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "OutputPath": "$.Payload",
               "Parameters": {
                 "Payload.$": "$",
-                "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:summarisation:$LATEST"
+                "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:summarisation:$LATEST"
               },
               "End": true
             }
@@ -250,7 +273,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:typedb_ingestion:$LATEST"
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:typedb_ingestion:$LATEST"
       },
       "Next": "Success"
     },
@@ -266,7 +289,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:455762151948:function:odf_to_text:$LATEST"
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:odf_to_text:$LATEST"
       },
       "Next": "Parallel"
     }
@@ -290,9 +313,24 @@ resource "aws_iam_policy" "policy_invoke_stepFunction" {
         {
             "Effect": "Allow",
              "Action": [ "states:StartExecution" ],
-            "Resource": [ "arn:aws:states:*:*:stateMachine:*" ]
+            "Resource": [ "${aws_sfn_state_machine.sfn_state_machine.arn}" ]
         }
      ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "policy_cw" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "policy_sf" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "policy_eb" {
+  role       = aws_iam_role.iam_for_step_function.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
 }
