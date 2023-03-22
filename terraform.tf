@@ -22,21 +22,21 @@ terraform {
     }
   }
 
-#  backend "s3" {
-#    bucket         = "beis-dev-state"
-#    key            = "beis-dev-state.tfstate"
-#    region         = "eu-west-2"
-#    dynamodb_table = "beis-orp-locks"
-#    encrypt        = true
-#  }
-
   backend "s3" {
-    bucket         = "beis-state-dev"
-    key            = "beis-state-dev.tfstate"
+    bucket         = "beis-dev-state"
+    key            = "beis-dev-state.tfstate"
     region         = "eu-west-2"
     dynamodb_table = "beis-orp-locks"
     encrypt        = true
   }
+
+#  backend "s3" {
+#    bucket         = "beis-state-dev"
+#    key            = "beis-state-dev.tfstate"
+#    region         = "eu-west-2"
+#    dynamodb_table = "beis-orp-locks"
+#    encrypt        = true
+#  }
 }
 
 provider "aws" {
