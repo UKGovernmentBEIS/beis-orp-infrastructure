@@ -74,16 +74,16 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
                 "lambda:*"
             ],
             "Resource": [
-                "${module.pdf_to_text.lambda_function_arn}",
-                "${module.docx_to_text.lambda_function_arn}",
-                "${module.odf_to_text.lambda_function_arn}",
-                "${module.html_to_text.lambda_function_arn}",
-                "${module.title_generation.lambda_function_arn}",
-                "${module.date_generation.lambda_function_arn}",
-                "${module.keyword_extraction.lambda_function_arn}",
-                "${module.summarisation.lambda_function_arn}",
-                "${module.legislative_origin_extraction.lambda_function_arn}",
-                "${module.typedb_ingestion.lambda_function_arn}"
+                "${module.pdf_to_text.lambda_function_arn}:*",
+                "${module.docx_to_text.lambda_function_arn}:*",
+                "${module.odf_to_text.lambda_function_arn}:*",
+                "${module.html_to_text.lambda_function_arn}:*",
+                "${module.title_generation.lambda_function_arn}:*",
+                "${module.date_generation.lambda_function_arn}:*",
+                "${module.keyword_extraction.lambda_function_arn}:*",
+                "${module.summarisation.lambda_function_arn}:*",
+                "${module.legislative_origin_extraction.lambda_function_arn}:*",
+                "${module.typedb_ingestion.lambda_function_arn}:*"
             ]
         }
     ]
