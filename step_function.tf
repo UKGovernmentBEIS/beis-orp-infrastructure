@@ -83,7 +83,8 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
                 "${module.keyword_extraction.lambda_function_arn}",
                 "${module.summarisation.lambda_function_arn}",
                 "${module.legislative_origin_extraction.lambda_function_arn}",
-                "${module.typedb_ingestion.lambda_function_arn}"
+                "${module.typedb_ingestion.lambda_function_arn}",
+                "arn:aws:lambda:eu-west-2:*:*"
             ]
         }
     ]
