@@ -31,3 +31,4 @@ cd $DATABASE_WORKDIR/stream_update_process
 apt -y install python3-pip
 pip3 install -r requirements.txt 
 (crontab -l 2>/dev/null;  echo '* * * * * export TYPEDB_DOCU_SQS_NAME='$TYPEDB_DOCU_SQS_NAME' TYPEDB_DATABASE_NAME='$TYPEDB_DATABASE_NAME' AWS_REGION='$AWS_REGION' && cd '$(pwd) '&&' $(which python3) $(readlink -f main.py))| crontab -
+

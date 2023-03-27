@@ -1,10 +1,8 @@
 locals {
   package_url    = var.package_url
   downloaded     = "downloaded_package_${md5(local.package_url)}.zip"
-  route53_domain = var.route53_domain
-
-  environment = var.environment
-  region      = "eu-west-2"
+  environment    = var.environment
+  region         = "eu-west-2"
 
   lambda_config = {
     typedb_search_query_image_ver = var.typedb_search_query_image_ver
@@ -72,21 +70,13 @@ locals {
   #      typedb_server_port     = 1729
   #    }
 
-  webserver_config = {
-    domain           = var.domain
-    s3_upload_bucket = var.s3_upload_bucket
-    mc_server        = var.mc_server
-    mc_list          = var.mc_list
-    orp_search_url   = var.orp_search_url
-  }
-  #    prod = {
-  #      domain           = "https://app.cannonband.com/"
-  #      s3_upload_bucket = "beis-orp-prod-upload"
-  #      mc_server        = "us13"
-  #      mc_list          = "d8234fcc62"
-  #      orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
-  #    }
-  #  }
+#  webserver_config = {
+#    domain           = var.domain
+#    s3_upload_bucket = var.s3_upload_bucket
+#    mc_server        = var.mc_server
+#    mc_list          = var.mc_list
+#    orp_search_url   = var.orp_search_url
+#  }
 
   db_postgresql_config = {
     engine_version       = var.engine_version

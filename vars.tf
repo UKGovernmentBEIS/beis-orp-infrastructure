@@ -1,11 +1,3 @@
-variable "route53_zone_dev" {
-  type = string
-}
-
-variable "route53_domain" {
-  type = string
-}
-
 variable "package_url" {
   type = string
 }
@@ -98,13 +90,9 @@ variable "typedb_server_port" {
   type = number
 }
 
-variable "domain" {
-  type = string
-}
-
-variable "s3_upload_bucket" {
-  type = string
-}
+#variable "s3_upload_bucket" {
+#  type = string
+#}
 
 # variable "s3_data_lake" {
 #   type = string
@@ -122,9 +110,9 @@ variable "mc_list" {
   type = string
 }
 
-variable "orp_search_url" {
-  type = string
-}
+#variable "orp_search_url" {
+#  type = string
+#}
 
 variable "engine_version" {
   type = string
