@@ -458,10 +458,13 @@ resource "aws_iam_policy" "lambda_access_dynamodb" {
             "Sid": "ListAndDescribe",
             "Effect": "Allow",
             "Action": [
-                "dynamodb:*"
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan"
             ],
             "Resource": [
               aws_dynamodb_table.legislative-origin.arn
+              "${aws_dynamodb_table.legislative-origin.arn}/index/year-candidate_titles-index"
               ]
       }
     ]
