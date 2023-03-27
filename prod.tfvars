@@ -1,7 +1,3 @@
-route53_zone_dev  = false
-route53_zone_prod = true
-route53_domain    = "bre-orp-alpha.io"
-
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
 tf_profile  = "personal"
 environment = "prod"
@@ -32,7 +28,7 @@ typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
 domain           = "https://app.dev.bre-orp-alpha.io/"
-s3_upload_bucket = "beis-orp-dev-upload"
+s3_upload_bucket = "beis-prod-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
 mc_server      = "us13"

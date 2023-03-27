@@ -1,11 +1,3 @@
-variable "route53_zone_dev" {
-  type = string
-}
-
-variable "route53_domain" {
-  type = string
-}
-
 variable "package_url" {
   type = string
 }
