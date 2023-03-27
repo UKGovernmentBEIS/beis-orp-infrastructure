@@ -33,6 +33,7 @@ resource "aws_instance" "typedb" {
       typedb_database_schema = local.typedb_config.typedb_database_schema,
       typedb_database_file   = local.typedb_config.typedb_database_file,
       typedb_docu_sqs_name   = local.typedb_config.typedb_docu_sqs_name
+      s3_bucket              = aws_s3_bucket.beis-orp-graph-database.id
     }
   )
 }
