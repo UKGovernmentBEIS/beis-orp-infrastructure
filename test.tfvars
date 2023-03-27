@@ -27,7 +27,6 @@ typedb_database_file   = "orp-pbeta-demo.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
-domain           = "https://app.dev.cannonband.com/"
 s3_upload_bucket = "beis-test-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
