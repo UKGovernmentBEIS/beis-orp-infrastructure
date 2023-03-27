@@ -9,56 +9,6 @@ resource "aws_dynamodb_table" "legislative-origin" {
   }
 
   attribute {
-    name = "acronymcitation"
-    type = "S"
-  }
-
-  attribute {
-    name = "citation"
-    type = "S"
-  }
-
-  attribute {
-    name = "divAbbv"
-    type = "S"
-  }
-
-  attribute {
-    name = "href"
-    type = "S"
-  }
-
-  attribute {
-    name = "legDivision"
-    type = "S"
-  }
-
-  attribute {
-    name = "legType"
-    type = "S"
-  }
-
-  attribute {
-    name = "number"
-    type = "S"
-  }
-
-  attribute {
-    name = "ref"
-    type = "S"
-  }
-
-  attribute {
-    name = "shorttitle"
-    type = "S"
-  }
-
-  attribute {
-    name = "title"
-    type = "S"
-  }
-
-  attribute {
     name = "year"
     type = "S"
   }
