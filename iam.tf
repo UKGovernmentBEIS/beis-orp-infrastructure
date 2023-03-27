@@ -300,6 +300,7 @@ resource "aws_iam_policy" "summarisation_lambda_s3_policy" {
         "Resource" : [
           "arn:aws:s3:::*/*",
           aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-clustering-models.arn
         ]
       }
     ]
@@ -372,7 +373,8 @@ resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
         ],
         "Resource" : [
           "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn
+          aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-clustering-models.arn
         ]
       }
     ]
