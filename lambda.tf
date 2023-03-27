@@ -514,7 +514,7 @@ module "summarisation" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.legislative_origin_extraction_lambda_s3_policy.arn,
+    aws_iam_policy.summarisation_lambda_s3_policy.arn,
     aws_iam_policy.lambda_access_dynamodb.arn
   ]
   number_of_policies = 5
