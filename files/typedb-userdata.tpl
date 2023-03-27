@@ -19,10 +19,11 @@ TYPEDB_DATABASE_NAME=${typedb_database_name}
 TYPEDB_DATABASE_SCHEMA=${typedb_database_schema}
 TYPEDB_DATABASE_FILE=${typedb_database_file}
 TYPEDB_DOCU_SQS_NAME=${typedb_docu_sqs_name}
+S3_BUCKET=${s3_bucket}
 
 # import graph database into typedb server
 mkdir $DATABASE_WORKDIR
-aws s3 sync s3://beis-orp-dev-graph-database/pbeta/ $DATABASE_WORKDIR
+aws s3 sync s3://$S3_BUCKET/pbeta/ $DATABASE_WORKDIR
 typedb console --command='database create '$TYPEDB_DATABASE_NAME'' --command='transaction '$TYPEDB_DATABASE_NAME' schema write' --command='source '$DATABASE_WORKDIR'/'$TYPEDB_DATABASE_SCHEMA'' --command='commit'
 typedb server import --database=$TYPEDB_DATABASE_NAME --file=$DATABASE_WORKDIR/$TYPEDB_DATABASE_FILE --port=1729
 
