@@ -139,6 +139,15 @@ resource "aws_security_group_rule" "typedb_ingestion_lambda_to_sqs_endpoint" {
   type                     = "egress"
   source_security_group_id = aws_security_group.sqs_vpc_endpoint.id
 }
+  
+resource "aws_security_group_rule" "typedb_ingestion_all_outgoing" {
+  from_port                = 0
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_ingestion_lambda.id
+  to_port                  = 65535
+  type                     = "egress"
+  cidr_blocks              = ["0.0.0.0/0"]
+}
 
 resource "aws_security_group_rule" "keyword_extraction_lambda_s3_pfl" {
   from_port         = 443
