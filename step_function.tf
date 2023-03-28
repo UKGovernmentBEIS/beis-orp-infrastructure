@@ -213,7 +213,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     },
     "Parallel": {
       "Type": "Parallel",
-      "Next": "Keyword Extraction",
+      "Next": "TypeDB Ingestion",
       "Branches": [
         {
           "StartAt": "Date Generation",
@@ -240,6 +240,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "Parameters": {
                 "Payload.$": "$",
                 "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:title_generation:$LATEST"
+              },
+              "Next": "Keyword Extraction"
+            },
+            "Keyword Extraction": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "OutputPath": "$.Payload",
+              "Parameters": {
+                "Payload.$": "$",
+                "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:keyword_extraction:$LATEST"
               },
               "End": true
             }
@@ -276,16 +286,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           }
         }
       ]
-    },
-    "Keyword Extraction": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke",
-      "OutputPath": "$.Payload",
-      "Parameters": {
-        "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:keyword_extraction:$LATEST"
-      },
-      "Next": "TypeDB Ingestion"
     },
     "TypeDB Ingestion": {
       "Type": "Task",
