@@ -648,9 +648,10 @@ module "typedb_ingestion" {
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
     aws_iam_policy.text_extraction_lambda_s3_policy.arn,
-    aws_iam_policy.typedb_ingestion_sqs.arn
+    aws_iam_policy.typedb_ingestion_sqs.arn,
+    aws_iam_policy.typedb_ingestion_cognito.arn
   ]
-  number_of_policies = 4
+  number_of_policies = 5
 }
 
 module "typedb_search_query" {
