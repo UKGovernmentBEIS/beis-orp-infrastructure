@@ -470,3 +470,24 @@ resource "aws_iam_policy" "lambda_access_dynamodb" {
     ]
   })
 }
+  
+resource "aws_iam_policy" "typedb_ingestion_cognito" {
+  name        = "typedb_ingestion_cognito"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "cognito-idp:*"
+        ],
+        "Resource" : [
+          aws_cognito_user_pool.beis.arn
+        ]
+      }
+    ]
+  })
+}
