@@ -18,16 +18,27 @@ DATABASE_WORKDIR=${database_workdir}
 TYPEDB_DATABASE_NAME=${typedb_database_name}
 TYPEDB_DATABASE_SCHEMA=${typedb_database_schema}
 TYPEDB_DATABASE_FILE=orp-mvp-kgdb.typedb
-TYPEDB_DOCU_SQS_NAME=update-typedb 
+TYPEDB_DOCU_SQS_NAME=update-typedb
 
-# import graph database into typedb server
-mkdir $DATABASE_WORKDIR
-aws s3 sync s3://beis-orp-dev-graph-database $DATABASE_WORKDIR
-typedb console --command='database create '$TYPEDB_DATABASE_NAME'' --command='transaction '$TYPEDB_DATABASE_NAME' schema write' --command='source '$DATABASE_WORKDIR'/'$TYPEDB_DATABASE_SCHEMA'' --command='commit'
-typedb server import --database=$TYPEDB_DATABASE_NAME --file=$DATABASE_WORKDIR/$TYPEDB_DATABASE_FILE --port=1729
+CHECK_TYPEDB=$(typedb console --command='database list'|grep $TYPEDB_DATABASE_NAME)
+#if database doesn't exist
+if [ $CHECK_TYPEDB == $TYPEDB_DATABASE_NAME ]
+then
 
-# launch graph update as a cron job
-cd $DATABASE_WORKDIR/stream_update_process
-apt install python3-pip
-pip3 install -r requirements.txt 
-(crontab -l 2>/dev/null;  echo '* * * * * export TYPEDB_DOCU_SQS_NAME='$TYPEDB_DOCU_SQS_NAME' TYPEDB_DATABASE_NAME='$TYPEDB_DATABASE_NAME' AWS_REGION='$AWS_REGION' && cd '$(pwd) '&&' $(which python3) $(readlink -f main.py))| crontab -
+    # import graph database into typedb server
+    mkdir $DATABASE_WORKDIR
+    aws s3 sync s3://beis-orp-dev-graph-database $DATABASE_WORKDIR
+    typedb console --command='database create '$TYPEDB_DATABASE_NAME'' --command='transaction '$TYPEDB_DATABASE_NAME' schema write' --command='source '$DATABASE_WORKDIR'/'$TYPEDB_DATABASE_SCHEMA'' --command='commit'
+    typedb server import --database=$TYPEDB_DATABASE_NAME --file=$DATABASE_WORKDIR/$TYPEDB_DATABASE_FILE --port=1729
+fi
+
+CHECK_CRON=$(crontab -l)
+# if no cron job running
+if [ -n "$CHECK_CRON" ]
+then
+    # launch graph update as a cron job
+    cd $DATABASE_WORKDIR/stream_update_process
+    apt install python3-pip
+    pip3 install -r requirements.txt
+    (crontab -l 2>/dev/null;  echo '* * * * * export TYPEDB_DOCU_SQS_NAME='$TYPEDB_DOCU_SQS_NAME' TYPEDB_DATABASE_NAME='$TYPEDB_DATABASE_NAME' AWS_REGION='$AWS_REGION' && cd '$(pwd) '&&' $(which python3) $(readlink -f main.py))| crontab -
+fi
