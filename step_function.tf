@@ -179,7 +179,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           "Next": "Convert .odf to .txt"
         },
         {
-          "Variable": "$.detail.object.type",
+          "Variable": "$.detail.object.key",
           "StringEquals": "HTML",
           "Next": "Convert .html to .txt"
         }
