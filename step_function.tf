@@ -177,19 +177,14 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
             }
           ],
           "Next": "Convert .odf to .txt"
+        },
+        {
+          "Variable": "$.detail.object.key",
+          "StringEquals": "HTML",
+          "Next": "Convert .html to .txt"
         }
       ],
       "Default": "Fail"
-    },
-    "Convert .docx to .txt": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke",
-      "OutputPath": "$.Payload",
-      "Parameters": {
-        "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_text:$LATEST"
-      },
-      "Next": "Parallel"
     },
     "Convert .pdf to .txt": {
       "Type": "Task",
@@ -201,6 +196,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       },
       "Next": "Parallel"
     },
+    "Convert .docx to .txt": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_text:$LATEST"
+      },
+      "Next": "Parallel"
+    },
     "Convert .odf to .txt": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
@@ -208,6 +213,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "Parameters": {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:odf_to_text:$LATEST"
+      },
+      "Next": "Parallel"
+    },
+    "Convert .html to .txt": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:html_to_text:$LATEST"
       },
       "Next": "Parallel"
     },
