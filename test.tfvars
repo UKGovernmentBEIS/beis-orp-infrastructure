@@ -1,6 +1,6 @@
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
-tf_profile  = "personal"
-environment = "prod"
+tf_profile  = "terraform-test"
+environment = "test"
 region      = "eu-west-2"
 
 pdf_to_text_image_ver         = "latest"
@@ -21,21 +21,20 @@ typedb_ingestion_sender_email_address = "OpenRegulationPlatform@beis.gov.uk"
 destination_sqs_url = aws_sqs_queue.update_typedb.url
 
 database_workdir       = "graph_database"
-typedb_database_name   = "test-orp-pbeta"
-typedb_database_schema = "orp-gdb-schema.tql"
-typedb_database_file   = "orp-mvp-kgdb.typedb"
+typedb_database_name   = "orp-pbeta-demo"
+typedb_database_schema = "orp-gdb-schema-pbeta.tql"
+typedb_database_file   = "orp-pbeta-demo.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
-domain           = "https://app.dev.bre-orp-alpha.io/"
-s3_upload_bucket = "beis-prod-upload"
+s3_upload_bucket = "beis-test-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
 mc_server      = "us13"
 mc_list        = "d8234fcc62"
 orp_search_url = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
 
-engine_version       = "13.7"
+engine_version       = "13.8"
 engine               = "aurora-postgresql"
 scaling_min_capacity = "0.5"
 scaling_max_capacity = "1.0"
@@ -52,7 +51,7 @@ NeptuneAccess                       = "arn:aws:iam::aws:policy/NeptuneFullAccess
 
 ecs_service_count     = "1"
 db_address            = "db.beis.com"
-route_53_public_zone  = "dev.beis.com"
+route_53_public_zone  = "test.beis.com"
 enable_monitoring     = false
 delete_on_termination = true
 encrypted_volume      = false

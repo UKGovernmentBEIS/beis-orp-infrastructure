@@ -13,18 +13,26 @@ variable "region" {
 
 
 terraform {
-  required_version = "~> 1.3.3"
+  required_version = "~> 1.4"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.46"
+      version = "~> 4.58"
     }
   }
 
+#  backend "s3" {
+#    bucket         = "beis-dev-state"
+#    key            = "beis-dev-state.tfstate"
+#    region         = "eu-west-2"
+#    dynamodb_table = "beis-orp-locks"
+#    encrypt        = true
+#  }
+
   backend "s3" {
-    bucket         = "beis-dev-state"
-    key            = "beis-dev-state.tfstate"
+    bucket         = "beis-state-dev"
+    key            = "beis-state-dev.tfstate"
     region         = "eu-west-2"
     dynamodb_table = "beis-orp-locks"
     encrypt        = true

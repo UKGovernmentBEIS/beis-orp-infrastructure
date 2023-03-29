@@ -1,11 +1,3 @@
-variable "route53_zone_dev" {
-  type = string
-}
-
-variable "route53_domain" {
-  type = string
-}
-
 variable "package_url" {
   type = string
 }
@@ -30,6 +22,10 @@ variable "odf_to_text_image_ver" {
   type = string
 }
 
+variable "html_to_text_image_ver" {
+  type = string
+}
+
 variable "title_generation_image_ver" {
   type = string
 }
@@ -46,11 +42,27 @@ variable "keyword_extraction_image_ver" {
   type = string
 }
 
+variable "legislative_origin_extraction_image_ver" {
+  type = string
+}
+
+variable "legislative_origin_extraction_table_name" {
+  type = string
+}
+
+variable "legislative_origin_extraction_year_index_name" {
+  type = string
+}
+
 variable "typedb_ingestion_image_ver" {
   type = string
 }
 
 variable "typedb_search_query_image_ver" {
+  type = string
+}
+
+variable "typedb_ingestion_sender_email_address" {
   type = string
 }
 
@@ -78,13 +90,9 @@ variable "typedb_server_port" {
   type = number
 }
 
-variable "domain" {
-  type = string
-}
-
-variable "s3_upload_bucket" {
-  type = string
-}
+#variable "s3_upload_bucket" {
+#  type = string
+#}
 
 # variable "s3_data_lake" {
 #   type = string
@@ -102,9 +110,9 @@ variable "mc_list" {
   type = string
 }
 
-variable "orp_search_url" {
-  type = string
-}
+#variable "orp_search_url" {
+#  type = string
+#}
 
 variable "engine_version" {
   type = string

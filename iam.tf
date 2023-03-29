@@ -205,6 +205,32 @@ resource "aws_iam_policy" "odf_to_text_lambda_s3_policy" {
   })
 }
 
+resource "aws_iam_policy" "html_to_text_lambda_s3_policy" {
+  name        = "html-to-text-Lambda-to-S3"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-upload.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "title_generation_lambda_s3_policy" {
   name        = "title-generation-Lambda-to-S3"
   path        = "/"
@@ -274,6 +300,7 @@ resource "aws_iam_policy" "summarisation_lambda_s3_policy" {
         "Resource" : [
           "arn:aws:s3:::*/*",
           aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-clustering-models.arn
         ]
       }
     ]
@@ -346,6 +373,30 @@ resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
         ],
         "Resource" : [
           "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-clustering-models.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "legislative_origin_extraction_lambda_s3_policy" {
+  name        = "legislative-origin-extraction-lambda-s3-policy"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
           aws_s3_bucket.beis-orp-datalake.arn
         ]
       }
@@ -389,6 +440,52 @@ resource "aws_iam_policy" "lambda_invoke_typedb_ingestion" {
         ],
         "Resource" : [
           module.typedb_ingestion.lambda_function_arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "lambda_access_dynamodb" {
+  name        = "lambda_access_dynamodb"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "ListAndDescribe",
+        "Effect" : "Allow",
+        "Action" : [
+          "dynamodb:GetItem",
+          "dynamodb:Query",
+          "dynamodb:Scan"
+        ],
+        "Resource" : [
+          aws_dynamodb_table.legislative-origin.arn,
+          "${aws_dynamodb_table.legislative-origin.arn}/index/year-candidate_titles-index"
+        ]
+      }
+    ]
+  })
+}
+  
+resource "aws_iam_policy" "typedb_ingestion_cognito" {
+  name        = "typedb_ingestion_cognito"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "cognito-idp:*"
+        ],
+        "Resource" : [
+          aws_cognito_user_pool.beis.arn
         ]
       }
     ]

@@ -1,46 +1,56 @@
 locals {
-  package_url = var.package_url
-  downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
-  route53_domain = var.route53_domain
-
-  environment = var.environment
-  region      = "eu-west-2"
+  package_url    = var.package_url
+  downloaded     = "downloaded_package_${md5(local.package_url)}.zip"
+  environment    = var.environment
+  region         = "eu-west-2"
 
   lambda_config = {
     typedb_search_query_image_ver = var.typedb_search_query_image_ver
   }
 
   pdf_to_text_config = {
-    pdf_to_text_image_ver         = var.pdf_to_text_image_ver
+    pdf_to_text_image_ver = var.pdf_to_text_image_ver
   }
 
   docx_to_text_config = {
-    docx_to_text_image_ver        = var.docx_to_text_image_ver
+    docx_to_text_image_ver = var.docx_to_text_image_ver
   }
 
   odf_to_text_config = {
-    odf_to_text_image_ver         = var.odf_to_text_image_ver
+    odf_to_text_image_ver = var.odf_to_text_image_ver
+  }
+
+  html_to_text_config = {
+    html_to_text_image_ver = var.html_to_text_image_ver
   }
 
   title_generation_config = {
-    title_generation_image_ver    = var.title_generation_image_ver
+    title_generation_image_ver = var.title_generation_image_ver
   }
 
   date_generation_config = {
-    date_generation_image_ver    = var.date_generation_image_ver
+    date_generation_image_ver = var.date_generation_image_ver
   }
 
   keyword_extraction_config = {
-    keyword_extraction_image_ver  = var.keyword_extraction_image_ver
+    keyword_extraction_image_ver = var.keyword_extraction_image_ver
   }
 
   summarisation_config = {
-    summarisation_image_ver       = var.summarisation_image_ver
+    summarisation_image_ver = var.summarisation_image_ver
+  }
+
+  legislative_origin_extraction_config = {
+    legislative_origin_extraction_image_ver = var.legislative_origin_extraction_image_ver
+    table_name                              = var.legislative_origin_extraction_table_name
+    year_index_name                         = var.legislative_origin_extraction_year_index_name
   }
 
   typedb_ingestion_config = {
-    typedb_ingestion_image_ver    = var.typedb_ingestion_image_ver
-    destination_sqs_url           = aws_sqs_queue.update_typedb.url
+    typedb_ingestion_image_ver = var.typedb_ingestion_image_ver
+    destination_sqs_url        = aws_sqs_queue.update_typedb.url
+    cognito_user_pool          = aws_cognito_user_pool.beis.id
+    sender_email_address       = var.typedb_ingestion_sender_email_address
   }
 
   typedb_config = {
@@ -51,29 +61,21 @@ locals {
     typedb_docu_sqs_name   = var.typedb_docu_sqs_name
     typedb_server_port     = var.typedb_server_port
   }
-#    prod = {
-#      database_workdir       = "graph_database"
-#      typedb_database_name   = "orp-mvp-v0.1"
-#      typedb_database_schema = "orp-gdb-schema.tql"
-#      typedb_database_file   = "orp-mvp-kgdb.typedb"
-#      typedb_docu_sqs_name   = "update-typedb"
-#      typedb_server_port     = 1729
-#    }
+  #    prod = {
+  #      database_workdir       = "graph_database"
+  #      typedb_database_name   = "orp-mvp-v0.1"
+  #      typedb_database_schema = "orp-gdb-schema.tql"
+  #      typedb_database_file   = "orp-mvp-kgdb.typedb"
+  #      typedb_docu_sqs_name   = "update-typedb"
+  #      typedb_server_port     = 1729
+  #    }
 
-  webserver_config = {
-      domain           = var.domain
-      s3_upload_bucket = var.s3_upload_bucket
-      mc_server        = var.mc_server
-      mc_list          = var.mc_list
-      orp_search_url   = var.orp_search_url
-    }
-#    prod = {
-#      domain           = "https://app.cannonband.com/"
-#      s3_upload_bucket = "beis-orp-prod-upload"
-#      mc_server        = "us13"
-#      mc_list          = "d8234fcc62"
-#      orp_search_url   = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
-#    }
+#  webserver_config = {
+#    domain           = var.domain
+#    s3_upload_bucket = var.s3_upload_bucket
+#    mc_server        = var.mc_server
+#    mc_list          = var.mc_list
+#    orp_search_url   = var.orp_search_url
 #  }
 
   db_postgresql_config = {

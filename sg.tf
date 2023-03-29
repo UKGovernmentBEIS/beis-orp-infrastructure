@@ -49,6 +49,12 @@ resource "aws_security_group" "odf_to_text_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "html_to_text_lambda" {
+  name        = "beis-orp-html-to-text-lambda"
+  description = "Security Group for BEIS ORP html-to-text Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "title_generation_lambda" {
   name        = "beis-orp-title-generation-lambda"
   description = "Security Group for BEIS ORP title-generation Lambda"
@@ -64,6 +70,12 @@ resource "aws_security_group" "date_generation_lambda" {
 resource "aws_security_group" "summarisation_lambda" {
   name        = "beis-orp-summarisation-lambda"
   description = "Security Group for BEIS ORP summarisation Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group" "legislative_origin_extraction_lambda" {
+  name        = "beis-orp-legislative-origin-extraction-lambda"
+  description = "Security Group for BEIS ORP legislative-origin-extraction Lambda"
   vpc_id      = module.vpc.vpc_id
 }
 
@@ -126,6 +138,15 @@ resource "aws_security_group_rule" "typedb_ingestion_lambda_to_sqs_endpoint" {
   to_port                  = 443
   type                     = "egress"
   source_security_group_id = aws_security_group.sqs_vpc_endpoint.id
+}
+  
+resource "aws_security_group_rule" "typedb_ingestion_all_outgoing" {
+  from_port                = 0
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.typedb_ingestion_lambda.id
+  to_port                  = 65535
+  type                     = "egress"
+  cidr_blocks              = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "keyword_extraction_lambda_s3_pfl" {

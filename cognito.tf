@@ -35,12 +35,12 @@ resource "aws_cognito_user_pool_client" "beis_client" {
 }
 
 resource "aws_cognito_user_pool_domain" "main" {
-  domain       = "beis-orp"
+  domain       = "${local.environment}-beis-orp"
   user_pool_id = aws_cognito_user_pool.beis.id
 }
 
 resource "aws_cognito_user_pool" "beis_api" {
-  name = "beis-api"
+  name = "${local.environment}-beis-api"
 
   username_configuration {
     case_sensitive = false
@@ -73,7 +73,7 @@ resource "aws_cognito_user_pool" "beis_api" {
 }
 
 resource "aws_cognito_user_pool_client" "beis_api_client" {
-  name = "beis_api_client"
+  name = "${local.environment}-beis_api_client"
   explicit_auth_flows = [
     "ALLOW_ADMIN_USER_PASSWORD_AUTH",
     "ALLOW_CUSTOM_AUTH",
@@ -93,6 +93,6 @@ resource "aws_cognito_user_pool_client" "beis_api_client" {
 }
 
 resource "aws_cognito_user_pool_domain" "beis_api" {
-  domain       = "beis-api"
+  domain       = "${local.environment}-beis-api"
   user_pool_id = aws_cognito_user_pool.beis_api.id
 }

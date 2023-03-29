@@ -1,7 +1,7 @@
 resource "aws_instance" "typedb" {
   #  ami           = "ami-04706e771f950937f" // AWS Linux
   ami           = "ami-0f540e9f488cfa27d" // Ubuntu
-  instance_type = "t2.micro"
+  instance_type = "c5.2xlarge"
 
   availability_zone      = "${local.region}a"
   subnet_id              = module.vpc.private_subnets[0]
@@ -33,6 +33,7 @@ resource "aws_instance" "typedb" {
       typedb_database_schema = local.typedb_config.typedb_database_schema,
       typedb_database_file   = local.typedb_config.typedb_database_file,
       typedb_docu_sqs_name   = local.typedb_config.typedb_docu_sqs_name
+      s3_bucket              = aws_s3_bucket.beis-orp-graph-database.id
     }
   )
 }
