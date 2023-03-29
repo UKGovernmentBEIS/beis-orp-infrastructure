@@ -24,7 +24,7 @@ S3_BUCKET=${s3_bucket}
 
 CHECK_TYPEDB=$(typedb console --command='database list'|grep $TYPEDB_DATABASE_NAME)
 #if database doesn't exist
-if [ $CHECK_TYPEDB == $TYPEDB_DATABASE_NAME ]
+if [[ $CHECK_TYPEDB != $TYPEDB_DATABASE_NAME ]]
 then
   # import graph database into typedb server
   mkdir $DATABASE_WORKDIR
