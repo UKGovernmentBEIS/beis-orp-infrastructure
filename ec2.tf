@@ -1,7 +1,7 @@
 resource "aws_instance" "typedb" {
   #  ami           = "ami-04706e771f950937f" // AWS Linux
   ami           = "ami-0f540e9f488cfa27d" // Ubuntu
-  instance_type = "t2.micro"
+  instance_type = "c5.2xlarge"
 
   availability_zone      = "${local.region}a"
   subnet_id              = module.vpc.private_subnets[0]
