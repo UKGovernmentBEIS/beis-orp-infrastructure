@@ -491,3 +491,35 @@ resource "aws_iam_policy" "typedb_ingestion_cognito" {
     ]
   })
 }
+
+resource "aws_iam_role" "api_gateway_execution_role" {
+  name = "api_gateway_execution_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "api_gateway_execution_policy" {
+  name = "api_gateway_execution_policy"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:InvokeFunction"
+        ]
+        Resource = module.html_trigger.lambda_function_arn
+      }
+    ]
+  })
+}
