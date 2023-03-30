@@ -31,6 +31,12 @@ resource "aws_security_group" "mongo_bastion_instance" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "html_trigger_lambda" {
+  name        = "beis-orp-html-trigger-lambda"
+  description = "Security Group for BEIS ORP html_trigger Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "pdf_to_text_lambda" {
   name        = "beis-orp-pdf-to-text-lambda"
   description = "Security Group for BEIS ORP pdf-to-text Lambda"

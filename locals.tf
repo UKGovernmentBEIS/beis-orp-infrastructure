@@ -8,6 +8,10 @@ locals {
     typedb_search_query_image_ver = var.typedb_search_query_image_ver
   }
 
+  html_trigger_config = {
+    html_trigger_image_ver = var.html_trigger_image_ver
+  }
+
   pdf_to_text_config = {
     pdf_to_text_image_ver = var.pdf_to_text_image_ver
   }
