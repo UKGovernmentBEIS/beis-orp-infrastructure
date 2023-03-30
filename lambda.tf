@@ -57,8 +57,9 @@ module "html_trigger" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.policy_invoke_stepFunction.arn
   ]
-  number_of_policies = 3
+  number_of_policies = 4
 }
 
 module "pdf_to_text" {
