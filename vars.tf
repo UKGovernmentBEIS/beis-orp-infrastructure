@@ -10,6 +10,10 @@ variable "environment" {
   type = string
 }
 
+variable "html_trigger_image_ver" {
+  type = string
+}
+
 variable "pdf_to_text_image_ver" {
   type = string
 }

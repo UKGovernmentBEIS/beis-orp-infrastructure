@@ -3,6 +3,7 @@ tf_profile  = "personal"
 environment = "prod"
 region      = "eu-west-2"
 
+html_trigger_image_ver        = "latest"
 pdf_to_text_image_ver         = "latest"
 docx_to_text_image_ver        = "latest"
 odf_to_text_image_ver         = "latest"
