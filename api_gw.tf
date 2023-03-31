@@ -18,6 +18,16 @@ resource "aws_api_gateway_method" "html_document_api_post" {
   resource_id   = aws_api_gateway_resource.html_document_api_resource.id
   http_method   = "POST"
   authorization = "NONE"
+  request_parameters = {
+    "method.request.header.Content-Type" = true
+  }
+}
+
+resource "aws_api_gateway_request_validator" "html_document_api_validator" {
+  rest_api_id = aws_api_gateway_rest_api.private_rest_api.id
+  name        = "html_document_api_validator"
+  validate_request_body = true
+  validate_request_parameters = true
 }
 
 resource "aws_api_gateway_integration" "html_document_api_lambda_integration" {
