@@ -26,10 +26,10 @@ resource "aws_api_gateway_integration" "html_document_api_lambda_integration" {
   http_method             = aws_api_gateway_method.html_document_api_post.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.html_trigger.lambda_function_arn
+  uri                     = "arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${module.html_trigger.lambda_function_arn}/invocations"
   passthrough_behavior    = "WHEN_NO_MATCH"
   content_handling        = "CONVERT_TO_TEXT"
-  request_templates = {
+  request_templates       = {
     "application/json" = jsonencode({
       "uuid": "$input.path('$.uuid')",
       "regulator_id": "$input.path('$.regulator_id')",
@@ -42,9 +42,9 @@ resource "aws_api_gateway_integration" "html_document_api_lambda_integration" {
   }
 }
 
-resource "aws_api_gateway_model" "html_document_api_request_model" {
+resource "aws_api_gateway_model" "request_validator_model" {
   rest_api_id = aws_api_gateway_rest_api.private_rest_api.id
-  name        = "html_document_api_request_model"
+  name        = "requestValidator"
   content_type = "application/json"
   schema      = jsonencode({
     "$schema": "http://json-schema.org/draft-04/schema#",
