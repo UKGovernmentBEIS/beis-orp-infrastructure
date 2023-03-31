@@ -19,15 +19,11 @@ resource "aws_api_gateway_method" "html_document_api_post" {
   http_method   = "POST"
   authorization = "NONE"
   request_parameters = {
-    "method.request.header.Content-Type" = true
+    "method.request.header.Content-Type" = false
   }
-}
-
-resource "aws_api_gateway_request_validator" "html_document_api_validator" {
-  rest_api_id = aws_api_gateway_rest_api.private_rest_api.id
-  name        = "html_document_api_validator"
-  validate_request_body = true
-  validate_request_parameters = true
+  request_models = {
+    "application/json" = aws_api_gateway_model.request_validator_model.name
+  }
 }
 
 resource "aws_api_gateway_integration" "html_document_api_lambda_integration" {
@@ -35,21 +31,10 @@ resource "aws_api_gateway_integration" "html_document_api_lambda_integration" {
   resource_id             = aws_api_gateway_resource.html_document_api_resource.id
   http_method             = aws_api_gateway_method.html_document_api_post.http_method
   integration_http_method = "POST"
-  type                    = "AWS_PROXY"
+  type                    = "AWS"
   uri                     = "arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${module.html_trigger.lambda_function_arn}/invocations"
-  passthrough_behavior    = "WHEN_NO_MATCH"
+  passthrough_behavior    = "WHEN_NO_TEMPLATES"
   content_handling        = "CONVERT_TO_TEXT"
-  request_templates       = {
-    "application/json" = jsonencode({
-      "uuid": "$input.path('$.uuid')",
-      "regulator_id": "$input.path('$.regulator_id')",
-      "user_id": "$input.path('$.user_id')",
-      "uri": "$input.path('$.uri')",
-      "document_type": "$input.path('$.document_type')",
-      "status": "$input.path('$.status')",
-      "topics": "$input.path('$.topics')"
-    })
-  }
 }
 
 resource "aws_api_gateway_model" "request_validator_model" {
