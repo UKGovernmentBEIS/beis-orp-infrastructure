@@ -106,3 +106,16 @@ resource "aws_api_gateway_rest_api_policy" "html_document_api_policy_resource" {
     ]
   })
 }
+
+resource "aws_api_gateway_deployment" "private_rest_api_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.private_rest_api.id
+  stage_name  = "prod"
+  description = "Production deployment of the private HTML Document REST API"
+}
+
+resource "aws_api_gateway_stage" "private_rest_api_stage" {
+  rest_api_id  = aws_api_gateway_rest_api.private_rest_api.id
+  deployment_id = aws_api_gateway_deployment.private_rest_api_deployment.id
+  stage_name   = "prod"
+  description  = "Production stage of the private HTML Document REST API"
+}
