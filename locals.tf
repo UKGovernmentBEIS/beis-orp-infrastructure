@@ -29,7 +29,7 @@ locals {
   }
 
   check_duplicate_config = {
-    check_duplicate_image_ver = var.typedb_ingestion_image_ver
+    check_duplicate_image_ver = var.check_duplicate_image_ver
     cognito_user_pool          = aws_cognito_user_pool.beis.id
     sender_email_address       = var.typedb_ingestion_sender_email_address
   }
