@@ -90,13 +90,13 @@ resource "aws_api_gateway_rest_api_policy" "html_document_api_policy_resource" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "execute-api:Invoke",
-            "Resource": "arn:aws:execute-api:eu-west-2:412071276468:djdxhzko7b/*"
+            "Resource": "${aws_api_gateway_rest_api.private_rest_api.arn}/*"
         },
         {
             "Effect": "Deny",
             "Principal": "*",
             "Action": "execute-api:Invoke",
-            "Resource": "arn:aws:execute-api:eu-west-2:412071276468:djdxhzko7b/*",
+            "Resource": "${aws_api_gateway_rest_api.private_rest_api.arn}/*",
             "Condition": {
                 "StringNotEquals": {
                     "aws:SourceVpc": "${module.vpc.vpc_id}"
