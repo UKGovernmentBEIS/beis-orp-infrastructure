@@ -99,7 +99,7 @@ resource "aws_api_gateway_rest_api_policy" "html_document_api_policy_resource" {
             "Resource": "${aws_api_gateway_rest_api.private_rest_api.arn}/*",
             "Condition": {
                 "StringNotEquals": {
-                    "aws:SourceVpc": "${module.vpc.vpc_id}"
+                    "aws:SourceVpc": module.vpc.vpc_id
                 }
             }
         }
