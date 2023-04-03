@@ -325,6 +325,76 @@ module "html_to_text" {
   number_of_policies = 4
 }
 
+module "check_duplicate" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.1.2"
+
+  function_name          = "check_duplicate"
+  handler                = "check_duplicate.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/check_duplicate:${local.lambda_config.check_duplicate_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.check_duplicate_lambda.id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT          = local.environment,
+    SOURCE_BUCKET        = aws_s3_bucket.beis-orp-datalake.id
+    TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
+    TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
+    TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
+    NLTK_DATA            = "./nltk_data"
+    COGNITO_USER_POOL    = local.check_duplicate_config.cognito_user_pool
+    SENDER_EMAIL_ADDRESS = local.check_duplicate_config.sender_email_address
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.check_duplicate_lambda_s3_policy.arn,
+    aws_iam_policy.check_duplicate_lambda_cognito_policy.arn
+  ]
+  number_of_policies = 5
+}
+
 module "title_generation" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"

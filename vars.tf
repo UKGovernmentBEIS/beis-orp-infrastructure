@@ -30,6 +30,10 @@ variable "html_to_text_image_ver" {
   type = string
 }
 
+variable "check_duplicate_image_ver" {
+  type = string
+}
+
 variable "title_generation_image_ver" {
   type = string
 }

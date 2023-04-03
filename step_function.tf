@@ -194,7 +194,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:pdf_to_text:$LATEST"
       },
-      "Next": "Parallel"
+      "Next": "Check Duplicates"
     },
     "Convert .docx to .txt": {
       "Type": "Task",
@@ -204,7 +204,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_text:$LATEST"
       },
-      "Next": "Parallel"
+      "Next": "Check Duplicates"
     },
     "Convert .odf to .txt": {
       "Type": "Task",
@@ -214,7 +214,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:odf_to_text:$LATEST"
       },
-      "Next": "Parallel"
+      "Next": "Check Duplicates"
     },
     "Convert .html to .txt": {
       "Type": "Task",
@@ -223,6 +223,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "Parameters": {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:html_to_text:$LATEST"
+      },
+      "Next": "Check Duplicates"
+    },
+    "Check Duplicates": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:check_duplicate:$LATEST"
       },
       "Next": "Parallel"
     },
