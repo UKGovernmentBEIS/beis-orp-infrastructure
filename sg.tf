@@ -61,8 +61,8 @@ resource "aws_security_group" "html_to_text_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group" "check_duplicate_lambda" {
-  name        = "beis-orp-check-duplicate-lambda"
+resource "aws_security_group" "check_duplicates_lambda" {
+  name        = "beis-orp-check-duplicates-lambda"
   description = "Security Group for BEIS ORP check_duplicate Lambda"
   vpc_id      = module.vpc.vpc_id
 }

@@ -344,7 +344,7 @@ module "check_duplicate" {
   create_current_version_allowed_triggers = false
 
   vpc_security_group_ids = [
-    aws_security_group.check_duplicate_lambda.id
+    aws_security_group.check_duplicates_lambda.id
   ]
 
   environment_variables = {
