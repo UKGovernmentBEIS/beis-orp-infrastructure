@@ -80,3 +80,29 @@ resource "aws_api_gateway_model" "request_validator_model" {
     "additionalProperties": false
   })
 }
+
+resource "aws_api_gateway_rest_api_policy" "html_document_api_policy_resource" {
+  rest_api_id = aws_api_gateway_rest_api.private_rest_api.id
+  policy      = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "execute-api:Invoke",
+            "Resource": "arn:aws:execute-api:eu-west-2:412071276468:djdxhzko7b/*"
+        },
+        {
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "execute-api:Invoke",
+            "Resource": "arn:aws:execute-api:eu-west-2:412071276468:djdxhzko7b/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:SourceVpc": "${module.vpc.vpc_id}"
+                }
+            }
+        }
+    ]
+  })
+}
