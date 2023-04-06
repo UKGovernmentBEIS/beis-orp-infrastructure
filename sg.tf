@@ -115,6 +115,33 @@ resource "aws_security_group" "sqs_vpc_endpoint" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group_rule" "check_duplicate_all_outgoing_1729" {
+  from_port                = 1729
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.check_duplicate_lambda.id
+  to_port                  = 1729
+  type                     = "egress"
+  cidr_blocks              = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "check_duplicate_all_outgoing_443" {
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.check_duplicate_lambda.id
+  to_port                  = 443
+  type                     = "egress"
+  cidr_blocks              = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "check_duplicate_all_outgoing_pfl" {
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.check_duplicate_lambda.id
+  to_port                  = 443
+  type                     = "egress"
+  cidr_blocks              = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
+}
+
 # Because AWS is annoying sometimes
 resource "aws_security_group_rule" "sqs_vpc_endpoint_ingress_all" {
   from_port         = 0

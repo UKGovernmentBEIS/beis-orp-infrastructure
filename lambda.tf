@@ -353,7 +353,7 @@ module "check_duplicate" {
     TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
     TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
     TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
-    NLTK_DATA            = "./nltk_data"
+    NLTK_DATA            = "/tmp/nltk_data"
     COGNITO_USER_POOL    = local.check_duplicate_config.cognito_user_pool
     SENDER_EMAIL_ADDRESS = local.check_duplicate_config.sender_email_address
   }
