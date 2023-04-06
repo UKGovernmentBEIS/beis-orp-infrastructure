@@ -69,6 +69,10 @@
       {
         "name": "COGNITO_API_CLIENT_ID",
         "value": "${cognito_api_client_id}"
+      },
+      {
+        "name": "HTML_INGESTION_URL",
+        "value": "${html_ingestion_url}"
       }
     ],
     "logConfiguration": {
