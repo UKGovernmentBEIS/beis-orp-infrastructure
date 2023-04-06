@@ -569,3 +569,8 @@ resource "aws_iam_policy" "api_gateway_execution_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "api_gateway_execution_attachment" {
+  policy_arn = aws_iam_policy.api_gateway_execution_policy.arn
+  role       = aws_iam_role.api_gateway_execution_role.name
+}
