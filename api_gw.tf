@@ -35,6 +35,10 @@ resource "aws_api_gateway_integration" "html_document_api_lambda_integration" {
   uri                     = "arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${module.html_trigger.lambda_function_arn}/invocations"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
   content_handling        = "CONVERT_TO_TEXT"
+
+  credentials {
+    iam_role = aws_iam_role.api_gateway_execution_role.arn
+  }
 }
 
 resource "aws_api_gateway_model" "request_validator_model" {
