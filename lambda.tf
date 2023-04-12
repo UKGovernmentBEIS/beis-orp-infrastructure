@@ -596,7 +596,8 @@ module "summarisation" {
   function_name          = "summarisation"
   handler                = "summarisation.handler"
   runtime                = "python3.8"
-  memory_size            = "3072"
+  memory_size            = 4096
+  ephemeral_storage_size = 8192
   timeout                = 900
   create_package         = false
   image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/summarisation:${local.summarisation_config.summarisation_image_ver}"
