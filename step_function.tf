@@ -229,7 +229,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     },
     "Check Duplicates": {
       "Type": "Task",
-      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Resource": "arn:aws:states:::lambda:invoke",
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
