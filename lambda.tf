@@ -352,7 +352,7 @@ module "check_duplicate" {
     SOURCE_BUCKET        = aws_s3_bucket.beis-orp-datalake.id
     TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
     TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
-    # TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
+    TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
     TYPEDB_DATABASE_NAME = "test-orp"
     NLTK_DATA            = "/tmp/nltk_data"
     COGNITO_USER_POOL    = local.check_duplicate_config.cognito_user_pool
