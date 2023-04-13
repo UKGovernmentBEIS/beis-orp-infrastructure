@@ -683,7 +683,7 @@ module "legislation_table_update" {
     ENVIRONMENT        = local.environment
     DESTINATION_BUCKET = aws_s3_bucket.beis-orp-datalake.id
     TABLE_NAME         = local.legislative_origin_extraction_config.table_name
-    SECRET_NAME        = local.legislation_table_update_config.secret_name
+    SECRET_NAME        = data.aws_secretsmanager_secret_version.tna_credentials.secret_string
   }
 
   assume_role_policy_statements = {

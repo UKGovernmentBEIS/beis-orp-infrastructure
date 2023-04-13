@@ -52,7 +52,6 @@ locals {
 
   legislation_table_update_config = {
     legislation_table_update_image_ver = var.legislation_table_update_image_ver
-    secret_name                        = var.legislation_table_update_secret_name
   }
 
   legislative_origin_extraction_config = {

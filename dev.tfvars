@@ -20,7 +20,6 @@ typedb_search_query_image_ver           = "latest"
 
 legislative_origin_extraction_table_name      = "legislative-origin"
 legislative_origin_extraction_year_index_name = "year-candidate_titles-index"
-legislation_table_update_secret_name          = "tna-credentials"
 typedb_ingestion_sender_email_address         = "OpenRegulationPlatform@beis.gov.uk"
 destination_sqs_url                           = aws_sqs_queue.update_typedb.url
 

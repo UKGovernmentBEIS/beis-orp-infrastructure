@@ -485,7 +485,6 @@ resource "aws_iam_policy" "legislation_table_update_secret_manager_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Resource = "arn:aws:secretsmanager:*:*:secret:tna_credentials-*"
-        # TODO: This is hardcoded, what would the resource ARN be?
       }
     ]
   })
