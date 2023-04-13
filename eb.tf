@@ -34,6 +34,11 @@ resource "aws_cloudwatch_event_target" "legislation_table_update_target" {
   rule      = aws_cloudwatch_event_rule.legislation_table_update_trigger.name
   arn       = module.legislation_table_update.lambda_function_arn
   target_id = "legislation_table_update_target"
+  input = jsonencode(
+    {
+      event = "hello"
+    }
+  )
 }
 
 # resource "aws_lambda_permission" "event_bridge_permission" {
