@@ -50,6 +50,14 @@ variable "keyword_extraction_image_ver" {
   type = string
 }
 
+variable "legislation_table_update_image_ver" {
+  type = string
+}
+
+variable "legislation_table_update_secret_name" {
+  type = string
+}
+
 variable "legislative_origin_extraction_image_ver" {
   type = string
 }

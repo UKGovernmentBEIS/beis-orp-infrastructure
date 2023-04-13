@@ -85,6 +85,12 @@ resource "aws_security_group" "summarisation_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "legislation_table_update_lambda" {
+  name        = "beis-orp-legislation-table-update-lambda"
+  description = "Security Group for BEIS ORP legislation-table-update Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "legislative_origin_extraction_lambda" {
   name        = "beis-orp-legislative-origin-extraction-lambda"
   description = "Security Group for BEIS ORP legislative-origin-extraction Lambda"
@@ -116,30 +122,30 @@ resource "aws_security_group" "sqs_vpc_endpoint" {
 }
 
 resource "aws_security_group_rule" "check_duplicate_all_outgoing_1729" {
-  from_port                = 1729
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.check_duplicate_lambda.id
-  to_port                  = 1729
-  type                     = "egress"
-  cidr_blocks              = ["0.0.0.0/0"]
+  from_port         = 1729
+  protocol          = "tcp"
+  security_group_id = aws_security_group.check_duplicate_lambda.id
+  to_port           = 1729
+  type              = "egress"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "check_duplicate_all_outgoing_443" {
-  from_port                = 443
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.check_duplicate_lambda.id
-  to_port                  = 443
-  type                     = "egress"
-  cidr_blocks              = ["0.0.0.0/0"]
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.check_duplicate_lambda.id
+  to_port           = 443
+  type              = "egress"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "check_duplicate_all_outgoing_pfl" {
-  from_port                = 443
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.check_duplicate_lambda.id
-  to_port                  = 443
-  type                     = "egress"
-  cidr_blocks              = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.check_duplicate_lambda.id
+  to_port           = 443
+  type              = "egress"
+  cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
 }
 
 # Because AWS is annoying sometimes
@@ -178,14 +184,14 @@ resource "aws_security_group_rule" "typedb_ingestion_lambda_to_sqs_endpoint" {
   type                     = "egress"
   source_security_group_id = aws_security_group.sqs_vpc_endpoint.id
 }
-  
+
 resource "aws_security_group_rule" "typedb_ingestion_all_outgoing" {
-  from_port                = 0
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.typedb_ingestion_lambda.id
-  to_port                  = 65535
-  type                     = "egress"
-  cidr_blocks              = ["0.0.0.0/0"]
+  from_port         = 0
+  protocol          = "tcp"
+  security_group_id = aws_security_group.typedb_ingestion_lambda.id
+  to_port           = 65535
+  type              = "egress"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "keyword_extraction_lambda_s3_pfl" {

@@ -450,6 +450,47 @@ resource "aws_iam_policy" "legislative_origin_extraction_lambda_s3_policy" {
   })
 }
 
+resource "aws_iam_policy" "legislation_table_update_lambda_s3_policy" {
+  name        = "legislation-table-update-lambda-s3-policy"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:PutObject"
+        ],
+        "Resource" : [
+          aws_s3_bucket.beis-orp-datalake.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "legislation_table_update_secret_manager_policy" {
+  name = "secret_manager_policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = "arn:aws:secretsmanager:*:*:secret:tna_credentials-*"
+        # TODO: This is hardcoded, what would the resource ARN be?
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "lambda_invoke_keyword_extraction" {
   name        = "lambda_invoke_keyword_extraction"
   path        = "/"
@@ -506,7 +547,8 @@ resource "aws_iam_policy" "lambda_access_dynamodb" {
         "Action" : [
           "dynamodb:GetItem",
           "dynamodb:Query",
-          "dynamodb:Scan"
+          "dynamodb:Scan",
+          "dynamodb:PutItem"
         ],
         "Resource" : [
           aws_dynamodb_table.legislative-origin.arn,
@@ -516,7 +558,7 @@ resource "aws_iam_policy" "lambda_access_dynamodb" {
     ]
   })
 }
-  
+
 resource "aws_iam_policy" "typedb_ingestion_cognito" {
   name        = "typedb_ingestion_cognito"
   path        = "/"

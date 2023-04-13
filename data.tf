@@ -94,6 +94,14 @@ data "aws_secretsmanager_secret_version" "mc_api_key" {
   secret_id = data.aws_secretsmanager_secret.mc_api_key.id
 }
 
+data "aws_secretsmanager_secret" "tna_credentials" {
+  name = "tna_credentials"
+}
+
+data "aws_secretsmanager_secret_version" "tna_credentials" {
+  secret_id = data.aws_secretsmanager_secret.tna_credentials.id
+}
+
 resource "aws_vpc_endpoint" "private_s3" {
   vpc_id       = module.vpc.vpc_id
   service_name = "com.amazonaws.${local.region}.s3"

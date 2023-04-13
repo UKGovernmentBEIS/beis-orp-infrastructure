@@ -1,8 +1,8 @@
 locals {
-  package_url    = var.package_url
-  downloaded     = "downloaded_package_${md5(local.package_url)}.zip"
-  environment    = var.environment
-  region         = "eu-west-2"
+  package_url = var.package_url
+  downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
+  environment = var.environment
+  region      = "eu-west-2"
 
   lambda_config = {
     typedb_search_query_image_ver = var.typedb_search_query_image_ver
@@ -30,8 +30,8 @@ locals {
 
   check_duplicate_config = {
     check_duplicate_image_ver = var.check_duplicate_image_ver
-    cognito_user_pool          = aws_cognito_user_pool.beis.id
-    sender_email_address       = var.typedb_ingestion_sender_email_address
+    cognito_user_pool         = aws_cognito_user_pool.beis.id
+    sender_email_address      = var.typedb_ingestion_sender_email_address
   }
 
   title_generation_config = {
@@ -48,6 +48,11 @@ locals {
 
   summarisation_config = {
     summarisation_image_ver = var.summarisation_image_ver
+  }
+
+  legislation_table_update_config = {
+    legislation_table_update_image_ver = var.legislation_table_update_image_ver
+    secret_name                        = var.legislation_table_update_secret_name
   }
 
   legislative_origin_extraction_config = {
@@ -80,13 +85,13 @@ locals {
   #      typedb_server_port     = 1729
   #    }
 
-#  webserver_config = {
-#    domain           = var.domain
-#    s3_upload_bucket = var.s3_upload_bucket
-#    mc_server        = var.mc_server
-#    mc_list          = var.mc_list
-#    orp_search_url   = var.orp_search_url
-#  }
+  #  webserver_config = {
+  #    domain           = var.domain
+  #    s3_upload_bucket = var.s3_upload_bucket
+  #    mc_server        = var.mc_server
+  #    mc_list          = var.mc_list
+  #    orp_search_url   = var.orp_search_url
+  #  }
 
   db_postgresql_config = {
     engine_version       = var.engine_version
