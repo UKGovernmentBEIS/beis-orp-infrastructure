@@ -615,3 +615,40 @@ resource "aws_iam_role_policy_attachment" "api_gateway_execution_attachment" {
   policy_arn = aws_iam_policy.api_gateway_execution_policy.arn
   role       = aws_iam_role.api_gateway_execution_role.name
 }
+
+resource "aws_iam_role" "legislation_update_eventbridge_role" {
+  name = "eventbridge_schedule_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "events.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eventbridge_lambda_policy_attachment" {
+  policy_arn = aws_iam_policy.legislation_update_eventbridge_lambda_policy.arn
+  role       = aws_iam_role.legislation_update_eventbridge_role.name
+}
+
+resource "aws_iam_policy" "legislation_update_eventbridge_lambda_policy" {
+  name = "legislation_update_eventbridge_lambda_policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "lambda:InvokeFunction"
+        Resource = module.legislation_table_update.lambda_function_arn
+      }
+    ]
+  })
+}

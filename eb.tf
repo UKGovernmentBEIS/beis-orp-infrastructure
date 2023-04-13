@@ -27,6 +27,7 @@ resource "aws_cloudwatch_event_rule" "legislation_table_update_trigger" {
   description = "Event rule to trigger the legislation_table_update Lambda function"
 
   schedule_expression = "cron(0 0 ? * MON *)"
+  role_arn            = aws_iam_role.legislation_update_eventbridge_role.arn
 }
 
 resource "aws_cloudwatch_event_target" "legislation_table_update_target" {
@@ -35,10 +36,10 @@ resource "aws_cloudwatch_event_target" "legislation_table_update_target" {
   target_id = "legislation_table_update_target"
 }
 
-resource "aws_lambda_permission" "event_bridge_permission" {
-  statement_id  = "AllowExecutionFromCloudWatchEvents"
-  action        = "lambda:InvokeFunction"
-  function_name = module.legislation_table_update.lambda_function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.legislation_table_update_trigger.arn
-}
+# resource "aws_lambda_permission" "event_bridge_permission" {
+#   statement_id  = "AllowExecutionFromCloudWatchEvents"
+#   action        = "lambda:InvokeFunction"
+#   function_name = module.legislation_table_update.lambda_function_name
+#   principal     = "events.amazonaws.com"
+#   source_arn    = aws_cloudwatch_event_rule.legislation_table_update_trigger.arn
+# }
