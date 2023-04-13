@@ -466,6 +466,7 @@ resource "aws_iam_policy" "legislation_table_update_lambda_s3_policy" {
           "s3:PutObject"
         ],
         "Resource" : [
+          "arn:aws:s3:::*/*",
           aws_s3_bucket.beis-orp-datalake.arn
         ]
       }
