@@ -22,8 +22,8 @@ module "html_trigger" {
   ]
 
   environment_variables = {
-    ENVIRONMENT        = local.environment
-    STATE_MACHINE_ARN  = aws_sfn_state_machine.sfn_state_machine.arn
+    ENVIRONMENT       = local.environment
+    STATE_MACHINE_ARN = aws_sfn_state_machine.sfn_state_machine.arn
   }
 
   assume_role_policy_statements = {
@@ -656,6 +656,72 @@ module "summarisation" {
   number_of_policies = 5
 }
 
+module "legislation_table_update" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.1.2"
+
+  function_name          = "legislation_table_update"
+  handler                = "legislation_table_update.handler"
+  runtime                = "python3.8"
+  memory_size            = "1024"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/legislation_table_update:${local.legislation_table_update_config.legislation_table_update_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.legislation_table_update_lambda.id,
+    module.vpc.default_security_group_id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT        = local.environment
+    DESTINATION_BUCKET = aws_s3_bucket.beis-orp-datalake.id
+    TABLE_NAME         = local.legislative_origin_extraction_config.table_name
+    SECRET_NAME        = data.aws_secretsmanager_secret.tna_credentials.name
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    aws_iam_policy.legislation_table_update_lambda_s3_policy.arn,
+    aws_iam_policy.lambda_access_dynamodb.arn,
+    aws_iam_policy.legislation_table_update_secret_manager_policy.arn
+  ]
+  number_of_policies = 4
+}
+
 module "legislative_origin_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"
@@ -680,9 +746,9 @@ module "legislative_origin_extraction" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
-    TABLE_NAME    = local.legislative_origin_extraction_config.table_name
+    ENVIRONMENT     = local.environment
+    SOURCE_BUCKET   = aws_s3_bucket.beis-orp-datalake.id
+    TABLE_NAME      = local.legislative_origin_extraction_config.table_name
     YEAR_INDEX_NAME = local.legislative_origin_extraction_config.year_index_name
   }
 
