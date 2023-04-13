@@ -23,9 +23,9 @@ typedb_ingestion_sender_email_address = "OpenRegulationPlatform@beis.gov.uk"
 destination_sqs_url = aws_sqs_queue.update_typedb.url
 
 database_workdir       = "graph_database"
-typedb_database_name   = "orp-pbeta-demo"
-typedb_database_schema = "orp-gdb-schema-pbeta.tql"
-typedb_database_file   = "orp-pbeta-demo.typedb"
+typedb_database_name   = "orp-pbeta-v2"
+typedb_database_schema = "orp-pbeta-gdb-schema.tql"
+typedb_database_file   = "orp-pbeta-v2.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
