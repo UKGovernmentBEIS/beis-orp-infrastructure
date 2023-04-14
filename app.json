@@ -73,6 +73,14 @@
       {
         "name": "HTML_INGESTION_URL",
         "value": "${html_ingestion_url}"
+      },
+      {
+        "name": "REDIS_ADDRESS",
+        "value": "${redis_address}"
+      },
+      {
+        "name": "REDIS_PORT",
+        "value": "${redis_port}"
       }
     ],
     "logConfiguration": {
