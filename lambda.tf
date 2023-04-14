@@ -722,6 +722,67 @@ module "legislation_table_update" {
   number_of_policies = 4
 }
 
+module "typedb_backup" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.1.2"
+
+  function_name          = "typedb_backup"
+  handler                = "typedb_backup.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/legislation_table_update:${local.typedb_backup.typedb_backup_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.typedb_backup_lambda_s3.id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT        = local.environment
+    DESTINATION_BUCKET = aws_s3_bucket.beis-orp-graph-database.id
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    aws_iam_policy.typedb_backup_lambda_s3.arn
+  ]
+  number_of_policies = 2
+}
+
 module "legislative_origin_extraction" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"

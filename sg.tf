@@ -25,6 +25,21 @@ resource "aws_security_group_rule" "typedb_instance_s3_pfl" {
   cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
 }
 
+resource "aws_security_group" "typedb_backup_lambda_s3" {
+  name        = "typedb_backup_lambda_s3"
+  description = "Security Group for BEIS ORP Lambda copying TypeDB to s3"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "typedb_backup_lambda_s3_pfl" {
+  from_port         = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.typedb_backup_lambda_s3.id
+  to_port           = 443
+  type              = "egress"
+  cidr_blocks       = [data.aws_prefix_list.private_s3.cidr_blocks[0]]
+}
+
 resource "aws_security_group" "mongo_bastion_instance" {
   name        = "beis-orp-mongo-bastion-instance"
   description = "Security Group for BEIS ORP Mongo Bastion EC2 Instance"
