@@ -9,3 +9,7 @@ output "caller_arn" {
 output "caller_user" {
   value = data.aws_caller_identity.current.user_id
 }
+
+output "redis_hosts" {
+  value = aws_elasticache_cluster.users.cache_nodes[*].address
+}

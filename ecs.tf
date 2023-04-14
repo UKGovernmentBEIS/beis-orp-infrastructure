@@ -72,6 +72,8 @@ resource "aws_ecs_task_definition" "webserver" {
       cognito_api_user_pool  = aws_cognito_user_pool.beis_api.id
       cognito_api_client_id  = aws_cognito_user_pool_client.beis_api_client.id
       html_ingestion_url     = "${aws_api_gateway_deployment.private_rest_api_deployment.execution_arn}/*/"
+      redis_address          = aws_elasticache_cluster.users.cache_nodes[0].address
+      redis_port             = aws_elasticache_cluster.users.cache_nodes[0].port
     }
   )
 }
