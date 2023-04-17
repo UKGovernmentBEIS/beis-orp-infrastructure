@@ -142,7 +142,7 @@ resource "aws_iam_policy" "typedb_backup_lambda_s3" {
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
-  function_name = aws_lambda_function.typedb_backup.function_name
+  function_name = module.typedb_backup.lambda_function_name
   statement_id = "CloudWatchInvoke"
   action = "lambda:InvokeFunction"
 

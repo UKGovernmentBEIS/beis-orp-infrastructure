@@ -732,7 +732,7 @@ module "typedb_backup" {
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/legislation_table_update:${local.typedb_backup.typedb_backup_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/typedb_backup:${local.typedb_backup_config.typedb_backup_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0

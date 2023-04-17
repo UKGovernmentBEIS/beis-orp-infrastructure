@@ -11,5 +11,5 @@ resource "aws_cloudwatch_event_rule" "every_month" {
 
 resource "aws_cloudwatch_event_target" "invoke_lambda" {
   rule = aws_cloudwatch_event_rule.every_month.name
-  arn = aws_lambda_function.typedb_backup.arn
+  arn = module.typedb_backup.lambda_function_arn
 }

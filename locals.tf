@@ -60,6 +60,10 @@ locals {
     year_index_name                         = var.legislative_origin_extraction_year_index_name
   }
 
+  typedb_backup_config = {
+    typedb_backup_image_ver = var.typedb_backup_image_ver
+  }
+
   typedb_ingestion_config = {
     typedb_ingestion_image_ver = var.typedb_ingestion_image_ver
     destination_sqs_url        = aws_sqs_queue.update_typedb.url

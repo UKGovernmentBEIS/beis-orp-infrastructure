@@ -17,6 +17,7 @@ legislative_origin_extraction_image_ver = "latest"
 legislation_table_update_image_ver      = "latest"
 typedb_ingestion_image_ver              = "latest"
 typedb_search_query_image_ver           = "latest"
+typedb_backup_image_ver                 = "latest"
 
 legislative_origin_extraction_table_name      = "legislative-origin"
 legislative_origin_extraction_year_index_name = "year-candidate_titles-index"
