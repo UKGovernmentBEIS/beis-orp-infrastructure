@@ -81,6 +81,10 @@
       {
         "name": "REDIS_PORT",
         "value": "${redis_port}"
+      },
+      {
+        "name": "SESSION_SECRET",
+        "value": "${session_secret}"
       }
     ],
     "logConfiguration": {

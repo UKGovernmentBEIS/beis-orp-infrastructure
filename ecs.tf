@@ -74,6 +74,12 @@ resource "aws_ecs_task_definition" "webserver" {
       html_ingestion_url     = "${aws_api_gateway_deployment.private_rest_api_deployment.execution_arn}/*/"
       redis_address          = aws_elasticache_cluster.users.cache_nodes[0].address
       redis_port             = aws_elasticache_cluster.users.cache_nodes[0].port
+      session_secret         = random_password.session_secret.result
     }
   )
+}
+
+resource "random_password" "session_secret" {
+  length           = 16
+  special          = true
 }
