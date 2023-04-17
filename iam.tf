@@ -146,7 +146,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
   statement_id = "CloudWatchInvoke"
   action = "lambda:InvokeFunction"
 
-  source_arn = aws_cloudwatch_event_rule.every_month.arn
+  source_arn = aws_cloudwatch_event_rule.monthly.arn
   principal = "events.amazonaws.com"
 }
 
