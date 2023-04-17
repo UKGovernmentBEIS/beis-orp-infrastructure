@@ -249,3 +249,18 @@ resource "aws_security_group_rule" "webserver_egress_all" {
   type              = "egress"
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+resource "aws_security_group" "ec_cluster" {
+  name        = "elasticacheCluster"
+  description = "Security Group for Elasticache Cluster"
+  vpc_id      = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "ec_cluster_allow_redis" {
+  from_port                 = 6379
+  protocol                  = "tcp"
+  security_group_id         = aws_security_group.ec_cluster.id
+  to_port                   = 6379
+  type                      = "ingress"
+  source_security_group_id  = aws_security_group.ecs.id
+}
