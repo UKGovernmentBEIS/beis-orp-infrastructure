@@ -86,6 +86,10 @@ variable "typedb_database_name" {
   type = string
 }
 
+variable "typedb_backup_image_ver" {
+  type = string
+}
+
 variable "typedb_database_schema" {
   type = string
 }
