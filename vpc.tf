@@ -102,3 +102,12 @@ module "endpoints" {
     Environment = "dev"
   }
 }
+
+resource "aws_elasticache_subnet_group" "ecs" {
+  name       = "ecs-subnet"
+  subnet_ids = [
+    module.vpc.public_subnets[0],
+    module.vpc.public_subnets[1],
+    module.vpc.public_subnets[2]
+  ]
+}
