@@ -44,3 +44,16 @@ then
   (crontab -l 2>/dev/null;  echo '* * * * * export TYPEDB_DOCU_SQS_NAME='$TYPEDB_DOCU_SQS_NAME' TYPEDB_DATABASE_NAME='$TYPEDB_DATABASE_NAME' AWS_REGION='$AWS_REGION' && cd '$(pwd) '&&' $(which python3) $(readlink -f main.py))| crontab -
 fi
 
+sleep 30
+
+cat << EOF > /srv/monthly_backup.sh
+DATE=$(date '+%Y%m%d')
+typedb server export --database=orp-pbeta-v2 --port=1729 --file=$DATE-orp-pbeta.typedb
+echo "Graph copied to directory"
+aws s3 cp $DATE-orp-pbeta.typedb s3://beis-dev-graph-database/pbeta/$DATE-orp-pbeta.typedb
+echo "File copied to S3"
+sudo rm $DATE-orp-pbeta.typedb
+echo "File deleted from directory"
+EOF
+
+crontab -l | { cat; echo "0 0 1 * * /srv/monthly_backup.sh"; } | crontab -
