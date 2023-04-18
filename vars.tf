@@ -126,6 +126,10 @@ variable "mc_list" {
   type = string
 }
 
+variable "regulator_access" {
+  type = string
+}
+
 #variable "orp_search_url" {
 #  type = string
 #}
