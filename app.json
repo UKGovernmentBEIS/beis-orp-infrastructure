@@ -85,6 +85,10 @@
       {
         "name": "SESSION_SECRET",
         "value": "${session_secret}"
+      },
+      {
+        "name": "REGULATOR_ACCESS",
+        "value": "${regulator_access}"
       }
     ],
     "logConfiguration": {
