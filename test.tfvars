@@ -34,6 +34,7 @@ typedb_server_port     = 1729
 s3_upload_bucket = "beis-test-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
+regulator_access = "[{'name':'Public','id':'public',domain:'public.io'},{'name':'MDRxTECH','id':'mxt','domain':'mdrx.tech'},{'name':'Zoonou','id':'zoonou','domain':'zoonou.com'}]"
 mc_server      = "us13"
 mc_list        = "d8234fcc62"
 orp_search_url = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
