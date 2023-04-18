@@ -647,7 +647,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
   })
 }
 
-resource "aws_cloudwatch_metric_alarm" "pipeline-abnormal-throughput" {
+resource "aws_cloudwatch_metric_alarm" "pipeline_abnormal_throughput" {
   alarm_name          = "Pipeline Abnormal Throughput"
   evaluation_periods  = 1
   comparison_operator = "LessThanLowerOrGreaterThanUpperThreshold"
@@ -676,6 +676,43 @@ resource "aws_cloudwatch_metric_alarm" "pipeline-abnormal-throughput" {
     expression  = "ANOMALY_DETECTION_BAND(m1, 2)"
     id          = "ad1"
     label       = "ExecutionsStarted (expected)"
+    period      = 0
+    return_data = true
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "pipeline_throttling" {
+  alarm_name          = "Pipeline Throttling"
+  evaluation_periods  = 1
+  comparison_operator = "GreaterThanUpperThreshold"
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  ok_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  alarm_description   = "Alerts when Step Function executions are being throttled"
+  datapoints_to_alarm = 1
+  threshold_metric_id = "ad1"
+  metric_query {
+    id          = "m1"
+    period      = 0
+    return_data = true
+
+    metric {
+      dimensions = {
+        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+      }
+      metric_name = "ExecutionThrottled"
+      namespace   = "AWS/States"
+      period      = 86400
+      stat        = "Average"
+    }
+  }
+  metric_query {
+    expression  = "ANOMALY_DETECTION_BAND(m1, 2)"
+    id          = "ad1"
+    label       = "ExecutionThrottled (expected)"
     period      = 0
     return_data = true
   }
