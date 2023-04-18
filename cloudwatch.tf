@@ -21,11 +21,14 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
     start = "-PT168H"
     widgets = [
       {
-        height = 9
+        type   = "metric"
+        height = 8
+        width  = 24
         properties = {
           legend = {
-            position = "bottom"
+            position = "hidden"
           }
+          stat     = "Average"
           liveData = false,
           metrics = [
             [
@@ -52,22 +55,29 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
           period  = 3600
           region  = "eu-west-2"
           stacked = false
-          title   = "Pipeline Execution Time"
+          title   = "Pipeline Execution Duration"
           view    = "timeSeries"
           yAxis = {
             left = {
-              label = "Time (s)"
+              label     = "Duration (s)"
+              showUnits = false
             }
           }
         }
-        y = 8
+        y = 10
+        x = 0
       },
       {
-        height = 8
+        height = 7
+        width  = 24
         properties = {
           legend = {
             position = "right"
           }
+          yAxis = {
+            left = {
+              showUnits = false
+          } }
           liveData = false
           metrics = [
             [
@@ -125,14 +135,18 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         }
         type  = "metric"
         width = 12
-        y     = 17
+        y     = 18
+        x     = 12
       },
       {
-        height = 9
+        height = 7
         properties = {
           legend = {
-            position = "bottom"
+            position = "hidden"
           }
+          yAxis = {
+            left = {
+          showUnits = false } }
           liveData = false
           metrics = [
             [
@@ -176,14 +190,23 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         }
         type  = "metric"
         width = 12
-        x     = 12
-        y     = 8
+        x     = 0
+        y     = 18
       },
       {
-        height = 4
+        height = 5
         properties = {
           legend = {
             position = "right"
+          }
+          yAxis = {
+            left = {
+              label     = ""
+              showUnits = false
+            }
+            right = {
+              showUnits = false
+            }
           }
           liveData = false
           metrics = [
@@ -294,18 +317,25 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         y     = 0
       },
       {
-        height = 4
+        height = 5
         properties = {
           legend = {
             position = "right"
           }
+          yAxis = {
+            left = {
+              label     = "Duration (s)"
+              showUnits = false
+          } }
           liveData = false
           metrics = [
             [
               {
                 expression = "METRICS()/1000"
                 id         = "e1"
-                label      = "Expression1"
+                label      = ""
+                period     = 3600
+                region     = "eu-west-2"
               },
             ],
             [
@@ -428,7 +458,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               },
             ],
           ]
-          period  = 300
+          period  = 3600
           region  = "eu-west-2"
           stacked = false
           stat    = "Average"
@@ -441,10 +471,20 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         y     = 0
       },
       {
-        height = 4
+        height = 5
         properties = {
           legend = {
             position = "right"
+          }
+          period  = 3600
+          stacked = false
+          stat    = "Sum"
+          view    = "timeSeries"
+          yAxis = {
+            left = {
+              label     = ""
+              showUnits = false
+            }
           }
           liveData = false
           metrics = [
@@ -454,104 +494,91 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "FunctionName",
               "legislative_origin_extraction",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "pdf_to_text",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "docx_to_text",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "html_trigger",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "html_to_text",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "title_generation",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "check_duplicate",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "date_generation",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "keyword_extraction",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "summarisation",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "typedb_ingestion",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "legislation_table_update",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
             [
               "...",
               "typedb_search_query",
               {
-                period = 300
-                stat   = "Sum"
+                region = "eu-west-2"
               },
             ],
           ]
@@ -561,23 +588,29 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         type  = "metric"
         width = 12
         x     = 0
-        y     = 4
+        y     = 5
       },
       {
-        "height" = 4,
+        "height" = 5,
         "properties" = {
           "legend" = {
-            "position" = "right"
+            "position" = "hidden"
           },
+          yAxis = {
+            left = {
+              label     = ""
+              showUnits = false
+          } }
           "liveData" = false,
           "metrics" = [
             [
               {
-                "expression" = "100*(m1-m2)/m1",
-                "id"         = "e1",
-                "label"      = "Lambda Success %",
-                "period"     = 3600
-              }
+                expression = "100*(m1-m2)/m1"
+                id         = "e1"
+                label      = ""
+                period     = 3600
+                region     = "eu-west-2"
+              },
             ],
             [
               "AWS/Lambda",
@@ -608,7 +641,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         "type"  = "metric",
         "width" = 12,
         "x"     = 12,
-        "y"     = 4
+        "y"     = 5
       }
     ]
   })
