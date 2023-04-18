@@ -75,6 +75,7 @@ resource "aws_ecs_task_definition" "webserver" {
       redis_address          = aws_elasticache_cluster.users.cache_nodes[0].address
       redis_port             = aws_elasticache_cluster.users.cache_nodes[0].port
       session_secret         = random_password.session_secret.result
+      regulator_access       = var.regulator_access
     }
   )
 }
