@@ -646,3 +646,37 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
     ]
   })
 }
+
+resource "aws_cloudwatch_metric_alarm" "pipeline-abnormal-throughput" {
+  alarm_name          = "Pipeline Abnormal Throughput"
+  evaluation_periods  = 1
+  comparison_operator = "LessThanLowerOrGreaterThanUpperThreshold"
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  alarm_description   = "Alerts when the number of ingested documents per day is more than 2 standard deviations outside the mean"
+  datapoints_to_alarm = 1
+  threshold_metric_id = "ad1"
+  metric_query {
+    id          = "m1"
+    period      = 0
+    return_data = true
+
+    metric {
+      dimensions = {
+        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+      }
+      metric_name = "ExecutionsStarted"
+      namespace   = "AWS/States"
+      period      = 86400
+      stat        = "Sum"
+    }
+  }
+  metric_query {
+    expression  = "ANOMALY_DETECTION_BAND(m1, 2)"
+    id          = "ad1"
+    label       = "ExecutionsStarted (expected)"
+    period      = 0
+    return_data = true
+  }
+}
