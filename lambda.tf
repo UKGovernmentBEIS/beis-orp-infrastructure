@@ -16,6 +16,11 @@ module "html_trigger" {
 
   create_current_version_allowed_triggers = false
 
+  # Function URL Config
+  create_lambda_function_url                   = true
+  authorization_type                           = "NONE"
+  create_unqualified_alias_lambda_function_url = true
+    
   vpc_security_group_ids = [
     aws_security_group.html_trigger_lambda.id,
     module.vpc.default_security_group_id
