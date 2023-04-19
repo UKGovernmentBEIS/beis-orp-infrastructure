@@ -34,11 +34,7 @@ typedb_server_port     = 1729
 alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
 
 domain = "https://app.dev.cannonband.com/"
-regulator_access = jsonencode([
-  {name = "Public", id = "public", domain = "public.io"},
-  {name = "MDRxTECH", id = "mxt", domain = "mdrx.tech"},
-  {name = "Zoonou", id = "zoonou", domain = "zoonou.com"}
-])
+regulator_access = "[{\"name\": \"Public\", \"id\": \"public\", \"domain\": \"public.io\"},{\"name\": \"MDRxTECH\", \"id\": \"mxt\", \"domain\": \"mdrx.tech\"},{\"name\": \"Zoonou\", \"id\": \"zoonou\", \"domain\": \"zoonou.com\"}]"
 
 #s3_upload_bucket = "beis-dev-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
