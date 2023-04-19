@@ -34,7 +34,7 @@ typedb_server_port     = 1729
 alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
 
 domain = "https://app.dev.cannonband.com/"
-regulator_access = "[\"lv_opt_san\"]"
+regulator_access = ""
 
 #s3_upload_bucket = "beis-dev-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
