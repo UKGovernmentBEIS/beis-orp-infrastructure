@@ -22,8 +22,8 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
     widgets = [
       {
         type   = "metric"
-        height = 8
-        width  = 24
+        height = 6
+        width  = 12
         properties = {
           legend = {
             position = "hidden"
@@ -64,12 +64,12 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             }
           }
         }
-        y = 10
-        x = 0
+        x = 12
+        y = 12
       },
       {
-        height = 7
-        width  = 24
+        height = 6
+        width  = 0
         properties = {
           legend = {
             position = "right"
@@ -136,10 +136,10 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         type  = "metric"
         width = 12
         y     = 18
-        x     = 12
+        x     = 0
       },
       {
-        height = 7
+        height = 6
         properties = {
           legend = {
             position = "hidden"
@@ -190,11 +190,11 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         }
         type  = "metric"
         width = 12
-        x     = 0
+        x     = 12
         y     = 18
       },
       {
-        height = 5
+        height = 6
         properties = {
           legend = {
             position = "right"
@@ -317,7 +317,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         y     = 0
       },
       {
-        height = 5
+        height = 6
         properties = {
           legend = {
             position = "right"
@@ -471,7 +471,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         y     = 0
       },
       {
-        height = 5
+        height = 6
         properties = {
           legend = {
             position = "right"
@@ -588,10 +588,10 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         type  = "metric"
         width = 12
         x     = 0
-        y     = 5
+        y     = 6
       },
       {
-        "height" = 5,
+        "height" = 6,
         "properties" = {
           "legend" = {
             "position" = "hidden"
@@ -641,7 +641,70 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
         "type"  = "metric",
         "width" = 12,
         "x"     = 12,
-        "y"     = 5
+        "y"     = 6
+      },
+      {
+        height = 6
+        properties = {
+          legend = {
+            position = "right"
+          }
+          metrics = [
+            [
+              "AWS/Lambda",
+              "Invocations",
+              "FunctionName",
+              "odf_to_text",
+              {
+                label  = "ODF"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "pdf_to_text",
+              {
+                label  = "PDF"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "html_to_text",
+              {
+                label  = "HTML"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "docx_to_text",
+              {
+                label  = "DOCX"
+                region = "eu-west-2"
+              },
+            ],
+          ]
+          period  = 86400
+          region  = "eu-west-2"
+          stacked = false
+          stat    = "Average"
+          title   = "Pipeline Throughput per Document Type"
+          view    = "timeSeries"
+          yAxis = {
+            left = {
+              label     = "Documents Ingested"
+              showUnits = false
+            }
+            right = {
+              showUnits = true
+            }
+          }
+        }
+        type  = "metric"
+        width = 12
+        x     = 0
+        y     = 12
       }
     ]
   })
