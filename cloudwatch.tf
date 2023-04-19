@@ -681,6 +681,96 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_abnormal_throughput" {
   }
 }
 
+resource "aws_cloudwatch_metric_alarm" "pipeline_slow_execution" {
+  alarm_description   = "Alerts when Step Functions is taking a long time to execute"
+  alarm_name          = "Step Function Large Execution Time"
+  evaluation_periods  = 1
+  comparison_operator = "GreaterThanUpperThreshold"
+  datapoints_to_alarm = 1
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  ok_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  threshold_metric_id = "ad1"
+
+  metric_query {
+    id          = "m1"
+    period      = 0
+    return_data = true
+
+    metric {
+      dimensions = {
+        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+      }
+      metric_name = "ExecutionTime"
+      namespace   = "AWS/States"
+      period      = 86400
+      stat        = "Average"
+    }
+  }
+  metric_query {
+    expression  = "ANOMALY_DETECTION_BAND(m1, 2)"
+    id          = "ad1"
+    label       = "ExecutionTime (expected)"
+    period      = 0
+    return_data = true
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  alarm_description   = "Alerts when the Step Function success rate drops below a certain threshold"
+  alarm_name          = "Step Function Low Success Rate"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  datapoints_to_alarm = 1
+  ok_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  threshold = 50
+  metric_query {
+    id          = "m1"
+    period      = 0
+    return_data = false
+
+    metric {
+      dimensions = {
+        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+      }
+      metric_name = "ExecutionsFailed"
+      namespace   = "AWS/States"
+      period      = 86400
+      stat        = "Average"
+    }
+  }
+  metric_query {
+    id          = "m2"
+    period      = 0
+    return_data = false
+
+    metric {
+      dimensions = {
+        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+      }
+      metric_name = "ExecutionsSucceeded"
+      namespace   = "AWS/States"
+      period      = 86400
+      stat        = "Average"
+    }
+  }
+  metric_query {
+    expression  = "100*m2/(m2+m1)"
+    id          = "e1"
+    label       = "Step Function Success %"
+    period      = 0
+    return_data = true
+  }
+}
+
 resource "aws_cloudwatch_metric_alarm" "pipeline_throttling" {
   alarm_name          = "Pipeline Throttling"
   evaluation_periods  = 1
@@ -710,10 +800,112 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_throttling" {
     }
   }
   metric_query {
-    expression  = "ANOMALY_DETECTION_BAND(m1, 2)"
+    expression  = "ANOMALY_DETECTION_BAND(m1, 1)"
     id          = "ad1"
     label       = "ExecutionThrottled (expected)"
     period      = 0
     return_data = true
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "lambda_slow_execution" {
+  alarm_name          = "Lambda Large Duration"
+  evaluation_periods  = 1
+  comparison_operator = "GreaterThanThreshold"
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  ok_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  alarm_description   = "Alerts when any Lambda function takes longer than 10 minutes to execute"
+  datapoints_to_alarm = 1
+  metric_name         = "Duration"
+  namespace           = "AWS/Lambda"
+  period              = 86400
+  statistic           = "Maximum"
+  threshold           = 600000
+}
+
+resource "aws_cloudwatch_metric_alarm" "lambda_low_success_rate" {
+  alarm_name          = "Lambda Low Success Rate"
+  evaluation_periods  = 1
+  comparison_operator = "LessThanThreshold"
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  ok_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  alarm_description   = "Alerts when Lambda functions success rate is below a specified threshold"
+  datapoints_to_alarm = 1
+  threshold           = 80
+  metric_query {
+    id          = "m1"
+    period      = 0
+    return_data = false
+
+    metric {
+      dimensions  = {}
+      metric_name = "Errors"
+      namespace   = "AWS/Lambda"
+      period      = 86400
+      stat        = "Average"
+    }
+  }
+  metric_query {
+    id          = "m2"
+    period      = 0
+    return_data = false
+
+    metric {
+      dimensions  = {}
+      metric_name = "Invocations"
+      namespace   = "AWS/Lambda"
+      period      = 86400
+      stat        = "Average"
+    }
+  }
+  metric_query {
+    expression  = "100*(m2-m1/m2)"
+    id          = "e1"
+    label       = "Expression1"
+    period      = 0
+    return_data = true
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "lambda_throttling" {
+  alarm_name          = "Lambda Throttling"
+  evaluation_periods  = 1
+  comparison_operator = "GreaterThanUpperThreshold"
+  alarm_actions = [
+    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+  ]
+  alarm_description   = "Alerts when Lambda functions are getting throttled"
+  datapoints_to_alarm = 1
+  threshold_metric_id = "ad1"
+
+  metric_query {
+    id          = "m1"
+    period      = 0
+    return_data = true
+
+    metric {
+      dimensions  = {}
+      metric_name = "Throttles"
+      namespace   = "AWS/Lambda"
+      period      = 86400
+      stat        = "Maximum"
+    }
+  }
+  metric_query {
+    expression  = "ANOMALY_DETECTION_BAND(m1, 1)"
+    id          = "ad1"
+    label       = "Throttles (expected)"
+    period      = 0
+    return_data = true
+  }
+}
+
+
