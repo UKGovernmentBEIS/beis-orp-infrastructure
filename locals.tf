@@ -79,6 +79,10 @@ locals {
     typedb_docu_sqs_name   = var.typedb_docu_sqs_name
     typedb_server_port     = var.typedb_server_port
   }
+
+  alerting_config = {
+    alerting_email_address = var.alerting_email_address
+  }
   #    prod = {
   #      database_workdir       = "graph_database"
   #      typedb_database_name   = "orp-mvp-v0.1"

@@ -31,6 +31,8 @@ typedb_database_file   = "orp-pbeta-v2.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
+alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
+
 domain = "https://app.dev.cannonband.com/"
 regulator_access = jsonencode([
   {name = "Public", id = "public", domain = "public.io"},

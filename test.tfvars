@@ -31,9 +31,12 @@ typedb_database_file   = "orp-pbeta-demo.typedb"
 typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
+alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
+
 s3_upload_bucket = "beis-test-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
+
 regulator_access = jsonencode([
   {name = "Public", id = "public", domain = "public.io"},
   {name = "MDRxTECH", id = "mxt", domain = "mdrx.tech"},
@@ -42,6 +45,7 @@ regulator_access = jsonencode([
 mc_server      = "us13"
 mc_list        = "d8234fcc62"
 orp_search_url = "https://laomv22gzq5iqmlnnaqazug7vy0menni.lambda-url.eu-west-2.on.aws"
+
 
 engine_version       = "13.8"
 engine               = "aurora-postgresql"

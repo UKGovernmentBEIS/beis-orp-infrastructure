@@ -106,6 +106,10 @@ variable "typedb_server_port" {
   type = number
 }
 
+variable "alerting_email_address" {
+  type = string
+}
+
 #variable "s3_upload_bucket" {
 #  type = string
 #}
