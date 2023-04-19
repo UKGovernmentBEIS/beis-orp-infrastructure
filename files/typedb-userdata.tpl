@@ -43,7 +43,6 @@ then
   pip3 install -r requirements.txt 
   (crontab -l 2>/dev/null;  echo '* * * * * export TYPEDB_DOCU_SQS_NAME='$TYPEDB_DOCU_SQS_NAME' TYPEDB_DATABASE_NAME='$TYPEDB_DATABASE_NAME' AWS_REGION='$AWS_REGION' && cd '$(pwd) '&&' $(which python3) $(readlink -f main.py))| crontab -
 fi
-<<<<<<< Updated upstream
 
 sleep 30
 
@@ -55,5 +54,3 @@ sudo rm $(DATE)-orp-pbeta.typedb && echo "File deleted from directory"
 EOF
 
 crontab -l | { cat; echo "0 0 1 * * /srv/monthly_backup.sh"; } | crontab -
-=======
->>>>>>> Stashed changes
