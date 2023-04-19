@@ -35,7 +35,7 @@ fi
 
 CHECK_CRON=$(crontab -l)
 # if no cron job running
-if [ -n "$CHECK_CRON" ]
+if [ -z "$CHECK_CRON" ]
 then
   # launch graph update as a cron job
   cd $DATABASE_WORKDIR/stream_update_process
