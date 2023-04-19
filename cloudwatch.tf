@@ -43,7 +43,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "AWS/States",
               "ExecutionTime",
               "StateMachineArn",
-              "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion",
+              aws_sfn_state_machine.sfn_state_machine.arn,
               {
                 id      = "m1"
                 region  = "eu-west-2"
@@ -84,7 +84,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "AWS/States",
               "ExecutionsSucceeded",
               "StateMachineArn",
-              "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion",
+              aws_sfn_state_machine.sfn_state_machine.arn,
               {
                 region = "eu-west-2"
               },
@@ -162,7 +162,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "AWS/States",
               "ExecutionsSucceeded",
               "StateMachineArn",
-              "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion",
+              aws_sfn_state_machine.sfn_state_machine.arn,
               {
                 id      = "m1"
                 region  = "eu-west-2"
@@ -715,7 +715,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_abnormal_throughput" {
   evaluation_periods  = 1
   comparison_operator = "LessThanLowerOrGreaterThanUpperThreshold"
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   alarm_description   = "Alerts when the number of ingested documents per day is more than 2 standard deviations outside the mean"
   datapoints_to_alarm = 1
@@ -727,7 +727,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_abnormal_throughput" {
 
     metric {
       dimensions = {
-        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+        "StateMachineArn" = aws_sfn_state_machine.sfn_state_machine.arn
       }
       metric_name = "ExecutionsStarted"
       namespace   = "AWS/States"
@@ -751,10 +751,10 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_slow_execution" {
   comparison_operator = "GreaterThanUpperThreshold"
   datapoints_to_alarm = 1
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   ok_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   threshold_metric_id = "ad1"
 
@@ -765,7 +765,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_slow_execution" {
 
     metric {
       dimensions = {
-        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+        "StateMachineArn" = aws_sfn_state_machine.sfn_state_machine.arn
       }
       metric_name = "ExecutionTime"
       namespace   = "AWS/States"
@@ -784,7 +784,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_slow_execution" {
 
 resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   alarm_description   = "Alerts when the Step Function success rate drops below a certain threshold"
   alarm_name          = "Step Function Low Success Rate"
@@ -792,7 +792,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
   evaluation_periods  = 1
   datapoints_to_alarm = 1
   ok_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   threshold = 50
   metric_query {
@@ -802,7 +802,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
 
     metric {
       dimensions = {
-        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+        "StateMachineArn" = aws_sfn_state_machine.sfn_state_machine.arn
       }
       metric_name = "ExecutionsFailed"
       namespace   = "AWS/States"
@@ -817,7 +817,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
 
     metric {
       dimensions = {
-        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+        "StateMachineArn" = aws_sfn_state_machine.sfn_state_machine.arn
       }
       metric_name = "ExecutionsSucceeded"
       namespace   = "AWS/States"
@@ -839,10 +839,10 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_throttling" {
   evaluation_periods  = 1
   comparison_operator = "GreaterThanUpperThreshold"
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   ok_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   alarm_description   = "Alerts when Step Function executions are being throttled"
   datapoints_to_alarm = 1
@@ -854,7 +854,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_throttling" {
 
     metric {
       dimensions = {
-        "StateMachineArn" = "arn:aws:states:eu-west-2:412071276468:stateMachine:orp_document_ingestion"
+        "StateMachineArn" = aws_sfn_state_machine.sfn_state_machine.arn
       }
       metric_name = "ExecutionThrottled"
       namespace   = "AWS/States"
@@ -876,10 +876,10 @@ resource "aws_cloudwatch_metric_alarm" "lambda_slow_execution" {
   evaluation_periods  = 1
   comparison_operator = "GreaterThanThreshold"
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   ok_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   alarm_description   = "Alerts when any Lambda function takes longer than 10 minutes to execute"
   datapoints_to_alarm = 1
@@ -895,10 +895,10 @@ resource "aws_cloudwatch_metric_alarm" "lambda_low_success_rate" {
   evaluation_periods  = 1
   comparison_operator = "LessThanThreshold"
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   ok_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   alarm_description   = "Alerts when Lambda functions success rate is below a specified threshold"
   datapoints_to_alarm = 1
@@ -943,7 +943,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_throttling" {
   evaluation_periods  = 1
   comparison_operator = "GreaterThanUpperThreshold"
   alarm_actions = [
-    "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic",
+    aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
   alarm_description   = "Alerts when Lambda functions are getting throttled"
   datapoints_to_alarm = 1
