@@ -131,7 +131,11 @@ variable "mc_list" {
 }
 
 variable "regulator_access" {
-  type = string
+  type = list(object({
+    name = string,
+    id = string,
+    domain = string
+  }))
 }
 
 #variable "orp_search_url" {
