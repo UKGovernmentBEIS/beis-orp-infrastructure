@@ -291,6 +291,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "failure_notification",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "legislation_table_update",
               {
                 region = "eu-west-2"
@@ -441,6 +448,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "failure_notification",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "legislation_table_update",
               {
                 id      = "m12"
@@ -563,6 +577,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             [
               "...",
               "typedb_ingestion",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "failure_notification",
               {
                 region = "eu-west-2"
               },

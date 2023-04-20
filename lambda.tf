@@ -20,7 +20,7 @@ module "html_trigger" {
   create_lambda_function_url                   = true
   authorization_type                           = "NONE"
   create_unqualified_alias_lambda_function_url = true
-    
+
   vpc_security_group_ids = [
     aws_security_group.html_trigger_lambda.id,
     module.vpc.default_security_group_id
@@ -859,7 +859,7 @@ module "typedb_ingestion" {
   version = "~> 4.1.2"
 
   function_name          = "typedb_ingestion"
-  handler                = "lambda_function.handler"
+  handler                = "typedb_ingestion.handler"
   runtime                = "python3.8"
   memory_size            = "512"
   timeout                = 900
@@ -919,6 +919,70 @@ module "typedb_ingestion" {
     aws_iam_policy.typedb_ingestion_cognito.arn
   ]
   number_of_policies = 5
+}
+
+module "failure_notification" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.1.2"
+
+  function_name          = "failure_notification"
+  handler                = "failure_notification.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/failure_notification:${local.failure_notification_config.failure_notification_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.failure_notification_lambda.id,
+    aws_security_group.sqs_vpc_endpoint.id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT          = local.environment
+    COGNITO_USER_POOL    = local.typedb_ingestion_config.cognito_user_pool
+    SENDER_EMAIL_ADDRESS = local.typedb_ingestion_config.sender_email_address
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.failure_notification_cognito.arn
+  ]
+  number_of_policies = 3
 }
 
 module "typedb_search_query" {

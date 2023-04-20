@@ -26,7 +26,7 @@ EOF
 
 
 resource "aws_iam_policy" "policy_write_sqs" {
-  name        = "stepFunctionSQSInvocationPolicy"
+  name = "stepFunctionSQSInvocationPolicy"
 
   policy = <<EOF
 {
@@ -57,11 +57,8 @@ resource "aws_iam_role_policy_attachment" "policy_invoke_stepFunction" {
   policy_arn = aws_iam_policy.policy_invoke_stepFunction.arn
 }
 
-
-
-
 resource "aws_iam_policy" "policy_invoke_lambda" {
-  name        = "stepFunctionLambdaFunctionInvocationPolicy"
+  name = "stepFunctionLambdaFunctionInvocationPolicy"
 
   policy = <<EOF
 {
@@ -84,6 +81,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
                 "${module.summarisation.lambda_function_arn}:*",
                 "${module.legislative_origin_extraction.lambda_function_arn}:*",
                 "${module.typedb_ingestion.lambda_function_arn}:*",
+                "${module.failure_notification.lambda_function_arn}:*",
                 "${module.check_duplicate.lambda_function_arn}:*"
             ]
         }
@@ -98,7 +96,7 @@ resource "aws_iam_role_policy_attachment" "iam_for_step_function_attach_policy_i
 }
 
 resource "aws_iam_policy" "policy_access_s3" {
-  name        = "stepFunctionS3AccessPolicy"
+  name = "stepFunctionS3AccessPolicy"
 
   policy = <<EOF
 {
@@ -225,7 +223,35 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:html_to_text:$LATEST"
       },
-      "Next": "Check Duplicates"
+      "Next": "Check Duplicates",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$"
+        }
+      ]
+    },
+    "Failure Notification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:failure_notification:$LATEST"
+      },
+      "Next": "Fail",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Fail",
+          "ResultPath": "$"
+        }
+      ]
     },
     "Check Duplicates": {
       "Type": "Task",
@@ -340,7 +366,7 @@ EOF
 }
 
 resource "aws_iam_policy" "policy_invoke_stepFunction" {
-  name        = "stepFunctionInvokeStepFunction"
+  name = "stepFunctionInvokeStepFunction"
 
   policy = <<EOF
 {

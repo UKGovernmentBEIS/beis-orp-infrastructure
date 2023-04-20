@@ -143,11 +143,11 @@ resource "aws_iam_policy" "typedb_backup_lambda_s3" {
 
 resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
   function_name = module.typedb_backup.lambda_function_name
-  statement_id = "CloudWatchInvoke"
-  action = "lambda:InvokeFunction"
+  statement_id  = "CloudWatchInvoke"
+  action        = "lambda:InvokeFunction"
 
   source_arn = aws_cloudwatch_event_rule.monthly.arn
-  principal = "events.amazonaws.com"
+  principal  = "events.amazonaws.com"
 }
 
 resource "aws_iam_role_policy_attachment" "typedb_instance_access_s3_policy" {
@@ -566,6 +566,27 @@ resource "aws_iam_policy" "lambda_invoke_typedb_ingestion" {
   })
 }
 
+resource "aws_iam_policy" "lambda_invoke_failure_notification" {
+  name        = "lambda_invoke_failure_notification"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "lambda:InvokeFunction"
+        ],
+        "Resource" : [
+          module.failure_notification.lambda_function_arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "lambda_access_dynamodb" {
   name        = "lambda_access_dynamodb"
   path        = "/"
@@ -594,6 +615,27 @@ resource "aws_iam_policy" "lambda_access_dynamodb" {
 
 resource "aws_iam_policy" "typedb_ingestion_cognito" {
   name        = "typedb_ingestion_cognito"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "cognito-idp:*"
+        ],
+        "Resource" : [
+          aws_cognito_user_pool.beis.arn
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "failure_notification_cognito" {
+  name        = "failure_notification_cognito"
   path        = "/"
   description = "Allow "
 

@@ -70,6 +70,10 @@ variable "typedb_ingestion_image_ver" {
   type = string
 }
 
+variable "failure_notification_image_ver" {
+  type = string
+}
+
 variable "typedb_search_query_image_ver" {
   type = string
 }
