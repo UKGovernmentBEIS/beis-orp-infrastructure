@@ -36,7 +36,11 @@ alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
 s3_upload_bucket = "beis-test-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
-regulator_access = "[{\"name\": \"Public\", \"id\": \"public\", \"domain\": \"public.io\"},{\"name\": \"MDRxTECH\", \"id\": \"mxt\", \"domain\": \"mdrx.tech\"},{\"name\": \"Zoonou\", \"id\": \"zoonou\", \"domain\": \"zoonou.com\"}]"
+regulator_access = [
+  {name = "Public", id = "public", domain = "public.io"},
+  {name = "MDRxTECH", id = "mxt", domain = "mdrx.tech"},
+  {name = "Zoonou", id = "zoonou", domain = "zoonou.com"}
+]
 
 mc_server      = "us13"
 mc_list        = "d8234fcc62"
