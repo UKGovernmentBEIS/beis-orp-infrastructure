@@ -290,9 +290,10 @@ module "html_to_text" {
   ]
 
   environment_variables = {
-    ENVIRONMENT        = local.environment
-    DESTINATION_BUCKET = aws_s3_bucket.beis-orp-datalake.id
-    COGNITO_USER_POOL  = aws_cognito_user_pool.beis.id
+    ENVIRONMENT          = local.environment
+    DESTINATION_BUCKET   = aws_s3_bucket.beis-orp-datalake.id
+    COGNITO_USER_POOL    = aws_cognito_user_pool.beis.id
+    SENDER_EMAIL_ADDRESS = local.typedb_ingestion_config.sender_email_address
   }
 
   assume_role_policy_statements = {
@@ -881,7 +882,7 @@ module "typedb_ingestion" {
   environment_variables = {
     ENVIRONMENT          = local.environment
     DESTINATION_SQS_URL  = local.typedb_ingestion_config.destination_sqs_url
-    COGNITO_USER_POOL    = local.typedb_ingestion_config.cognito_user_pool
+    COGNITO_USER_POOL    = aws_cognito_user_pool.beis.id
     SENDER_EMAIL_ADDRESS = local.typedb_ingestion_config.sender_email_address
   }
 
