@@ -20,7 +20,7 @@ module "html_trigger" {
   create_lambda_function_url                   = true
   authorization_type                           = "NONE"
   create_unqualified_alias_lambda_function_url = true
-    
+
   vpc_security_group_ids = [
     aws_security_group.html_trigger_lambda.id,
     module.vpc.default_security_group_id
@@ -292,6 +292,7 @@ module "html_to_text" {
   environment_variables = {
     ENVIRONMENT        = local.environment
     DESTINATION_BUCKET = aws_s3_bucket.beis-orp-datalake.id
+    COGNITO_USER_POOL  = aws_cognito_user_pool.beis.id
   }
 
   assume_role_policy_statements = {
