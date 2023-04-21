@@ -918,9 +918,10 @@ module "typedb_ingestion" {
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
     aws_iam_policy.text_extraction_lambda_s3_policy.arn,
     aws_iam_policy.typedb_ingestion_sqs.arn,
-    aws_iam_policy.typedb_ingestion_cognito.arn
+    aws_iam_policy.typedb_ingestion_cognito.arn,
+    aws_iam_policy.send_email_policy.arn
   ]
-  number_of_policies = 5
+  number_of_policies = 6
 }
 
 module "failure_notification" {
@@ -982,9 +983,10 @@ module "failure_notification" {
   policies = [
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.failure_notification_cognito.arn
+    aws_iam_policy.failure_notification_cognito.arn,
+    aws_iam_policy.send_email_policy.arn
   ]
-  number_of_policies = 3
+  number_of_policies = 4
 }
 
 module "typedb_search_query" {

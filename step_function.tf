@@ -230,7 +230,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
             "States.ALL"
           ],
           "Next": "Failure Notification",
-          "ResultPath": "$"
+          "ResultPath": "$.error"
         }
       ]
     },
