@@ -193,7 +193,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:pdf_to_text:$LATEST"
       },
-      "Next": "Check Duplicates"
+      "Next": "Check Duplicates",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ]
     },
     "Convert .docx to .txt": {
       "Type": "Task",
@@ -203,7 +212,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_text:$LATEST"
       },
-      "Next": "Check Duplicates"
+      "Next": "Check Duplicates",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ]
     },
     "Convert .odf to .txt": {
       "Type": "Task",
@@ -213,7 +231,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:odf_to_text:$LATEST"
       },
-      "Next": "Check Duplicates"
+      "Next": "Check Duplicates",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ]
     },
     "Convert .html to .txt": {
       "Type": "Task",
@@ -261,11 +288,29 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:check_duplicate:$LATEST"
       },
-      "Next": "Parallel"
+      "Next": "Parallel",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ]
     },
     "Parallel": {
       "Type": "Parallel",
       "Next": "TypeDB Ingestion",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ],
       "Branches": [
         {
           "StartAt": "Date Generation",
@@ -347,7 +392,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         "Payload.$": "$",
         "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:typedb_ingestion:$LATEST"
       },
-      "Next": "Success"
+      "Next": "Success",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ]
     },
     "Success": {
       "Type": "Succeed"
