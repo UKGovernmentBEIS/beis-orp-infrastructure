@@ -71,6 +71,10 @@ locals {
     sender_email_address       = var.typedb_ingestion_sender_email_address
   }
 
+  failure_notification_config = {
+    failure_notification_image_ver = var.failure_notification_image_ver
+  }
+
   typedb_config = {
     database_workdir       = var.database_workdir
     typedb_database_name   = var.typedb_database_name

@@ -130,6 +130,12 @@ resource "aws_security_group" "typedb_ingestion_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "failure_notification_lambda" {
+  name        = "beis-orp-failure-notification-lambda"
+  description = "Security Group for BEIS ORP failure_notification Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "sqs_vpc_endpoint" {
   name        = "beis-orp-sqs-vpc-endpoint"
   description = "Security Group for BEIS ORP SQS VPC Endpoint"
@@ -209,6 +215,15 @@ resource "aws_security_group_rule" "typedb_ingestion_all_outgoing" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "failure_notification_all_outgoing" {
+  from_port         = 0
+  protocol          = "tcp"
+  security_group_id = aws_security_group.failure_notification_lambda.id
+  to_port           = 65535
+  type              = "egress"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 resource "aws_security_group_rule" "keyword_extraction_lambda_s3_pfl" {
   from_port         = 443
   protocol          = "tcp"
@@ -272,10 +287,10 @@ resource "aws_security_group" "ec_cluster" {
 }
 
 resource "aws_security_group_rule" "ec_cluster_allow_redis" {
-  from_port                 = 6379
-  protocol                  = "tcp"
-  security_group_id         = aws_security_group.ec_cluster.id
-  to_port                   = 6379
-  type                      = "ingress"
-  source_security_group_id  = aws_security_group.ecs.id
+  from_port                = 6379
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.ec_cluster.id
+  to_port                  = 6379
+  type                     = "ingress"
+  source_security_group_id = aws_security_group.ecs.id
 }

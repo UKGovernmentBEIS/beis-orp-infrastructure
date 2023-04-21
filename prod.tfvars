@@ -16,6 +16,7 @@ summarisation_image_ver                 = "latest"
 legislative_origin_extraction_image_ver = "latest"
 legislation_table_update_image_ver      = "latest"
 typedb_ingestion_image_ver              = "latest"
+failure_notification_image_ver          = "latest"
 typedb_search_query_image_ver           = "latest"
 typedb_backup_image_ver                 = "latest"
 
