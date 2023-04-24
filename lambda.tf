@@ -290,10 +290,8 @@ module "html_to_text" {
   ]
 
   environment_variables = {
-    ENVIRONMENT          = local.environment
-    DESTINATION_BUCKET   = aws_s3_bucket.beis-orp-datalake.id
-    COGNITO_USER_POOL    = aws_cognito_user_pool.beis.id
-    SENDER_EMAIL_ADDRESS = local.typedb_ingestion_config.sender_email_address
+    ENVIRONMENT        = local.environment
+    DESTINATION_BUCKET = aws_s3_bucket.beis-orp-datalake.id
   }
 
   assume_role_policy_statements = {
@@ -983,10 +981,11 @@ module "failure_notification" {
   policies = [
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.text_extraction_lambda_s3_policy.arn,
     aws_iam_policy.failure_notification_cognito.arn,
     aws_iam_policy.send_email_policy.arn
   ]
-  number_of_policies = 4
+  number_of_policies = 5
 }
 
 module "typedb_search_query" {
