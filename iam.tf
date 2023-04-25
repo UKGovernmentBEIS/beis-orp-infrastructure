@@ -117,39 +117,6 @@ resource "aws_iam_policy" "typedb_instance_access_s3_policy" {
   })
 }
 
-resource "aws_iam_policy" "typedb_backup_lambda_s3" {
-  name        = "TypeDB-backup-lambda-to-s3"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ],
-        "Resource" : [
-          aws_s3_bucket.beis-orp-graph-database.arn
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
-  function_name = module.typedb_backup.lambda_function_name
-  statement_id  = "CloudWatchInvoke"
-  action        = "lambda:InvokeFunction"
-
-  source_arn = aws_cloudwatch_event_rule.monthly.arn
-  principal  = "events.amazonaws.com"
-}
-
 resource "aws_iam_role_policy_attachment" "typedb_instance_access_s3_policy" {
   role       = aws_iam_role.typedb_iam_role.name
   policy_arn = aws_iam_policy.typedb_instance_access_s3_policy.arn
