@@ -55,7 +55,7 @@ then
   sudo rm $DATE-orp-pbeta.typedb && echo "File deleted from directory"
   """ > $BACKUP_SCRIPT
 
-  chmod a+x /srv/monthly_backup.sh
+  chmod a+x $BACKUP_SCRIPT
   crontab -l | { cat; echo "0 3 * * 6 "$BACKUP_SCRIPT; } | crontab -
 
 fi
