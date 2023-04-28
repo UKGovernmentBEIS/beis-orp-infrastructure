@@ -796,7 +796,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
   alarm_actions = [
     aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
-  alarm_description   = "Alerts when the Step Function success rate drops below a certain threshold"
+  alarm_description   = "Alerts when the Step Function success rate drops below 95%"
   alarm_name          = "Step Function Low Success Rate"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = 1
@@ -804,7 +804,7 @@ resource "aws_cloudwatch_metric_alarm" "pipeline_low_success_rate" {
   ok_actions = [
     aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
-  threshold = 50
+  threshold = 95
   metric_query {
     id          = "m1"
     period      = 0
@@ -910,9 +910,9 @@ resource "aws_cloudwatch_metric_alarm" "lambda_low_success_rate" {
   ok_actions = [
     aws_sns_topic.cloudwatch_alerts_topic.arn,
   ]
-  alarm_description   = "Alerts when Lambda functions success rate is below a specified threshold"
+  alarm_description   = "Alerts when Lambda functions success rate is below 95%"
   datapoints_to_alarm = 1
-  threshold           = 80
+  threshold           = 95
   metric_query {
     id          = "m1"
     period      = 0
