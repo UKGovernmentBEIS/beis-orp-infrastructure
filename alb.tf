@@ -2,6 +2,8 @@ module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 7.0"
 
+  listener_ssl_policy_default = "ELBSecurityPolicy-TLS-1-2-2017-01"
+
   name = "beis-alb"
 
   load_balancer_type               = "application"
