@@ -52,6 +52,12 @@ resource "aws_security_group" "html_trigger_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "delete_document_lambda" {
+  name        = "beis-orp-delete-document-lambda"
+  description = "Security Group for BEIS ORP delete_document Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "pdf_to_text_lambda" {
   name        = "beis-orp-pdf-to-text-lambda"
   description = "Security Group for BEIS ORP pdf-to-text Lambda"

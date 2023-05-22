@@ -37,7 +37,7 @@ resource "aws_ecs_service" "webserver" {
   }
   depends_on = [
     #    module.alb.https_listeners,
-#    module.alb.http_tcp_listeners,
+    #    module.alb.http_tcp_listeners,
     aws_iam_role_policy.ecs_svc_policy
   ]
 }
@@ -72,6 +72,7 @@ resource "aws_ecs_task_definition" "webserver" {
       cognito_api_user_pool  = aws_cognito_user_pool.beis_api.id
       cognito_api_client_id  = aws_cognito_user_pool_client.beis_api_client.id
       html_ingestion_url     = module.html_trigger.lambda_function_url
+      delete_document_url    = module.delete_document.lambda_function_url
       redis_address          = aws_elasticache_cluster.users.cache_nodes[0].address
       redis_port             = aws_elasticache_cluster.users.cache_nodes[0].port
       session_secret         = random_password.session_secret.result
@@ -81,6 +82,6 @@ resource "aws_ecs_task_definition" "webserver" {
 }
 
 resource "random_password" "session_secret" {
-  length           = 16
-  special          = true
+  length  = 16
+  special = true
 }
