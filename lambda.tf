@@ -96,7 +96,10 @@ module "delete_document" {
   ]
 
   environment_variables = {
-    ENVIRONMENT = local.environment
+    ENVIRONMENT = local.environment,
+    TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
+    TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
+    TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
     # STATE_MACHINE_ARN = aws_sfn_state_machine.sfn_state_machine.arn
   }
 
