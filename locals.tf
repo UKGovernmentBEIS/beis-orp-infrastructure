@@ -12,6 +12,10 @@ locals {
     html_trigger_image_ver = var.html_trigger_image_ver
   }
 
+  delete_document_config = {
+    delete_document_image_ver = var.delete_document_image_ver
+  }
+
   pdf_to_text_config = {
     pdf_to_text_image_ver = var.pdf_to_text_image_ver
   }

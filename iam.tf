@@ -648,7 +648,10 @@ resource "aws_iam_policy" "api_gateway_execution_policy" {
         Action = [
           "lambda:InvokeFunction"
         ]
-        Resource = module.html_trigger.lambda_function_arn
+        Resource = [
+          module.html_trigger.lambda_function_arn,
+          module.delete_document.lambda_function_arn
+        ]
       }
     ]
   })

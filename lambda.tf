@@ -67,6 +67,77 @@ module "html_trigger" {
   number_of_policies = 4
 }
 
+module "delete_document" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.1.2"
+
+  function_name          = "delete_document"
+  handler                = "delete_document.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/delete_document:${local.delete_document_config.delete_document_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  # Function URL Config
+  create_lambda_function_url                   = true
+  authorization_type                           = "NONE"
+  create_unqualified_alias_lambda_function_url = true
+
+  vpc_security_group_ids = [
+    aws_security_group.delete_document_lambda.id,
+    module.vpc.default_security_group_id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT = local.environment,
+    TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
+    TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
+    TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
+    # STATE_MACHINE_ARN = aws_sfn_state_machine.sfn_state_machine.arn
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+  ]
+  number_of_policies = 3
+}
+
 module "pdf_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"
