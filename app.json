@@ -75,6 +75,10 @@
         "value": "${html_ingestion_url}"
       },
       {
+        "name": "DELETE_DOCUMENT_URL",
+        "value": "${delete_document_url}"
+      },
+      {
         "name": "REDIS_ADDRESS",
         "value": "${redis_address}"
       },
