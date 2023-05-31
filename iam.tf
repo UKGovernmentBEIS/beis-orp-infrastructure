@@ -127,6 +127,32 @@ resource "aws_iam_instance_profile" "typedb_iam_profile" {
   role = aws_iam_role.typedb_iam_role.name
 }
 
+resource "aws_iam_policy" "delete_document_lambda_s3_policy" {
+  name        = "delete-document-Lambda-to-S3"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn,
+          aws_s3_bucket.beis-orp-upload.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "orpml_ingest_lambda_s3_policy" {
   name        = "orpml-ingest-Lambda-to-S3"
   path        = "/"

@@ -162,6 +162,11 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
           "Next": "Convert .pdf to .txt"
         },
         {
+          "Variable": "$.detail.object.key",
+          "StringMatches": "*.orpml",
+          "Next": "Ingest ORPML Document"
+        },
+        {
           "Or": [
             {
               "Variable": "$.detail.object.key",

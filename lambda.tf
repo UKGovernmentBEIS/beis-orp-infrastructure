@@ -100,7 +100,8 @@ module "delete_document" {
     TYPEDB_SERVER_IP     = aws_instance.typedb.private_ip,
     TYPEDB_SERVER_PORT   = local.typedb_config.typedb_server_port
     TYPEDB_DATABASE_NAME = local.typedb_config.typedb_database_name
-    # STATE_MACHINE_ARN = aws_sfn_state_machine.sfn_state_machine.arn
+    UPLOAD_BUCKET        = aws_s3_bucket.beis-orp-upload.id
+    DATA_LAKE            = aws_s3_bucket.beis-orp-datalake.id
   }
 
   assume_role_policy_statements = {
@@ -133,9 +134,10 @@ module "delete_document" {
   policies = [
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
-    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.delete_document_lambda_s3_policy.arn
   ]
-  number_of_policies = 3
+  number_of_policies = 4
 }
 
 module "orpml_ingest" {
