@@ -461,6 +461,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "orpml_ingest",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "pdf_to_text",
               {
                 region = "eu-west-2"
@@ -727,6 +734,15 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
                 visible = false
               },
             ],
+            [
+              "...",
+              "orpml_ingest",
+              {
+                id      = "m15"
+                region  = "eu-west-2"
+                visible = false
+              },
+            ],
           ]
           period  = 3600
           region  = "eu-west-2"
@@ -763,6 +779,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "Errors",
               "FunctionName",
               "legislative_origin_extraction",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "orpml_ingest",
               {
                 region = "eu-west-2"
               },
@@ -941,6 +964,14 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "odf_to_text",
               {
                 label  = "ODF"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "orpml_ingest",
+              {
+                label  = "ORPML"
                 region = "eu-west-2"
               },
             ],
