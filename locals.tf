@@ -16,6 +16,10 @@ locals {
     delete_document_image_ver = var.delete_document_image_ver
   }
 
+  orpml_ingest_config = {
+    orpml_ingest_image_ver = var.orpml_ingest_image_ver
+  }
+
   pdf_to_text_config = {
     pdf_to_text_image_ver = var.pdf_to_text_image_ver
   }

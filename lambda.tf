@@ -140,6 +140,70 @@ module "delete_document" {
   number_of_policies = 4
 }
 
+module "orpml_ingest" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.1.2"
+
+  function_name          = "orpml_ingest"
+  handler                = "orpml_ingest.handler"
+  runtime                = "python3.8"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/orpml_ingest:${local.orpml_ingest_config.orpml_ingest_image_ver}"
+  package_type           = "Image"
+  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  vpc_security_group_ids = [
+    aws_security_group.orpml_ingest_lambda.id,
+    module.vpc.default_security_group_id
+  ]
+
+  environment_variables = {
+    ENVIRONMENT        = local.environment
+    DESTINATION_BUCKET = aws_s3_bucket.beis-orp-datalake.id
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.orpml_ingest_lambda_s3_policy.arn
+  ]
+  number_of_policies = 4
+}
+
 module "pdf_to_text" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"
@@ -202,13 +266,6 @@ module "pdf_to_text" {
     aws_iam_policy.pdf_to_text_lambda_s3_policy.arn
   ]
   number_of_policies = 4
-
-  #  allowed_triggers = {
-  #    update_images = {
-  #      principal  = "events.amazonaws.com"
-  #      source_arn = module.eventbridge.eventbridge_rule_arns["update_images"]
-  #    }
-  #  }
 }
 
 module "docx_to_text" {

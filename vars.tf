@@ -18,6 +18,10 @@ variable "delete_document_image_ver" {
   type = string
 }
 
+variable "orpml_ingest_image_ver" {
+  type = string
+}
+
 variable "pdf_to_text_image_ver" {
   type = string
 }

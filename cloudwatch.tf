@@ -7,246 +7,246 @@ resource "aws_cloudwatch_dashboard" "monitoring" {
   dashboard_name = "monitoring"
   dashboard_body = jsonencode(
     {
-      "widgets": [
+      "widgets" : [
         {
-          "height": 6,
-          "width": 4,
-          "y": 0,
-          "x": 0,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "CPU Utilization",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 4,
+          "y" : 0,
+          "x" : 0,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "CPU Utilization",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ { "id": "expr1m0", "label": "ecs_webserver", "expression": "mm1m0 * 100 / mm0m0", "stat": "Average" } ],
-              [ "ECS/ContainerInsights", "CpuReserved", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id": "mm0m0", "visible": false, "stat": "Sum" } ],
-              [ ".", "CpuUtilized", ".", ".", ".", ".", { "id": "mm1m0", "visible": false, "stat": "Sum" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              [{ "id" : "expr1m0", "label" : "ecs_webserver", "expression" : "mm1m0 * 100 / mm0m0", "stat" : "Average" }],
+              ["ECS/ContainerInsights", "CpuReserved", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id" : "mm0m0", "visible" : false, "stat" : "Sum" }],
+              [".", "CpuUtilized", ".", ".", ".", ".", { "id" : "mm1m0", "visible" : false, "stat" : "Sum" }]
             ],
-            "liveData": false,
-            "period": 60,
-            "yAxis": {
-              "left": {
-                "min": 0,
-                "showUnits": false,
-                "label": "Percent"
+            "liveData" : false,
+            "period" : 60,
+            "yAxis" : {
+              "left" : {
+                "min" : 0,
+                "showUnits" : false,
+                "label" : "Percent"
               }
             }
           }
         },
         {
-          "height": 6,
-          "width": 4,
-          "y": 0,
-          "x": 4,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Memory Utilization",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 4,
+          "y" : 0,
+          "x" : 4,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Memory Utilization",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ { "id": "expr1m0", "label": "ecs_webserver", "expression": "mm1m0 * 100 / mm0m0", "stat": "Average" } ],
-              [ "ECS/ContainerInsights", "MemoryReserved", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id": "mm0m0", "visible": false, "stat": "Sum" } ],
-              [ ".", "MemoryUtilized", ".", ".", ".", ".", { "id": "mm1m0", "visible": false, "stat": "Sum" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              [{ "id" : "expr1m0", "label" : "ecs_webserver", "expression" : "mm1m0 * 100 / mm0m0", "stat" : "Average" }],
+              ["ECS/ContainerInsights", "MemoryReserved", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id" : "mm0m0", "visible" : false, "stat" : "Sum" }],
+              [".", "MemoryUtilized", ".", ".", ".", ".", { "id" : "mm1m0", "visible" : false, "stat" : "Sum" }]
             ],
-            "liveData": false,
-            "period": 60,
-            "yAxis": {
-              "left": {
-                "min": 0,
-                "showUnits": false,
-                "label": "Percent"
+            "liveData" : false,
+            "period" : 60,
+            "yAxis" : {
+              "left" : {
+                "min" : 0,
+                "showUnits" : false,
+                "label" : "Percent"
               }
             }
           }
         },
         {
-          "height": 6,
-          "width": 4,
-          "y": 0,
-          "x": 8,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Network TX",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 4,
+          "y" : 0,
+          "x" : 8,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Network TX",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ { "id": "expr1m0", "label": "ecs_webserver", "expression": "mm0m0", "stat": "Average" } ],
-              [ "ECS/ContainerInsights", "NetworkTxBytes", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id": "mm0m0", "visible": false, "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              [{ "id" : "expr1m0", "label" : "ecs_webserver", "expression" : "mm0m0", "stat" : "Average" }],
+              ["ECS/ContainerInsights", "NetworkTxBytes", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id" : "mm0m0", "visible" : false, "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60,
-            "yAxis": {
-              "left": {
-                "showUnits": false,
-                "label": "Bytes/Second"
+            "liveData" : false,
+            "period" : 60,
+            "yAxis" : {
+              "left" : {
+                "showUnits" : false,
+                "label" : "Bytes/Second"
               }
             }
           }
         },
         {
-          "height": 6,
-          "width": 3,
-          "y": 0,
-          "x": 12,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Disk Utilization",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 3,
+          "y" : 0,
+          "x" : 12,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Disk Utilization",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ { "id": "expr1m0", "label": "ecs_webserver", "expression": "mm1m0 * 100 / mm0m0", "stat": "Average" } ],
-              [ "ECS/ContainerInsights", "EphemeralStorageReserved", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id": "mm0m0", "visible": false, "stat": "Sum" } ],
-              [ ".", "EphemeralStorageUtilized", ".", ".", ".", ".", { "id": "mm1m0", "visible": false, "stat": "Sum" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              [{ "id" : "expr1m0", "label" : "ecs_webserver", "expression" : "mm1m0 * 100 / mm0m0", "stat" : "Average" }],
+              ["ECS/ContainerInsights", "EphemeralStorageReserved", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id" : "mm0m0", "visible" : false, "stat" : "Sum" }],
+              [".", "EphemeralStorageUtilized", ".", ".", ".", ".", { "id" : "mm1m0", "visible" : false, "stat" : "Sum" }]
             ],
-            "liveData": false,
-            "period": 60,
-            "yAxis": {
-              "left": {
-                "min": 0,
-                "showUnits": false,
-                "label": "Percent"
+            "liveData" : false,
+            "period" : 60,
+            "yAxis" : {
+              "left" : {
+                "min" : 0,
+                "showUnits" : false,
+                "label" : "Percent"
               }
             }
           }
         },
         {
-          "height": 6,
-          "width": 3,
-          "y": 0,
-          "x": 15,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Network RX",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 3,
+          "y" : 0,
+          "x" : 15,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Network RX",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ { "id": "expr1m0", "label": "ecs_webserver", "expression": "mm0m0", "stat": "Average" } ],
-              [ "ECS/ContainerInsights", "NetworkRxBytes", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id": "mm0m0", "visible": false, "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              [{ "id" : "expr1m0", "label" : "ecs_webserver", "expression" : "mm0m0", "stat" : "Average" }],
+              ["ECS/ContainerInsights", "NetworkRxBytes", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "id" : "mm0m0", "visible" : false, "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60,
-            "yAxis": {
-              "left": {
-                "showUnits": false,
-                "label": "Bytes/Second"
+            "liveData" : false,
+            "period" : 60,
+            "yAxis" : {
+              "left" : {
+                "showUnits" : false,
+                "label" : "Bytes/Second"
               }
             }
           }
         },
         {
-          "height": 6,
-          "width": 3,
-          "y": 0,
-          "x": 18,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Number of Desired Tasks",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 3,
+          "y" : 0,
+          "x" : 18,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Number of Desired Tasks",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ "ECS/ContainerInsights", "DesiredTaskCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              ["ECS/ContainerInsights", "DesiredTaskCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60
+            "liveData" : false,
+            "period" : 60
           }
         },
         {
-          "height": 6,
-          "width": 3,
-          "y": 0,
-          "x": 21,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Number of Running Tasks",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 3,
+          "y" : 0,
+          "x" : 21,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Number of Running Tasks",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ "ECS/ContainerInsights", "RunningTaskCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              ["ECS/ContainerInsights", "RunningTaskCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60
+            "liveData" : false,
+            "period" : 60
           }
         },
         {
-          "height": 6,
-          "width": 4,
-          "y": 6,
-          "x": 0,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Number of Pending Tasks",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 4,
+          "y" : 6,
+          "x" : 0,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Number of Pending Tasks",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ "ECS/ContainerInsights", "PendingTaskCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              ["ECS/ContainerInsights", "PendingTaskCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60
+            "liveData" : false,
+            "period" : 60
           }
         },
         {
-          "height": 6,
-          "width": 4,
-          "y": 6,
-          "x": 4,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Number of Task Sets",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 4,
+          "y" : 6,
+          "x" : 4,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Number of Task Sets",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ "ECS/ContainerInsights", "TaskSetCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              ["ECS/ContainerInsights", "TaskSetCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60
+            "liveData" : false,
+            "period" : 60
           }
         },
         {
-          "height": 6,
-          "width": 4,
-          "y": 6,
-          "x": 8,
-          "type": "metric",
-          "properties": {
-            "region": "eu-west-2",
-            "title": "Number of Deployments",
-            "legend": {
-              "position": "bottom"
+          "height" : 6,
+          "width" : 4,
+          "y" : 6,
+          "x" : 8,
+          "type" : "metric",
+          "properties" : {
+            "region" : "eu-west-2",
+            "title" : "Number of Deployments",
+            "legend" : {
+              "position" : "bottom"
             },
-            "timezone": "Local",
-            "metrics": [
-              [ "ECS/ContainerInsights", "DeploymentCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat": "Average" } ]
+            "timezone" : "Local",
+            "metrics" : [
+              ["ECS/ContainerInsights", "DeploymentCount", "ClusterName", "ecs_webserver", "ServiceName", "ecs_webserver", { "stat" : "Average" }]
             ],
-            "liveData": false,
-            "period": 60
+            "liveData" : false,
+            "period" : 60
           }
         }
       ]
@@ -461,6 +461,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "orpml_ingest",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "pdf_to_text",
               {
                 region = "eu-west-2"
@@ -483,6 +490,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             [
               "...",
               "html_to_text",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "delete_document",
               {
                 region = "eu-west-2"
               },
@@ -711,6 +725,24 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
                 visible = false
               },
             ],
+            [
+              "...",
+              "delete_document",
+              {
+                id      = "m14"
+                region  = "eu-west-2"
+                visible = false
+              },
+            ],
+            [
+              "...",
+              "orpml_ingest",
+              {
+                id      = "m15"
+                region  = "eu-west-2"
+                visible = false
+              },
+            ],
           ]
           period  = 3600
           region  = "eu-west-2"
@@ -753,6 +785,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "orpml_ingest",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "pdf_to_text",
               {
                 region = "eu-west-2"
@@ -775,6 +814,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             [
               "...",
               "html_to_text",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "delete_document",
               {
                 region = "eu-west-2"
               },
@@ -923,6 +969,14 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "orpml_ingest",
+              {
+                label  = "ORPML"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "pdf_to_text",
               {
                 label  = "PDF"
@@ -942,6 +996,14 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "docx_to_text",
               {
                 label  = "DOCX"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "odf_to_text",
+              {
+                label  = "ODF"
                 region = "eu-west-2"
               },
             ],
@@ -1233,27 +1295,27 @@ resource "aws_cloudwatch_metric_alarm" "lambda_throttling" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "client_app_containers_count" {
-  alarm_name = "TF Client app containers count"
-  alarm_description = "# Client app tasks below 1 There are no instances of the client application running"
-  actions_enabled = true
+  alarm_name          = "TF Client app containers count"
+  alarm_description   = "# Client app tasks below 1 There are no instances of the client application running"
+  actions_enabled     = true
   comparison_operator = "LessThanThreshold"
-  evaluation_periods = 1
+  evaluation_periods  = 1
   datapoints_to_alarm = 1
-  threshold = 1
-  treat_missing_data = "missing"
+  threshold           = 1
+  treat_missing_data  = "missing"
 
-  alarm_actions =[
+  alarm_actions = [
     "arn:aws:sns:eu-west-2:412071276468:cloudwatch_alerts_topic"
   ]
 
   metric_query {
-    id          = "m1"
-#    period      = 60
+    id = "m1"
+    #    period      = 60
     return_data = true
 
     metric {
       dimensions = {
-        ClusterName  = "ecs_webserver"
+        ClusterName = "ecs_webserver"
         ServiceName = "ecs_webserver"
       }
 
