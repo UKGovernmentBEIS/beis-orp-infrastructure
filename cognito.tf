@@ -25,6 +25,16 @@ resource "aws_cognito_user_pool" "beis" {
     define_auth_challenge          = module.define_auth_challenge.lambda_function_arn
     verify_auth_challenge_response = module.verify_auth_challenge.lambda_function_arn
   }
+
+  password_policy {
+    minimum_length = 6
+    require_lowercase = false
+    require_uppercase = false
+    require_numbers = false
+    require_symbols = false
+    temporary_password_validity_days = 7
+  }
+  
 }
 
 resource "aws_cognito_user_pool_client" "beis_client" {
