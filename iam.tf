@@ -179,8 +179,8 @@ resource "aws_iam_policy" "orpml_ingest_lambda_s3_policy" {
   })
 }
 
-resource "aws_iam_policy" "pdf_to_text_lambda_s3_policy" {
-  name        = "pdf-to-text-Lambda-to-S3"
+resource "aws_iam_policy" "pdf_to_orpml_lambda_s3_policy" {
+  name        = "pdf-to-orpml-Lambda-to-S3"
   path        = "/"
   description = "Allow "
 

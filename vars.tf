@@ -22,7 +22,7 @@ variable "orpml_ingest_image_ver" {
   type = string
 }
 
-variable "pdf_to_text_image_ver" {
+variable "pdf_to_orpml_image_ver" {
   type = string
 }
 

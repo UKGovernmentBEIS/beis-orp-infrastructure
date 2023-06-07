@@ -20,8 +20,8 @@ locals {
     orpml_ingest_image_ver = var.orpml_ingest_image_ver
   }
 
-  pdf_to_text_config = {
-    pdf_to_text_image_ver = var.pdf_to_text_image_ver
+  pdf_to_orpml_config = {
+    pdf_to_orpml_image_ver = var.pdf_to_orpml_image_ver
   }
 
   docx_to_text_config = {
