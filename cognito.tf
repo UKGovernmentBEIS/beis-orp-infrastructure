@@ -34,7 +34,7 @@ resource "aws_cognito_user_pool" "beis" {
     require_symbols = false
     temporary_password_validity_days = 7
   }
-  
+
 }
 
 resource "aws_cognito_user_pool_client" "beis_client" {
