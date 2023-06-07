@@ -204,17 +204,17 @@ module "orpml_ingest" {
   number_of_policies = 4
 }
 
-module "pdf_to_text" {
+module "pdf_to_orpml" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"
 
-  function_name          = "pdf_to_text"
-  handler                = "pdf_to_text.handler"
+  function_name          = "pdf_to_orpml"
+  handler                = "pdf_to_orpml.handler"
   runtime                = "python3.8"
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf_to_text:${local.pdf_to_text_config.pdf_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf_to_orpml:${local.pdf_to_orpml_config.pdf_to_orpml_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -223,7 +223,7 @@ module "pdf_to_text" {
   create_current_version_allowed_triggers = false
 
   vpc_security_group_ids = [
-    aws_security_group.pdf_to_text_lambda.id,
+    aws_security_group.pdf_to_orpml_lambda.id,
     module.vpc.default_security_group_id
   ]
 
@@ -263,7 +263,7 @@ module "pdf_to_text" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.pdf_to_text_lambda_s3_policy.arn
+    aws_iam_policy.pdf_to_orpml_lambda_s3_policy.arn
   ]
   number_of_policies = 4
 }
