@@ -12,6 +12,18 @@ locals {
     html_trigger_image_ver = var.html_trigger_image_ver
   }
 
+  create_auth_challenge_config = {
+    create_auth_challenge_image_ver = var.create_auth_challenge_image_ver
+  }
+
+  define_auth_challenge_config = {
+    define_auth_challenge_image_ver = var.define_auth_challenge_image_ver
+  }
+
+  verify_auth_challenge_config = {
+    verify_auth_challenge_image_ver = var.verify_auth_challenge_image_ver
+  }
+
   delete_document_config = {
     delete_document_image_ver = var.delete_document_image_ver
   }
