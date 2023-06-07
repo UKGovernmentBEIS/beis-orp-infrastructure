@@ -19,15 +19,19 @@ resource "aws_cognito_user_pool" "beis" {
     reply_to_email_address = "matt.whitfield@public.io"
     source_arn             = "arn:aws:ses:${local.region}:${data.aws_caller_identity.current.account_id}:identity/matt.whitfield@public.io"
   }
+
+  lambda_config {
+    create_auth_challenge          = module.create_auth_challenge.lambda_function_arn
+    define_auth_challenge          = module.define_auth_challenge.lambda_function_arn
+    verify_auth_challenge_response = module.verify_auth_challenge.lambda_function_arn
+  }
 }
 
 resource "aws_cognito_user_pool_client" "beis_client" {
   name = "beis_client"
   explicit_auth_flows = [
-    "ALLOW_ADMIN_USER_PASSWORD_AUTH",
     "ALLOW_CUSTOM_AUTH",
     "ALLOW_REFRESH_TOKEN_AUTH",
-    "ALLOW_USER_SRP_AUTH",
   ]
 
   access_token_validity = 60
