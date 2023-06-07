@@ -1135,3 +1135,182 @@ module "typedb_search_query" {
   #    }
   #  }
 }
+
+module "create_auth_challenge" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.18.0"
+
+  function_name          = "create_auth_challenge"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/create_auth_challenge:${local.create_auth_challenge_config.create_auth_challenge_image_ver}"
+  package_type           = "Image"
+#  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  # Function URL Config
+  create_lambda_function_url                   = true
+  authorization_type                           = "NONE"
+  create_unqualified_alias_lambda_function_url = true
+
+  environment_variables = {
+    SES_FROM_ADDRESS = "matt.whitfield@public.io"
+    ENV_HREF         = aws_route53_record.app.fqdn
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+  ]
+  number_of_policies = 3
+}
+
+module "define_auth_challenge" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.18.0"
+
+  function_name          = "define_auth_challenge"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/define_auth_challenge:${local.define_auth_challenge_config.define_auth_challenge_image_ver}"
+  package_type           = "Image"
+#  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  # Function URL Config
+  create_lambda_function_url                   = true
+  authorization_type                           = "NONE"
+  create_unqualified_alias_lambda_function_url = true
+
+  environment_variables = {
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+  ]
+  number_of_policies = 3
+}
+
+module "verify_auth_challenge" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 4.18.0"
+
+  function_name          = "verify_auth_challenge"
+  memory_size            = "512"
+  timeout                = 900
+  create_package         = false
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/verify_auth_challenge:${local.verify_auth_challenge_config.verify_auth_challenge_image_ver}"
+  package_type           = "Image"
+  #  vpc_subnet_ids         = module.vpc.private_subnets
+  maximum_retry_attempts = 0
+  attach_network_policy  = true
+
+  create_current_version_allowed_triggers = false
+
+  # Function URL Config
+  create_lambda_function_url                   = true
+  authorization_type                           = "NONE"
+  create_unqualified_alias_lambda_function_url = true
+
+  environment_variables = {
+  }
+
+  assume_role_policy_statements = {
+    account_root = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        account_principal = {
+          type        = "AWS",
+          identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+        }
+      }
+    }
+    lambda = {
+      effect  = "Allow",
+      actions = ["sts:AssumeRole"],
+      principals = {
+        rds_principal = {
+          type = "Service"
+          identifiers = [
+            "lambda.amazonaws.com",
+          ]
+        }
+      }
+    }
+  }
+
+  #Attaching AWS policies
+  attach_policies = true
+  policies = [
+    "arn:aws:iam::aws:policy/AmazonSESFullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+  ]
+  number_of_policies = 3
+}
