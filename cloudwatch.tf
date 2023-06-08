@@ -475,7 +475,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "docx_to_text",
+              "docx_to_orpml",
               {
                 region = "eu-west-2"
               },
@@ -621,7 +621,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "docx_to_text",
+              "docx_to_orpml",
               {
                 id      = "m3"
                 region  = "eu-west-2"
@@ -799,7 +799,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "docx_to_text",
+              "docx_to_orpml",
               {
                 region = "eu-west-2"
               },
@@ -993,7 +993,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "docx_to_text",
+              "docx_to_orpml",
               {
                 label  = "DOCX"
                 region = "eu-west-2"

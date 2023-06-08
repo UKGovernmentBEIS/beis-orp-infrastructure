@@ -36,8 +36,8 @@ locals {
     pdf_to_orpml_image_ver = var.pdf_to_orpml_image_ver
   }
 
-  docx_to_text_config = {
-    docx_to_text_image_ver = var.docx_to_text_image_ver
+  docx_to_orpml_config = {
+    docx_to_orpml_image_ver = var.docx_to_orpml_image_ver
   }
 
   odf_to_text_config = {

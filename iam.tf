@@ -205,8 +205,8 @@ resource "aws_iam_policy" "pdf_to_orpml_lambda_s3_policy" {
   })
 }
 
-resource "aws_iam_policy" "docx_to_text_lambda_s3_policy" {
-  name        = "docx-to-text-Lambda-to-S3"
+resource "aws_iam_policy" "docx_to_orpml_lambda_s3_policy" {
+  name        = "docx-to-orpml-Lambda-to-S3"
   path        = "/"
   description = "Allow "
 
