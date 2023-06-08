@@ -38,7 +38,7 @@ variable "pdf_to_orpml_image_ver" {
   type = string
 }
 
-variable "docx_to_text_image_ver" {
+variable "docx_to_orpml_image_ver" {
   type = string
 }
 

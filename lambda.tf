@@ -268,17 +268,17 @@ module "pdf_to_orpml" {
   number_of_policies = 4
 }
 
-module "docx_to_text" {
+module "docx_to_orpml" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.1.2"
 
-  function_name          = "docx_to_text"
-  handler                = "docx_to_text.handler"
+  function_name          = "docx_to_orpml"
+  handler                = "docx_to_orpml.handler"
   runtime                = "python3.8"
   memory_size            = "512"
   timeout                = 900
   create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/docx_to_text:${local.docx_to_text_config.docx_to_text_image_ver}"
+  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/docx_to_orpml:${local.docx_to_orpml_config.docx_to_orpml_image_ver}"
   package_type           = "Image"
   vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
@@ -287,7 +287,7 @@ module "docx_to_text" {
   create_current_version_allowed_triggers = false
 
   vpc_security_group_ids = [
-    aws_security_group.docx_to_text_lambda.id,
+    aws_security_group.docx_to_orpml_lambda.id,
     module.vpc.default_security_group_id
   ]
 
@@ -327,7 +327,7 @@ module "docx_to_text" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.docx_to_text_lambda_s3_policy.arn
+    aws_iam_policy.docx_to_orpml_lambda_s3_policy.arn
   ]
   number_of_policies = 4
 }
@@ -1140,13 +1140,13 @@ module "create_auth_challenge" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.18.0"
 
-  function_name          = "create_auth_challenge"
-  memory_size            = "512"
-  timeout                = 900
-  create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/create_auth_challenge:${local.create_auth_challenge_config.create_auth_challenge_image_ver}"
-  package_type           = "Image"
-#  vpc_subnet_ids         = module.vpc.private_subnets
+  function_name  = "create_auth_challenge"
+  memory_size    = "512"
+  timeout        = 900
+  create_package = false
+  image_uri      = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/create_auth_challenge:${local.create_auth_challenge_config.create_auth_challenge_image_ver}"
+  package_type   = "Image"
+  #  vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
   attach_network_policy  = true
 
@@ -1201,13 +1201,13 @@ module "define_auth_challenge" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.18.0"
 
-  function_name          = "define_auth_challenge"
-  memory_size            = "512"
-  timeout                = 900
-  create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/define_auth_challenge:${local.define_auth_challenge_config.define_auth_challenge_image_ver}"
-  package_type           = "Image"
-#  vpc_subnet_ids         = module.vpc.private_subnets
+  function_name  = "define_auth_challenge"
+  memory_size    = "512"
+  timeout        = 900
+  create_package = false
+  image_uri      = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/define_auth_challenge:${local.define_auth_challenge_config.define_auth_challenge_image_ver}"
+  package_type   = "Image"
+  #  vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
   attach_network_policy  = true
 
@@ -1260,12 +1260,12 @@ module "verify_auth_challenge" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "~> 4.18.0"
 
-  function_name          = "verify_auth_challenge"
-  memory_size            = "512"
-  timeout                = 900
-  create_package         = false
-  image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/verify_auth_challenge:${local.verify_auth_challenge_config.verify_auth_challenge_image_ver}"
-  package_type           = "Image"
+  function_name  = "verify_auth_challenge"
+  memory_size    = "512"
+  timeout        = 900
+  create_package = false
+  image_uri      = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/verify_auth_challenge:${local.verify_auth_challenge_config.verify_auth_challenge_image_ver}"
+  package_type   = "Image"
   #  vpc_subnet_ids         = module.vpc.private_subnets
   maximum_retry_attempts = 0
   attach_network_policy  = true

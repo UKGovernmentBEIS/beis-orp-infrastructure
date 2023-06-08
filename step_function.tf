@@ -73,7 +73,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
             "Resource": [
                 "${module.orpml_ingest.lambda_function_arn}:*",
                 "${module.pdf_to_orpml.lambda_function_arn}:*",
-                "${module.docx_to_text.lambda_function_arn}:*",
+                "${module.docx_to_orpml.lambda_function_arn}:*",
                 "${module.odf_to_text.lambda_function_arn}:*",
                 "${module.html_to_text.lambda_function_arn}:*",
                 "${module.title_generation.lambda_function_arn}:*",
@@ -154,7 +154,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
               "StringMatches": "*.docx"
             }
           ],
-          "Next": "Convert .docx to .txt"
+          "Next": "Convert DOCX to ORPML"
         },
         {
           "Variable": "$.detail.object.key",
@@ -229,13 +229,13 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         }
       ]
     },
-    "Convert .docx to .txt": {
+    "Convert DOCX to ORPML": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_text:$LATEST"
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:docx_to_orpml:$LATEST"
       },
       "Next": "Check Duplicates",
       "Catch": [

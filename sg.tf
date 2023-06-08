@@ -70,9 +70,9 @@ resource "aws_security_group" "pdf_to_orpml_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group" "docx_to_text_lambda" {
-  name        = "beis-orp-docx-to-text-lambda"
-  description = "Security Group for BEIS ORP docx-to-text Lambda"
+resource "aws_security_group" "docx_to_orpml_lambda" {
+  name        = "beis-orp-docx-to-orpml-lambda"
+  description = "Security Group for BEIS ORP docx-to-orpml Lambda"
   vpc_id      = module.vpc.vpc_id
 }
 
