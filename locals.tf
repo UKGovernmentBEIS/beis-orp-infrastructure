@@ -40,8 +40,8 @@ locals {
     docx_to_orpml_image_ver = var.docx_to_orpml_image_ver
   }
 
-  odf_to_text_config = {
-    odf_to_text_image_ver = var.odf_to_text_image_ver
+  odf_to_orpml_config = {
+    odf_to_orpml_image_ver = var.odf_to_orpml_image_ver
   }
 
   html_to_text_config = {

@@ -42,7 +42,7 @@ variable "docx_to_orpml_image_ver" {
   type = string
 }
 
-variable "odf_to_text_image_ver" {
+variable "odf_to_orpml_image_ver" {
   type = string
 }
 
