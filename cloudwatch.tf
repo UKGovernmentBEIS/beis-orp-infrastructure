@@ -961,7 +961,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
               "AWS/Lambda",
               "Invocations",
               "FunctionName",
-              "odf_to_text",
+              "odf_to_orpml",
               {
                 label  = "ODF"
                 region = "eu-west-2"
@@ -1001,7 +1001,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "odf_to_text",
+              "odf_to_orpml",
               {
                 label  = "ODF"
                 region = "eu-west-2"
