@@ -489,7 +489,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "html_to_text",
+              "html_to_orpml",
               {
                 region = "eu-west-2"
               },
@@ -639,7 +639,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "html_to_text",
+              "html_to_orpml",
               {
                 id      = "m5"
                 region  = "eu-west-2"
@@ -813,7 +813,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "html_to_text",
+              "html_to_orpml",
               {
                 region = "eu-west-2"
               },
@@ -985,7 +985,7 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
-              "html_to_text",
+              "html_to_orpml",
               {
                 label  = "HTML"
                 region = "eu-west-2"

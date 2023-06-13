@@ -44,8 +44,8 @@ locals {
     odf_to_orpml_image_ver = var.odf_to_orpml_image_ver
   }
 
-  html_to_text_config = {
-    html_to_text_image_ver = var.html_to_text_image_ver
+  html_to_orpml_config = {
+    html_to_orpml_image_ver = var.html_to_orpml_image_ver
   }
 
   check_duplicate_config = {
