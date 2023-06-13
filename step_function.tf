@@ -75,7 +75,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
                 "${module.pdf_to_orpml.lambda_function_arn}:*",
                 "${module.docx_to_orpml.lambda_function_arn}:*",
                 "${module.odf_to_orpml.lambda_function_arn}:*",
-                "${module.html_to_text.lambda_function_arn}:*",
+                "${module.html_to_orpml.lambda_function_arn}:*",
                 "${module.title_generation.lambda_function_arn}:*",
                 "${module.date_generation.lambda_function_arn}:*",
                 "${module.keyword_extraction.lambda_function_arn}:*",
@@ -186,7 +186,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         {
           "Variable": "$.detail.object.key",
           "StringEquals": "HTML",
-          "Next": "Convert .html to .txt"
+          "Next": "Convert HTML to ORPML"
         }
       ],
       "Default": "Fail"
@@ -267,13 +267,13 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         }
       ]
     },
-    "Convert .html to .txt": {
+    "Convert HTML to ORPML": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "OutputPath": "$.Payload",
       "Parameters": {
         "Payload.$": "$",
-        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:html_to_text:$LATEST"
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:html_to_orpml:$LATEST"
       },
       "Next": "Check Duplicates",
       "Catch": [

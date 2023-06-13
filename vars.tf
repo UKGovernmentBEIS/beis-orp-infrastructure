@@ -46,7 +46,7 @@ variable "odf_to_orpml_image_ver" {
   type = string
 }
 
-variable "html_to_text_image_ver" {
+variable "html_to_orpml_image_ver" {
   type = string
 }
 

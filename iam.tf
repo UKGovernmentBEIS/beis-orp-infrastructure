@@ -257,8 +257,8 @@ resource "aws_iam_policy" "odf_to_orpml_lambda_s3_policy" {
   })
 }
 
-resource "aws_iam_policy" "html_to_text_lambda_s3_policy" {
-  name        = "html-to-text-Lambda-to-S3"
+resource "aws_iam_policy" "html_to_orpml_lambda_s3_policy" {
+  name        = "html-to-orpml-Lambda-to-S3"
   path        = "/"
   description = "Allow "
 

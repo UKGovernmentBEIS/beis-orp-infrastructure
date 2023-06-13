@@ -82,9 +82,9 @@ resource "aws_security_group" "odf_to_orpml_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_security_group" "html_to_text_lambda" {
-  name        = "beis-orp-html-to-text-lambda"
-  description = "Security Group for BEIS ORP html-to-text Lambda"
+resource "aws_security_group" "html_to_orpml_lambda" {
+  name        = "beis-orp-html-to-orpml-lambda"
+  description = "Security Group for BEIS ORP html-to-orpml Lambda"
   vpc_id      = module.vpc.vpc_id
 }
 
