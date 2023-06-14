@@ -48,7 +48,7 @@ resource "aws_ecs_task_definition" "webserver" {
   memory                   = local.ecs_config.task_definition_memory
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_host.arn # "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecsTaskExecutionRole" #module.ec2_profile.iam_instance_profile_arn module.asg.iam_role_arn
+  execution_role_arn       = aws_iam_role.ecs_host.arn
   task_role_arn            = aws_iam_role.ecs_host.arn
   container_definitions = templatefile(
     "${path.module}/app.json",
@@ -61,6 +61,7 @@ resource "aws_ecs_task_definition" "webserver" {
       environment            = local.environment
       domain                 = aws_route53_record.app.fqdn
       s3_upload_bucket       = aws_s3_bucket.beis-orp-upload.id
+      s3_orpml_bucket        = aws_s3_bucket.beis-orp-datalake.id
       mc_server              = "us13"
       mc_list                = "d8234fcc62"
       mc_api_key             = data.aws_secretsmanager_secret_version.mc_api_key.secret_string

@@ -27,6 +27,10 @@
         "value": "${s3_upload_bucket}"
       },
       {
+        "name": "S3_ORPML_BUCKET",
+        "value": "${s3_orpml_bucket}"
+      },
+      {
         "name": "AWS_REGION",
         "value": "${region}"
       },
