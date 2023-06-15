@@ -327,6 +327,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     "Parallel": {
       "Type": "Parallel",
       "Next": "TypeDB Ingestion",
+      "ResultPath": "$.enrichments",
       "Catch": [
         {
           "ErrorEquals": [
