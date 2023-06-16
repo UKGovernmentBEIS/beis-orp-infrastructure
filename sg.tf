@@ -136,6 +136,12 @@ resource "aws_security_group" "keyword_extraction_lambda" {
   vpc_id      = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "finalise_orpml_lambda" {
+  name        = "beis-orp-finalise-orpml-lambda"
+  description = "Security Group for BEIS ORP finalise_orpml Lambda"
+  vpc_id      = module.vpc.vpc_id
+}
+
 resource "aws_security_group" "typedb_ingestion_lambda" {
   name        = "beis-orp-typedb-ingestion-lambda"
   description = "Security Group for BEIS ORP typedb_ingestion Lambda"

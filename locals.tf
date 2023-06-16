@@ -84,6 +84,10 @@ locals {
     typedb_backup_image_ver = var.typedb_backup_image_ver
   }
 
+  finalise_orpml_config = {
+    finalise_orpml_image_ver = var.finalise_orpml_image_ver
+  }
+
   typedb_ingestion_config = {
     typedb_ingestion_image_ver = var.typedb_ingestion_image_ver
     destination_sqs_url        = aws_sqs_queue.update_typedb.url

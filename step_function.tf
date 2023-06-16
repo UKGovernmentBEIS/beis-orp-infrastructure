@@ -81,6 +81,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
                 "${module.keyword_extraction.lambda_function_arn}:*",
                 "${module.summarisation.lambda_function_arn}:*",
                 "${module.legislative_origin_extraction.lambda_function_arn}:*",
+                "${module.finalise_orpml.lambda_function_arn}:*",
                 "${module.typedb_ingestion.lambda_function_arn}:*",
                 "${module.failure_notification.lambda_function_arn}:*",
                 "${module.check_duplicate.lambda_function_arn}:*"
@@ -326,7 +327,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     },
     "Parallel": {
       "Type": "Parallel",
-      "Next": "TypeDB Ingestion",
+      "Next": "Finalise ORPML",
       "ResultPath": "$.enrichments",
       "Catch": [
         {
@@ -410,6 +411,25 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
         }
       ]
     },
+    "Finalise ORPML": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:eu-west-2:${data.aws_caller_identity.current.account_id}:function:finalise_orpml:$LATEST"
+      },
+      "Next": "TypeDB Ingestion",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Failure Notification",
+          "ResultPath": "$.error"
+        }
+      ]
+    },        
     "TypeDB Ingestion": {
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
