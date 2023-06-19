@@ -39,7 +39,7 @@ typedb_server_port     = 1729
 
 alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
 
-regulator_access = "public.io,mdrx.tech,zoonou.com"
+regulator_access = "public.io,mdrx.tech,beis.gov.uk"
 
 #domain           = "https://app.dev.bre-orp-alpha.io/"
 #s3_upload_bucket = "beis-prod-upload"
