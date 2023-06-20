@@ -1158,7 +1158,7 @@ module "create_auth_challenge" {
   create_unqualified_alias_lambda_function_url = true
 
   environment_variables = {
-    SES_FROM_ADDRESS = "matt.whitfield@public.io"
+    SES_FROM_ADDRESS = "orp@public.io"
     ENV_HREF         = aws_route53_record.app.fqdn
   }
 
