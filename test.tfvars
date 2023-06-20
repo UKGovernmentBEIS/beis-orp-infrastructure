@@ -42,7 +42,7 @@ alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
 s3_upload_bucket = "beis-test-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
 # s3_model_bucket  = "beis-orp-dev-clustering-models"
-regulator_access = "public.io,mdrx.tech,beis.gov.uk"
+regulator_access = "public.io,mdrx.tech,beis.gov.uk,businessandtrade.gov.uk"
 
 mc_server      = "us13"
 mc_list        = "d8234fcc62"
