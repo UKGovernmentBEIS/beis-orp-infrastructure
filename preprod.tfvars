@@ -38,7 +38,7 @@ typedb_docu_sqs_name   = "update-typedb"
 typedb_server_port     = 1729
 
 alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
-regulator_access       = "public.io,mdrx.tech,beis.gov.uk"
+regulator_access       = "public.io,mdrx.tech,beis.gov.uk,businessandtrade.gov.uk"
 
 s3_upload_bucket = "beis-preprod-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"

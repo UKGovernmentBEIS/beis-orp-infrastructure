@@ -41,7 +41,7 @@ alerting_email_address = "OpenRegulationPlatform@beis.gov.uk"
 
 domain = "https://app.dev.cannonband.com/"
 
-regulator_access = "public.io,mdrx.tech,beis.gov.uk"
+regulator_access = "public.io,mdrx.tech,beis.gov.uk,businessandtrade.gov.uk"
 
 #s3_upload_bucket = "beis-dev-upload"
 # s3_data_lake     = "beis-orp-dev-datalake"
