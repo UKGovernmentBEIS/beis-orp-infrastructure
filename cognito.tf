@@ -15,9 +15,9 @@ resource "aws_cognito_user_pool" "beis" {
 
   email_configuration {
     email_sending_account  = "DEVELOPER"
-    from_email_address     = "Open Regulation Platform <matt.whitfield@public.io>"
-    reply_to_email_address = "matt.whitfield@public.io"
-    source_arn             = "arn:aws:ses:${local.region}:${data.aws_caller_identity.current.account_id}:identity/matt.whitfield@public.io"
+    from_email_address     = "Open Regulation Platform <orp@public.io>"
+    reply_to_email_address = "orp@public.io"
+    source_arn             = "arn:aws:ses:${local.region}:${data.aws_caller_identity.current.account_id}:identity/orp@public.io"
   }
 
   lambda_config {
