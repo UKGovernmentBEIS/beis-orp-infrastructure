@@ -468,6 +468,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             ],
             [
               "...",
+              "finalise_orpml",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
               "pdf_to_orpml",
               {
                 region = "eu-west-2"
@@ -743,6 +750,15 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
                 visible = false
               },
             ],
+            [
+              "...",
+              "finalise_orpml",
+              {
+                id      = "m15"
+                region  = "eu-west-2"
+                visible = false
+              },
+            ],
           ]
           period  = 3600
           region  = "eu-west-2"
@@ -786,6 +802,13 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             [
               "...",
               "orpml_ingest",
+              {
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "finalise_orpml",
               {
                 region = "eu-west-2"
               },
@@ -970,6 +993,14 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
             [
               "...",
               "orpml_ingest",
+              {
+                label  = "ORPML"
+                region = "eu-west-2"
+              },
+            ],
+            [
+              "...",
+              "finalise_orpml",
               {
                 label  = "ORPML"
                 region = "eu-west-2"

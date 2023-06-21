@@ -351,6 +351,31 @@ resource "aws_iam_policy" "update_typedb_sqs_queue" {
   })
 }
 
+resource "aws_iam_policy" "finalise_orpml_lambda_s3_policy" {
+  name        = "finalise-orpml-Lambda-to-S3"
+  path        = "/"
+  description = "Allow "
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          aws_s3_bucket.beis-orp-datalake.arn
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "typedb_ingestion_sqs" {
   name        = "typedb-ingestion-sqs-queue"
   path        = "/"

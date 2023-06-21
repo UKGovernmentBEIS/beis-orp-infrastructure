@@ -86,6 +86,10 @@ variable "legislative_origin_extraction_year_index_name" {
   type = string
 }
 
+variable "finalise_orpml_image_ver" {
+  type = string
+}
+
 variable "typedb_ingestion_image_ver" {
   type = string
 }
