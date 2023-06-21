@@ -329,82 +329,6 @@ resource "aws_iam_policy" "check_duplicate_lambda_cognito_policy" {
   })
 }
 
-resource "aws_iam_policy" "title_generation_lambda_s3_policy" {
-  name        = "title-generation-Lambda-to-S3"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn,
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "date_generation_lambda_s3_policy" {
-  name        = "date-generation-Lambda-to-S3"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn,
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "summarisation_lambda_s3_policy" {
-  name        = "summarisation-Lambda-to-S3"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn,
-          aws_s3_bucket.beis-orp-clustering-models.arn
-        ]
-      }
-    ]
-  })
-}
-
 resource "aws_iam_policy" "update_typedb_sqs_queue" {
   name        = "udpate-typedb-sqs-queue"
   path        = "/"
@@ -473,29 +397,6 @@ resource "aws_iam_policy" "text_extraction_lambda_s3_policy" {
           "arn:aws:s3:::*/*",
           aws_s3_bucket.beis-orp-datalake.arn,
           aws_s3_bucket.beis-orp-clustering-models.arn
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "legislative_origin_extraction_lambda_s3_policy" {
-  name        = "legislative-origin-extraction-lambda-s3-policy"
-  path        = "/"
-  description = "Allow "
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:GetObject",
-          "s3:ListBucket"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::*/*",
-          aws_s3_bucket.beis-orp-datalake.arn
         ]
       }
     ]

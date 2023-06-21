@@ -554,9 +554,7 @@ module "title_generation" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
-    MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.id
+    ENVIRONMENT = local.environment
   }
 
   assume_role_policy_statements = {
@@ -590,9 +588,8 @@ module "title_generation" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.title_generation_lambda_s3_policy.arn
   ]
-  number_of_policies = 4
+  number_of_policies = 3
 }
 
 module "date_generation" {
@@ -619,8 +616,7 @@ module "date_generation" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
+    ENVIRONMENT = local.environment
   }
 
   assume_role_policy_statements = {
@@ -654,9 +650,8 @@ module "date_generation" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.date_generation_lambda_s3_policy.arn
   ]
-  number_of_policies = 4
+  number_of_policies = 3
 }
 
 module "keyword_extraction" {
@@ -683,9 +678,7 @@ module "keyword_extraction" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
-    MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.id
+    ENVIRONMENT = local.environment
   }
 
   assume_role_policy_statements = {
@@ -717,10 +710,8 @@ module "keyword_extraction" {
   attach_policies = true
   policies = [
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
-    aws_iam_policy.text_extraction_lambda_s3_policy.arn,
-    aws_iam_policy.lambda_invoke_typedb_ingestion.arn
   ]
-  number_of_policies = 3
+  number_of_policies = 1
 }
 
 module "summarisation" {
@@ -748,9 +739,7 @@ module "summarisation" {
   ]
 
   environment_variables = {
-    ENVIRONMENT   = local.environment
-    SOURCE_BUCKET = aws_s3_bucket.beis-orp-datalake.id
-    MODEL_BUCKET  = aws_s3_bucket.beis-orp-clustering-models.id
+    ENVIRONMENT = local.environment
   }
 
   assume_role_policy_statements = {
@@ -784,10 +773,8 @@ module "summarisation" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.summarisation_lambda_s3_policy.arn,
-    aws_iam_policy.lambda_access_dynamodb.arn
   ]
-  number_of_policies = 5
+  number_of_policies = 3
 }
 
 module "legislation_table_update" {
@@ -881,7 +868,6 @@ module "legislative_origin_extraction" {
 
   environment_variables = {
     ENVIRONMENT     = local.environment
-    SOURCE_BUCKET   = aws_s3_bucket.beis-orp-datalake.id
     TABLE_NAME      = local.legislative_origin_extraction_config.table_name
     YEAR_INDEX_NAME = local.legislative_origin_extraction_config.year_index_name
   }
@@ -917,10 +903,9 @@ module "legislative_origin_extraction" {
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.legislative_origin_extraction_lambda_s3_policy.arn,
     aws_iam_policy.lambda_access_dynamodb.arn
   ]
-  number_of_policies = 5
+  number_of_policies = 4
 }
 
 module "typedb_ingestion" {
