@@ -28,7 +28,7 @@ typedb_backup_image_ver                 = "latest"
 
 legislative_origin_extraction_table_name      = "legislative-origin"
 legislative_origin_extraction_year_index_name = "year-candidate_titles-index"
-typedb_ingestion_sender_email_address         = "OpenRegulationPlatform@beis.gov.uk"
+typedb_ingestion_sender_email_address         = "orp@public.io"
 destination_sqs_url                           = aws_sqs_queue.update_typedb.url
 
 database_workdir       = "graph_database"
