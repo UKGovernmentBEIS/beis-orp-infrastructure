@@ -20,10 +20,10 @@ resource "aws_s3_bucket" "beis-orp-clustering-models" {
   bucket = "beis-${local.environment}-clustering-models"
 }
 
-resource "aws_s3_bucket_acl" "beis-orp-clustering-models" {
-  bucket = "beis-${local.environment}-clustering-models"
-  acl    = "private"
-}
+#resource "aws_s3_bucket_acl" "beis-orp-clustering-models" {
+#  bucket = "beis-${local.environment}-clustering-models"
+#  acl    = "private"
+#}
 
 resource "aws_s3_bucket" "beis-orp-graph-database" {
   bucket = "beis-${local.environment}-graph-database"
