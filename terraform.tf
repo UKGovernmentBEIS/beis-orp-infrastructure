@@ -23,8 +23,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "beis-state-preprod"
-    key            = "beis-state-preprod.tfstate"
+    bucket         = "beis-state-dev"
+    key            = "beis-state-dev.tfstate"
     region         = "eu-west-2"
     dynamodb_table = "beis-orp-locks"
     encrypt        = true
