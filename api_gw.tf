@@ -9,7 +9,7 @@ resource "aws_api_gateway_rest_api" "private_rest_api" {
 
 resource "aws_api_gateway_deployment" "private_rest_api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.private_rest_api.id
-  stage_name  = var.environment
+#  stage_name  = var.environment
   description = "${var.environment} deployment of the private ORP pipeline REST API"
   depends_on = [
     aws_api_gateway_integration.html_ingestion_lambda_integration,

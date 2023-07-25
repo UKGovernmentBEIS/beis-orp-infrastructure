@@ -37,6 +37,31 @@ resource "aws_cognito_user_pool" "beis" {
 
 }
 
+resource "aws_lambda_permission" "allow_cognito_beis_define" {
+  statement_id  = "AllowExecutionFromCognito"
+  action        = "lambda:InvokeFunction"
+  function_name = module.define_auth_challenge.lambda_function_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.beis.arn
+}
+
+resource "aws_lambda_permission" "allow_cognito_beis_create" {
+  statement_id  = "AllowExecutionFromCognito"
+  action        = "lambda:InvokeFunction"
+  function_name = module.create_auth_challenge.lambda_function_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.beis.arn
+}
+
+resource "aws_lambda_permission" "allow_cognito_beis_verify" {
+  statement_id  = "AllowExecutionFromCognito"
+  action        = "lambda:InvokeFunction"
+  function_name = module.verify_auth_challenge.lambda_function_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.beis.arn
+}
+
+
 resource "aws_cognito_user_pool_client" "beis_client" {
   name = "beis_client"
   explicit_auth_flows = [
