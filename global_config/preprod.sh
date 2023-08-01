@@ -1,0 +1,2 @@
+CONFIG=preprod
+ENVIRONMENT=preprod

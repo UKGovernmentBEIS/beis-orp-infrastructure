@@ -1,7 +1,6 @@
 package_url = "https://github.com/mdrxtech/beis-orp-application/archive/refs/tags/v0.0.1.zip"
 tf_profile  = "terraform-dev"
 environment = "dev"
-region      = "eu-west-2"
 
 html_trigger_image_ver                  = "latest"
 create_auth_challenge_image_ver         = "latest"
@@ -98,4 +97,3 @@ scale_up_adjustment           = 1
 scale_down_comparison_operator  = "LessThanThreshold"
 scale_down_interval_lower_bound = 0
 scale_down_adjustment           = -1
-
