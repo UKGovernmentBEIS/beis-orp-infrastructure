@@ -9,8 +9,8 @@ on:
         options:
         - development
         - test
+        - preprod
         - production
-        - preproduction
 
 jobs:
   Deploy:
