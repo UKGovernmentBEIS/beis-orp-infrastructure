@@ -1,16 +1,7 @@
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: Environment to deploy to
-        required: true
-        type: choice
-        default: development_aks
-        options:
-        - development
-        - test
-        - production
-        - preproduction
+  pull_request:
+    types:
+      - closed
 
 jobs:
   if_merged:
