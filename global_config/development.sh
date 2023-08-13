@@ -1,0 +1,2 @@
+CONFIG=dev
+ENVIRONMENT=dev
