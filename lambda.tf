@@ -211,7 +211,7 @@ module "pdf_to_orpml" {
   function_name          = "pdf_to_orpml"
   handler                = "pdf_to_orpml.handler"
   runtime                = "python3.8"
-  memory_size            = "512"
+  memory_size            = "1024"
   timeout                = 900
   create_package         = false
   image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/pdf_to_orpml:${local.pdf_to_orpml_config.pdf_to_orpml_image_ver}"
@@ -275,7 +275,7 @@ module "docx_to_orpml" {
   function_name          = "docx_to_orpml"
   handler                = "docx_to_orpml.handler"
   runtime                = "python3.8"
-  memory_size            = "512"
+  memory_size            = "1024"
   timeout                = 900
   create_package         = false
   image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/docx_to_orpml:${local.docx_to_orpml_config.docx_to_orpml_image_ver}"
@@ -339,7 +339,7 @@ module "odf_to_orpml" {
   function_name          = "odf_to_orpml"
   handler                = "odf_to_orpml.handler"
   runtime                = "python3.8"
-  memory_size            = "512"
+  memory_size            = "1024"
   timeout                = 900
   create_package         = false
   image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/odf_to_orpml:${local.odf_to_orpml_config.odf_to_orpml_image_ver}"
@@ -403,7 +403,7 @@ module "html_to_orpml" {
   function_name          = "html_to_orpml"
   handler                = "html_to_orpml.handler"
   runtime                = "python3.8"
-  memory_size            = "512"
+  memory_size            = "1024"
   timeout                = 900
   create_package         = false
   image_uri              = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${local.region}.amazonaws.com/html_to_orpml:${local.html_to_orpml_config.html_to_orpml_image_ver}"
