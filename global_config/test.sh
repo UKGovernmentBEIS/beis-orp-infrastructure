@@ -1,0 +1,2 @@
+CONFIG=test
+ENVIRONMENT=test

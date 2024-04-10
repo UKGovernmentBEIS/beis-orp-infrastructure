@@ -19,10 +19,10 @@ To deploy the ORP, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Navigate to the cloned repository in your terminal.
-3. Run `terraform init` to initialize the Terraform configuration.
-4. Run `terraform plan` to preview the changes that will be made.
-5. If everything looks good, run `terraform apply` to deploy the pipeline.
+3. Run `make <environment> terraform-init` to initialize the Terraform configuration.  eg `make development terraform-init`
+4. Run `make <environment> terraform-plan` to preview the changes that will be made.
+5. If everything looks good, run ``make <environment> terraform-apply`` to deploy the pipeline.
 
 ### Updating the Configuration
 
-If you need to update the configuration for the ORP, you can make changes to the Terraform configuration files and then run `terraform plan` and `terraform apply` as described above.
+In order to make any required update to the configuration for the ORP infrastructure, make the changes in the Terraform configuration files and then run `make <environment> terraform-plan` and ``make <environment> terraform-apply`` as described above.

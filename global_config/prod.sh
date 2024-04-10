@@ -1,0 +1,2 @@
+CONFIG=prod
+ENVIRONMENT=prod
