@@ -1,0 +1,39 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Deploy to AWS -Preprod environments
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
+        with:
+          path: "files/lambda/requirements.txt"
+
+      - name: terraform version
+        run: terraform --version
+
+      - name: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PREPROD }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
+        run: terraform init -input=false -reconfigure
+
+      - name: terraform validation
+        run: terraform validate
+
+      - name: terraform apply 
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PREPROD }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
+        run: terraform apply -var-file=preprod.tfvars -auto-approve -input=false
+
+      - run: |
+          echo The PR was merged
