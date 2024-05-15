@@ -1,7 +1,11 @@
-on:
-  pull_request:
-    types:
-      - closed
+on: 
+  push:
+    branches:
+      -beis-orp-infra-preprod
+
+#  pull_request:
+#    types:
+#      - closed
 
 jobs:
   if_merged:
