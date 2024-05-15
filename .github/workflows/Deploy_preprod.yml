@@ -33,7 +33,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PREPROD }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
-        #run: terraform apply -var-file=preprod.tfvars -auto-approve -input=false
+        run: terraform apply -var-file=preprod.tfvars -auto-approve -input=false
 
       - run: |
           echo The PR was merged
