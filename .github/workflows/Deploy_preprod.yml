@@ -31,10 +31,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
         run: terraform init -backend-config="backend_s3_preprod.tfbackend" -input=false -reconfigure
 
-      - name: terraform validation for preprod environments
+      - name: terraform validation for preprod 
         run: terraform validate
 
-      - name: terraform apply preprod environments
+      - name: terraform apply preprod 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PREPROD }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
