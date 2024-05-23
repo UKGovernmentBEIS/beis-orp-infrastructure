@@ -1,15 +1,16 @@
 on: 
   push:
     branches:
-      -beis-orp-infra-preprod
+      - beis-orp-infra-preprod
 
 #  pull_request:
 #    types:
 #      - closed
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  #if_merged:
+    #if: github.event.pull_request.merged == true
+   preprod:
     runs-on: ubuntu-latest
     name: Deploy to AWS -Preprod environments
     steps:
