@@ -1,7 +1,7 @@
 on: 
   push:
     branches:
-      - 'beis-orp-infra-preprod'
+      - beis-orp-infra-preprod
   #pull_request:
     #types:
       #- closed
