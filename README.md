@@ -1,4 +1,4 @@
-# BEIS Terraform repo for AWS
+# BEIS Terraform repo for AWS PRE-PROD
 
 This is the Terraform repository for the Open Regulatory Platform (ORP) deployed to AWS. This includes the definition for the front-end application, ingestion pipeline, graph database, search module, policies, roles, and supporting infrastructure.
 
