@@ -33,7 +33,7 @@ jobs:
       - name: terraform validation
         run: terraform validate
 
-      - name: terraform apply 
+      - name: terraform apply preprod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PREPROD }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PREPROD }}
